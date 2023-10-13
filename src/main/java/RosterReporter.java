@@ -31,6 +31,6 @@ public class RosterReporter {
 
     }
     void writeFooter(StringBuilder buffer) {
-        buffer.append(ROSTER_REPORT_FOOTER + session.getAllStudents().size() + NEWLINE);
+        buffer.append(ROSTER_REPORT_FOOTER).append(session.getAllStudents().size()).append(NEWLINE);
     }
 }

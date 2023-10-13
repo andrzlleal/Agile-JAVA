@@ -8,14 +8,13 @@ import static org.junit.Assert.assertEquals;
 
 public class CourseSessionTest {
     private CourseSession session;
-    private Date startDate;
 
     @Before
     public void setUp(){
         int year = 103;
         int month = 0;
         int date = 6;
-        startDate = new DateUtil().createDate(2003, 1, 6);
+        Date startDate = new DateUtil().createDate(2003, 1, 6);
         session = new CourseSession("ENGL", "101", startDate);
     }
 

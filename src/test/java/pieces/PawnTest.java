@@ -34,4 +34,14 @@ public class PawnTest {
         Pawn pawn = new Pawn();
         assertEquals("white", pawn.getColor());
 }
+    @Test
+    public void testPrintableRepresentationBlackPawn(){
+        Pawn blackPawn =  new Pawn(Pawn.BLACK);
+        assertEquals('p', blackPawn.getPrintableRepresentation());
+    }
+    @Test
+    public void testPrintableRepresentationWhitePawn() {
+        Pawn whitePawn = new Pawn(Pawn.WHITE);
+        assertEquals('P', whitePawn.getPrintableRepresentation());
+    }
 }

@@ -11,9 +11,14 @@ public class Pawn {
     public static final String WHITE = "White";
     public static final String BLACK = "Black";
 
+    private int rank;
+    private int file;
+
     /** Create a new pieces.Pawn object with the specified color. **/
    public Pawn(String color) {
        this.color = color;
+       this.rank = rank;
+       this.file = file;
    }
    public Pawn(){
        this.color = "white";
@@ -21,4 +26,19 @@ public class Pawn {
    public String getColor(){
        return color;
    }
+   public int getRank() {
+       return rank;
+   }
+   public int getFile(){
+       return file;
+   }
+
+    public char getPrintableRepresentation() {
+        if (WHITE.equals(color)) {
+            return 'P';
+        }else {
+            return 'p';
+        }
+    }
+
 }
