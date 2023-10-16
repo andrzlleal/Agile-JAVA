@@ -1,11 +1,12 @@
 package chess;
 
+import org.junit.Assert;
 import org.junit.Test;
 import pieces.Pawn;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test class for the chess.Board class.
@@ -64,16 +65,14 @@ public class BoardTest {
             secondRank.append(pieces.get(i).getPrintableRepresentation());
             seventhRank.append(pieces.get(i + 8).getPrintableRepresentation());
         }
-       assertEquals("pppppppp",secondRank.toString());
-       assertEquals("PPPPPPPP", seventhRank.toString());
+
+       Assert.assertEquals("PPPPPPPP",secondRank.toString());
+       Assert.assertEquals("pppppppp", seventhRank.toString());
+
 
    }
-
-    private void assertEquals(String pppppppp, String string) {
-    }
     @Test
     public void testInitialSetup() {
-
         Board board = new Board();
 
         //use a system property to get the line separator
@@ -81,19 +80,21 @@ public class BoardTest {
 
         //Expected board representation with dots(.) for empty squares
         String expectedBoard =
-                ".........PPPPPPPP\n" + //Rank 8 (top row) with white pawns
-                        ".........\n" + //Rank 7 with empty squares
-                        ".........\n" + //Rank 6 " "
-                        ".........\n" + //Rank 5 " "
-                        ".........\n" + //Rank 4 " "
-                        ".........pppppppp" + //Rank 3(bottom row) with black pawns
-                        "........."; //Rank 2 with empty squares
+                        "........\n" +
+                        "PPPPPPPP\n" +//Rank 8 (top row) with white pawns
+                        "........\n" +//Rank 7 with empty squares
+                        "........\n" +//Rank 6 " "
+                        "........\n" +//Rank 5 " "
+                        "........\n" +//Rank 4 " "
+                        "pppppppp\n" +//Rank 3(bottom row) with black pawns
+                        "........"; //Rank 2 with empty squares
 
-        //Get the actual board representation
-        String actualBoard = getBoardRepresentation(board);
+        /* Get the actual board representation */
+        String actualBoard = board.getPrintableBoard();
 
         //Compare the expected board with the actual board
-        assertEquals(expectedBoard, actualBoard);
+        Assert.assertEquals(expectedBoard,actualBoard);
+        System.out.println(actualBoard);
 
     }
     //helper method to create a board representation

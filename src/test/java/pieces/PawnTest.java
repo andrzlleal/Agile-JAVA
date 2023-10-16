@@ -31,7 +31,7 @@ public class PawnTest {
     @Test
     public void testCreatePawnWithDefaultColor() {
     /* Create a pawn without specifying a color and check its color. */
-        Pawn pawn = new Pawn();
+        Pawn pawn = new Pawn("white", 1,2);
         assertEquals("white", pawn.getColor());
 }
     @Test
@@ -44,4 +44,5 @@ public class PawnTest {
         Pawn whitePawn = new Pawn(Pawn.WHITE);
         assertEquals('P', whitePawn.getPrintableRepresentation());
     }
+
 }

@@ -20,8 +20,8 @@ public class Pawn {
        this.rank = rank;
        this.file = file;
    }
-   public Pawn(){
-       this.color = "white";
+   public Pawn(String color, int i, int i1){
+       this.color = color;
    }
    public String getColor(){
        return color;
