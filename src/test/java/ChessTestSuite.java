@@ -4,10 +4,6 @@ import org.junit.runners.Suite;
 import pieces.PawnTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-        BoardTest.class,
-        PawnTest.class,
-})
+@Suite.SuiteClasses({BoardTest.class, PawnTest.class, ChessTestSuite.class})
 public class ChessTestSuite {
-
 }
