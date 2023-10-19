@@ -12,7 +12,7 @@ public class PawnTest {
   public void setUp() {
     pawn = new Pawn();
     whitePawn = new Pawn(WHITE, 'p');
-    blackPawn = new Pawn(Pawn.BLACK, 'P');
+    blackPawn = new Pawn(Pawn.BLACK, 'p');
   }
   @Test
     public void testCreate() {
@@ -21,21 +21,21 @@ public class PawnTest {
   }
   @Test
     public void testPawnWithoutColor(){
-
       assertEquals(WHITE, pawn.getColor());
   }
-//  @Test
-//  public void testPrintableRepresentationBlackPawn() {
-//    char printableRepresentation = blackPawn.getPrintableRepresentation();
-//    assertEquals('P', printableRepresentation());
-//  }
-//
-//  @Test
-//  public void testPrintableRepresentationWhitePawn() {
-//    char printableRepresentation = whitePawn.getPrintableRepresentation();
-//    assertEquals('p', printableRepresentation());
-//    System.out.println("color : " +printableRepresentation);
-//  }
+  @Test
+  public void testPrintableRepresentationWhitePawn() {
+    char printableRepresentation = whitePawn.getPrintableRepresentation();
+    assertEquals('p', printableRepresentation);
+    System.out.println("peao branco: " + whitePawn.getPrintableRepresentation());
+  }
+  @Test
+    public void testPrintableRepresentationBlackPawn() {
+      char printableRepresentation = blackPawn.getPrintableRepresentation();
+      assertEquals('P', printableRepresentation);
+      System.out.println("peao preto: " + blackPawn.getPrintableRepresentation());
+ }
+
 
 
 //    public void testCreate(){
@@ -50,7 +50,7 @@ public class PawnTest {
 //    @Test
 //    public void testCreatePawnWithDefaultColor() {
 //    /* Create a pawn without specifying a color and check its color. */
-//        Pawn pawn = new Pawn("white", 1,2);
+//        Pawn = new Pawn("white", 1,2);
 //        assertEquals("white", pawn.getColor());
 //}
 //    @Test

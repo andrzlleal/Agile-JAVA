@@ -1,9 +1,9 @@
 package chess;
+
 import org.junit.Before;
 import org.junit.Test;
-import pieces.Pawn;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
     private Board board;
@@ -11,24 +11,16 @@ public class BoardTest {
     @Before
     public void setUp() {
         board = new Board();
+        board.initializeBoard();
     }
     @Test
-    public void testAddBlackAndWithPawnsToBoard() {
-        assertEquals(0, board.getNumberOfPawns());
-
-        Pawn whitePawn = new Pawn("White", 'P');
-        board.addPawn(whitePawn);
-        assertTrue(board.getPawns().contains(whitePawn));
-        assertEquals(1, board.getNumberOfPawns());
-
-        Pawn blackPawn = new Pawn("Black", 'P');
-        board.addPawn(blackPawn);
-        assertTrue(board.getPawns().contains(blackPawn));
-        assertEquals(2, board.getNumberOfPawns());
-
-        System.out.println("Peoes no tabuleiro: " + board.getNumberOfPawns());
-
+    public void testInitialNumberOfPawns() {
+        assertEquals(16, board.getNumberOfPawns());
+        assertEquals("PPPPPPPP\n", board.getRanks().get(1));
+        assertEquals("pppppppp\n", board.getRanks().get(6));
     }
+
+
 
 //    @Test
 //    public void testBoardStartWithZeroPieces(){

@@ -1,26 +1,31 @@
 package pieces;
 
 public class Pawn {
-    private String color;
+    private final String color;
     public static final String WHITE = "White";
     public static final String BLACK = "Black";
-    private char printableRepresentation;
+
     public Pawn(String color, char p) {
         this.color = color;
-        this.printableRepresentation = printableRepresentation;
-}
+    }
+
     public String getColor() {
       return color;
 }
-    public void setColor(String color) {
-      this.color = color;
-}
-    public Pawn() { //novo construtor para criar um peao branco por padrao
+
+//    public void setColor(String color) {
+//      this.color = color;
+//}
+
+    public Pawn() {
         this.color = WHITE;
 }
-
     public char getPrintableRepresentation() {
-        return printableRepresentation;
+        if (WHITE.equals(color)) {
+            return 'p';
+        }else {
+            return 'P';
+        }
     }
 
 

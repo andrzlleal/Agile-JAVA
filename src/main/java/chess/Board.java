@@ -5,17 +5,56 @@ import java.util.List;
 
 public class Board {
     private final List<Pawn> pawns = new ArrayList<>();
+    private final List<String> ranks = new ArrayList<>();
 
-    public void addPawn(Pawn pawn) {
-        pawns.add(pawn);
+    public Board() {
+        initializeRanks();
     }
-    public List<Pawn> getPawns() {
-        return pawns;
-    }
+    private void initializeRanks() {
+        ranks.add("........\n");
+        ranks.add("PPPPPPPP\n");
+        ranks.add("........\n");
+        ranks.add("........\n");
+        ranks.add("........\n");
+        ranks.add("........\n");
+        ranks.add("pppppppp\n");
+        ranks.add("........");
 
-    public int getNumberOfPawns() {
-        return pawns.size();
+        System.out.println("Representation\n" + ranks);
     }
+    public void initializeBoard() {
+        for (String rank : ranks) {
+            for (char symbol : rank.toCharArray()) {
+                if (symbol == 'p') {
+                    pawns.add(new Pawn(Pawn.WHITE, 'p'));
+                } else if (symbol == 'P') {
+                    pawns.add(new Pawn(Pawn.BLACK, 'P'));
+                }
+            }
+        }
+    }
+        public List<Pawn> getPawns() {
+           return pawns;
+    }
+         public int getNumberOfPawns() {
+            return pawns.size();
+    }
+        public List<String> getRanks() {
+            return ranks;
+    }
+}
+//   public void initializeBoard() {
+//     for (int i = 0; i < 8; i++) {
+//        pawns.add(new Pawn(Pawn.WHITE, 'p'));
+//     }
+//     for (int i = 0; i < 8; i++) {
+//        pawns.add(new Pawn(Pawn.BLACK, 'p'));
+//    }
+// }
+
+//    public void addPawn(Pawn pawn) {
+//        pawns.add(pawn);
+//    }
 
 
     //    public static final String FIRST_RANK = "........";
@@ -125,5 +164,7 @@ public class Board {
 //        return boardRepresentation.toString();
 //    }
 //
-}
+
+
+
 
