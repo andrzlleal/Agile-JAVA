@@ -14,7 +14,7 @@ public class CourseSessionTest {
         int year = 103;
         int month = 0;
         int date = 6;
-        Date startDate = new DateUtil().createDate(2003, 1, 6);
+        Date startDate = DateUtil.createDate(2003, 1, 6);
         session = new CourseSession("ENGL", "101", startDate);
     }
 
@@ -48,7 +48,7 @@ public class CourseSessionTest {
         int month = 3;
         int date = 25;
 
-        Date sixteenWeeksOut = new DateUtil().createDate(2003, 4, 25);
+        Date sixteenWeeksOut = DateUtil.createDate(2003, 4, 25);
         assertEquals(sixteenWeeksOut, session.getEndDate());
     }
 
