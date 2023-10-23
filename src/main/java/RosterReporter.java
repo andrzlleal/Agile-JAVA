@@ -28,7 +28,6 @@ public class RosterReporter {
             buffer.append(student.getName());
             buffer.append(NEWLINE);
         }
-
     }
     void writeFooter(StringBuilder buffer) {
         buffer.append(ROSTER_REPORT_FOOTER).append(session.getAllStudents().size()).append(NEWLINE);

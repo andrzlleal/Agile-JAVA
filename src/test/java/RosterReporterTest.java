@@ -1,21 +1,24 @@
 import org.junit.Test;
 
+import static jdk.xml.internal.SecuritySupport.NEWLINE;
 import static org.junit.Assert.assertEquals;
+
 
 public class RosterReporterTest {
     @Test
     public void testRosterReport(){
         CourseSession session =
-                new CourseSession("ENGL", "101", new DateUtil().createDate(2003, 1, 6));
-
+                new CourseSession("ENGL", "101", DateUtil.createDate(2003, 1, 6));
                 session.enroll(new Student("A"));
                 session.enroll(new Student("B"));
 
                 String rosterReport = new RosterReporter(session).getReport();
-                System.out.println(rosterReport);
                 assertEquals(
-                        String.valueOf(RosterReporter.ROSTER_REPORT_HEADER) + "A" + RosterReporter.NEWLINE + "B" +
-                                RosterReporter.NEWLINE + RosterReporter.ROSTER_REPORT_FOOTER + "2" + RosterReporter.NEWLINE, rosterReport);
+                        RosterReporter.ROSTER_REPORT_HEADER + "A" + NEWLINE +
+                                "B" + NEWLINE +
+                                RosterReporter.ROSTER_REPORT_FOOTER + "2" +
+                                NEWLINE, rosterReport);
+                }
     }
 //        Date createDate(int year, int month, int date) {
 //            GregorianCalendar calendar = new GregorianCalendar();
@@ -25,4 +28,5 @@ public class RosterReporterTest {
 //            calendar.set(Calendar.DAY_OF_MONTH, date);
 //            return calendar.getTime();
 //        }
+
 }

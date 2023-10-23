@@ -13,24 +13,19 @@ public class CourseSession {
     static final String ROSTER_REPORT_HEADER = "Student" + NEWLINE + "-" + NEWLINE;
     static final String ROSTER_REPORT_FOOTER = NEWLINE + "#students = ";
 
-    CourseSession(String department, String number, Date startDate) {
-        this.department = department;
-        this.number = number;
-        this.startDate = startDate;
+    static void resetCount() {
+        count = 0;
     }
-    String getDepartment() {
-        return department;
+    static int getCount() {
+        return count;
     }
-    String getNumber(){
-        return number;
+    private static void incrementCount(){
+        count = count + 1;
     }
     int getNumberOfStudents() {
         return students.size();
     }
 
-    Date getStartDate(){
-        return startDate;
-    }
     Date getEndDate() {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(startDate);
@@ -50,7 +45,6 @@ public class CourseSession {
     }
 
 
-
      /*   Student student = students.get(0);
         buffer.append(student.getName());
         buffer.append(NEWLINE);
@@ -63,5 +57,16 @@ public class CourseSession {
     ArrayList<Student> getAllStudents() {
         return students;
     }
+
+    private static int count;
+    public CourseSession(
+            String department, String number, Date startDate){
+        this.department = department;
+        this.number = number;
+        this.startDate = startDate;
+        CourseSession.incrementCount();
+    }
+
+
 
 }
