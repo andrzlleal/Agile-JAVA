@@ -2,16 +2,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-public class CourseSession {
-    private final String department;
-    private final String number;
+
+public class CourseSession{
     private final java.util.ArrayList<Student> students = new java.util.ArrayList<>();
     private final Date startDate;
-
-    static  final String NEWLINE =
-            System.getProperty("line.separator");
-    static final String ROSTER_REPORT_HEADER = "Student" + NEWLINE + "-" + NEWLINE;
-    static final String ROSTER_REPORT_FOOTER = NEWLINE + "#students = ";
+    private final String department;
+    private final String number;
 
     static void resetCount() {
         count = 0;
@@ -19,9 +15,21 @@ public class CourseSession {
     static int getCount() {
         return count;
     }
-    private static void incrementCount(){
-        count = count + 1;
+    private static void incrementCount() {
+       count++;
     }
+    public static int count;
+    private int numberOfCredits;
+    void setNumberOfCredits(int numberOfCredits){
+        this.numberOfCredits = numberOfCredits;
+    }
+    
+    CourseSession(String department, String number, Date startDate){
+        this.department = department;
+        this.number = number;
+        this.startDate = startDate;
+    }
+
     int getNumberOfStudents() {
         return students.size();
     }
@@ -38,35 +46,20 @@ public class CourseSession {
         return calendar.getTime();
     }
     void enroll(Student student) {
+        student.addCredits(numberOfCredits);
         students.add(student);
     }
     Student get(int index) {
         return students.get(index);
     }
-
-
-     /*   Student student = students.get(0);
-        buffer.append(student.getName());
-        buffer.append(NEWLINE);
-
-        student = students.get(1);
-        buffer.append(student.getName());
-        buffer.append(NEWLINE);
-    */
-
     ArrayList<Student> getAllStudents() {
         return students;
     }
-
-    private static int count;
-    public CourseSession(
-            String department, String number, Date startDate){
-        this.department = department;
-        this.number = number;
-        this.startDate = startDate;
-        CourseSession.incrementCount();
+    public static CourseSession create(
+            String department,
+            String number,
+            Date startDate) {
+        incrementCount();
+        return new CourseSession(department, number, startDate);
     }
-
-
-
 }
