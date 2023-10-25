@@ -1,4 +1,3 @@
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -6,15 +5,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.junit.Assert.assertEquals;
 
-public class CourseSessionTest extends TestCase {
+public class CourseSessionTest{
     private CourseSession session;
     private Date startDate;
     private static final int CREDITS = 3;
 
     @Before
     public void setUp(){
-        Date startDate = new GregorianCalendar(2003, Calendar.JANUARY, 6).getTime();
+        startDate = new GregorianCalendar(2003, Calendar.JANUARY, 6).getTime();
         session = createCourseSession();
     }
 
@@ -47,16 +47,15 @@ public class CourseSessionTest extends TestCase {
             assertEquals(sixteenWeeksOut, session.getEndDate());
     }
     @Test
-        public void testCount(){
-            CourseSession.resetCount();
-            testCreateCourseSession();
-            assertEquals(1, CourseSession.getCount());
-            testCreateCourseSession();
-            assertEquals(2, CourseSession.getCount());
-    }
-////tem algo errado aqui
-    private void testCreateCourseSession() {
+    public void testCount() {
+        CourseSession.resetCount();
+        createCourseSession();
+        assertEquals(1, CourseSession.getCount());
+        createCourseSession();
+        assertEquals(2, CourseSession.getCount());
     }
 
+
 }
+
 

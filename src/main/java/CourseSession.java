@@ -55,7 +55,7 @@ public class CourseSession{
     ArrayList<Student> getAllStudents() {
         return students;
     }
-    public static CourseSession create(
+    static CourseSession create(
             String department,
             String number,
             Date startDate) {
