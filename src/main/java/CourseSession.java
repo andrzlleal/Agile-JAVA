@@ -8,7 +8,6 @@ public class CourseSession{
     private final Date startDate;
     private final String department;
     private final String number;
-
     static void resetCount() {
         count = 0;
     }

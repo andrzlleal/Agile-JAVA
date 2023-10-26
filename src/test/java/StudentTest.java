@@ -45,5 +45,4 @@ public class StudentTest {
         assertFalse(student.isInState());
     }
 
-
 }

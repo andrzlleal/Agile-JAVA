@@ -19,17 +19,20 @@ public class Student {
         public String getName() {
             return name;
         }
+
         boolean isFullTime() {
             return credits >= CREDITS_REQUIRED_FOR_FULL_TIME;
         }
+
         int getCredits() {
             return credits;
         }
+
         void addCredits(int credits) {
             this.credits += credits;
         }
 
-    public boolean isInState() {
+        public boolean isInState() {
             return state.equals(Student.IN_STATE);
     }
 

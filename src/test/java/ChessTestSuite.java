@@ -1,9 +1,9 @@
 import chess.BoardTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import pieces.PawnTest;
+import pieces.PieceTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({BoardTest.class, PawnTest.class, ChessTestSuite.class})
+@Suite.SuiteClasses({BoardTest.class, PieceTest.class, ChessTestSuite.class})
 public class ChessTestSuite {
 }

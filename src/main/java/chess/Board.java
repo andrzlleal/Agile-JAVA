@@ -1,24 +1,26 @@
 package chess;
-import pieces.Pawn;
+
+import pieces.Piece;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private final List<Pawn> pawns = new ArrayList<>();
+    private final List<Piece> pieces = new ArrayList<>();
     private final List<String> ranks = new ArrayList<>();
 
     public Board() {
         initializeRanks();
     }
     private void initializeRanks() {
-        ranks.add("........");
+        ranks.add("rnbqkbnr");
         ranks.add("PPPPPPPP");
         ranks.add("........");
         ranks.add("........");
         ranks.add("........");
         ranks.add("........");
         ranks.add("pppppppp");
-        ranks.add("........");
+        ranks.add("RNBQKBNR");
 
 //        System.out.println("Representation\n" + ranks);
     }
@@ -26,15 +28,15 @@ public class Board {
         for (String rank : ranks) {
             for (char symbol : rank.toCharArray()) {
                 if (symbol == 'p') {
-                    pawns.add(new Pawn(Pawn.WHITE));
+                    pieces.add(Piece.createPiece(Piece.WHITE, Piece.PieceType.valueOf("PAWN")));
                 } else if (symbol == 'P') {
-                    pawns.add(new Pawn(Pawn.BLACK));
-                }
+                    pieces.add(Piece.createPiece(Piece.BLACK, Piece.PieceType.valueOf("PAWN")));
+                } ///adicionar as peças que coloquei a mais
             }
         }
     }
          public int getNumberOfPawns() {
-            return pawns.size();
+            return pieces.size();
     }
         public List<String> getRanks() {
             return ranks;

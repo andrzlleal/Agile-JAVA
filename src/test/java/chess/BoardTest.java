@@ -14,26 +14,21 @@ public class BoardTest {
         board.initializeBoard();
     }
     @Test
-    public void testInitialNumberOfPawns() {
-        assertEquals(16, board.getNumberOfPawns());
-        assertEquals("PPPPPPPP", board.getRanks().get(1));
-        assertEquals("pppppppp", board.getRanks().get(6));
-    }
-    @Test
-    public void testBoardRepresentation() {
-        String expectedRepresentation =
+    public void testCreate() {
+        assertEquals(32, board.getNumberOfPawns());
+
+        String expectedBoard =
                 """
-                ........
+                rnbqkbnr
                 PPPPPPPP
                 ........
                 ........
                 ........
                 ........
                 pppppppp
-                ........""";
+                RNBQKBNR""";
 
-        String actualRepresentation = board.getBoardRepresentation();
-        System.out.println("Board actual: " + actualRepresentation);
-        assertEquals(expectedRepresentation, actualRepresentation);
+        String actualBoard = board.getBoardRepresentation();
+        assertEquals(expectedBoard, actualBoard);
     }
 }

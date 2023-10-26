@@ -27,6 +27,6 @@ class RosterReporter {
             }
         }
         void writeFooter(StringBuilder buffer){
-            StringBuilder append = buffer.append(ROSTER_REPORT_FOOTER + session.getAllStudents().size() + NEWLINE);
+            StringBuilder append = buffer.append(ROSTER_REPORT_FOOTER).append(session.getAllStudents().size()).append(NEWLINE);
         }
 }
