@@ -61,4 +61,13 @@ public class CourseSession{
         incrementCount();
         return new CourseSession(department, number, startDate);
     }
+
+
+    public char[] getDepartment() {
+        return new char[0];
+    }
+
+    public char[] getNumber() {
+        return new char[0];
+    }
 }

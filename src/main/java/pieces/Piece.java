@@ -24,15 +24,14 @@ public class Piece {
 
         if (WHITE.equals(color)) {
             whitePieceCount++;
+
         }else if(BLACK.equals(color)) {
             blackPieceCount++;
         }
     }
-
     public static Piece createPiece(String color, PieceType type) {
         return new Piece(color, type);
     }
-
     public String getColor() {
         return color;
     }
@@ -44,6 +43,12 @@ public class Piece {
     }
     public static int getBlackPieceCount() {
         return blackPieceCount;
+    }
+    public boolean isBlack() {
+        return BLACK.equals(color);
+    }
+    public boolean isWhite() {
+        return WHITE.equals(color);
     }
 
 }
