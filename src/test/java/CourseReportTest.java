@@ -18,14 +18,14 @@ public class CourseReportTest {
 
         assertEquals( "CZEC 200" + NEWLINE + "ENGL 101" + NEWLINE + "ITAL 410" + NEWLINE, report.text());
     }
-//    @Test
-//    public String text() {
-//        Collections.sort(sessions);
-//        StringBuilder builder = new StringBuilder();
-//        for (CourseSession session : sessions)
-//            builder.append(
-//                    session.getDepartment() + " " +
-//                            session.getNumber() + NEWLINE);
-//        return builder.toString();
+    @Test
+    public String text() {
+        Collections.sort(sessions);
+        StringBuilder builder = new StringBuilder();
+        for (CourseSession session : sessions)
+            builder.append(
+                    session.getDepartment() + " " +
+                            session.getNumber() + NEWLINE);
+        return builder.toString();
     }
 }
