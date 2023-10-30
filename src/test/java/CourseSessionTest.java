@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CourseSessionTest{
     private CourseSession session;
@@ -53,6 +54,19 @@ public class CourseSessionTest{
         assertEquals(1, CourseSession.getCount());
         createCourseSession();
         assertEquals(2, CourseSession.getCount());
+    }
+    @Test
+    public void testComparable() {
+        final Date date = new Date();
+        CourseSession sessionA = CourseSession.create("CMSC", "101", date);
+        CourseSession sessionB = CourseSession.create("ENGL", "101", date);
+        assertTrue(sessionA.compareTo(sessionB) < 0);
+        assertTrue(sessionB.compareTo(sessionA) > 0);
+        CourseSession sessionC = CourseSession.create("CMSC", "101", date);
+        assertEquals(0, sessionA.compareTo(sessionC));
+        CourseSession sessionD = CourseSession.create("CMSC", "210", date);
+        assertTrue(sessionC.compareTo(sessionD) < 0);
+        assertTrue(sessionD.compareTo(sessionC) > 0);
     }
 
 

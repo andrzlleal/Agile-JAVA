@@ -3,27 +3,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class CourseSession{
+public class CourseSession implements Comparable<CourseSession> {
     private final java.util.ArrayList<Student> students = new java.util.ArrayList<>();
     private final Date startDate;
     private final String department;
     private final String number;
+
     static void resetCount() {
         count = 0;
     }
+
     static int getCount() {
         return count;
     }
+
     private static void incrementCount() {
-       count++;
+        count++;
     }
+
     public static int count;
     private int numberOfCredits;
-    void setNumberOfCredits(int numberOfCredits){
+
+    void setNumberOfCredits(int numberOfCredits) {
         this.numberOfCredits = numberOfCredits;
     }
-    
-    CourseSession(String department, String number, Date startDate){
+
+    CourseSession(String department, String number, Date startDate) {
         this.department = department;
         this.number = number;
         this.startDate = startDate;
@@ -44,16 +49,20 @@ public class CourseSession{
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
     }
+
     void enroll(Student student) {
         student.addCredits(numberOfCredits);
         students.add(student);
     }
+
     Student get(int index) {
         return students.get(index);
     }
+
     ArrayList<Student> getAllStudents() {
         return students;
     }
+
     static CourseSession create(
             String department,
             String number,
@@ -63,11 +72,19 @@ public class CourseSession{
     }
 
 
-    public char[] getDepartment() {
-        return new char[0];
+   public String getDepartment() {
+        return department;
     }
 
-    public char[] getNumber() {
-        return new char[0];
+   public String getNumber() {
+        return number;
+   }
+
+    public int compareTo(CourseSession that) {
+        int compare =
+                this.getDepartment().compareTo(that.getDepartment());
+        if (compare == 0)
+            compare = this.getNumber().compareTo(that.getNumber());
+        return compare;
     }
 }

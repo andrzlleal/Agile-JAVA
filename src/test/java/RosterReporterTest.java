@@ -1,12 +1,15 @@
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static org.junit.Assert.assertEquals;
 
 
-public class RosterReporterTest extends TestCase {
+public class RosterReporterTest{
+
+    @Test
     public void testRosterReport() {
         CourseSession session =
                 new CourseSession("ENGL", "101", DateUtil.createDate(2003, 1, 6));
@@ -23,6 +26,7 @@ public class RosterReporterTest extends TestCase {
 
                         ReportConstant.NEWLINE, rosterReport);
     }
+    @Test
     Date createDate(int year, int month, int date) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.clear();

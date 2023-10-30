@@ -1,6 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
-import static jdk.xml.internal.SecuritySupport.NEWLINE;
 
 public class CourseReport {
 private final ArrayList<CourseSession> sessions =
@@ -9,13 +9,17 @@ private final ArrayList<CourseSession> sessions =
 public void add(CourseSession session) {
     sessions.add(session);
 }
+
 public String text() {
+    Collections.sort(sessions);
     StringBuilder builder = new StringBuilder();
     for (CourseSession session : sessions)
-        builder.append(session.getDepartment()).append(session.getNumber()).append(NEWLINE);
+        builder.append(session.getDepartment()).append(session.getNumber()).append(ReportConstant.NEWLINE);
     return builder.toString();
 
+
 }
+
 }
 
 

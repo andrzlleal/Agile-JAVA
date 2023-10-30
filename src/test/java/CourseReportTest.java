@@ -1,10 +1,7 @@
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Date;
 
-
-import static jdk.xml.internal.SecuritySupport.NEWLINE;
 import static org.junit.Assert.assertEquals;
 
 public class CourseReportTest {
@@ -15,17 +12,15 @@ public class CourseReportTest {
         report.add(CourseSession.create("ENGL", "101", date));
         report.add(CourseSession.create("CZEC", "200", date));
         report.add(CourseSession.create("ITAL", "410", date));
+        report.add(CourseSession.create("CZEC", "220", date));
+        report.add(CourseSession.create("ITAL", "330", date));
 
-        assertEquals( "CZEC 200" + NEWLINE + "ENGL 101" + NEWLINE + "ITAL 410" + NEWLINE, report.text());
+        assertEquals("CZEC200" + ReportConstant.NEWLINE +
+                        "CZEC220" + ReportConstant.NEWLINE +
+                        "ENGL101" + ReportConstant.NEWLINE +
+                        "ITAL330" + ReportConstant.NEWLINE +
+                        "ITAL410" + ReportConstant.NEWLINE,
+                report.text());
     }
-    @Test
-    public String text() {
-        Collections.sort(sessions);
-        StringBuilder builder = new StringBuilder();
-        for (CourseSession session : sessions)
-            builder.append(
-                    session.getDepartment() + " " +
-                            session.getNumber() + NEWLINE);
-        return builder.toString();
-    }
+
 }

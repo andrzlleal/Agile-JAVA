@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Student {
         private final String name;
         private int credits;
@@ -7,8 +9,14 @@ public class Student {
 
         private String state = "";
 
+        private ArrayList<String> grades = new ArrayList<String>();
+
         void setState(String state) {
             this.state = state;
+        }
+
+        void addGrade(String grade) {
+            grades.add(grade);
         }
 
         public Student(String name) {
@@ -36,6 +44,29 @@ public class Student {
             return state.equals(Student.IN_STATE);
     }
 
+        double getGpa() {
+            if (grades.isEmpty())
+                return 0.0;
+            double total = 0.0;
+            for (String grade: grades)
+                total += gradePointsFor(grade);
+              return total / grades.size();
 
+    }
+
+    private double gradePointsFor(String grade) {
+            if (grade.equals("A"))
+                return 4;
+            else if (grade.equals("B"))
+                return 3;
+            else if (grade.equals("C"))
+                return 2;
+            else if (grade.equals("D"))
+                return 1;
+            return 0;
+        }
 }
+
+
+
 
