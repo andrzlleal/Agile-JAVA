@@ -17,7 +17,6 @@ public String text() {
         builder.append(session.getDepartment()).append(session.getNumber()).append(ReportConstant.NEWLINE);
     return builder.toString();
 
-
 }
 
 }

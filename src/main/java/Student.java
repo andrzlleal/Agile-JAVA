@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Student {
+public class Student implements Comparable<Student>{
         private final String name;
         private int credits;
         static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
@@ -9,15 +9,22 @@ public class Student {
 
         private String state = "";
 
-        private ArrayList<String> grades = new ArrayList<String>();
+        private final ArrayList<Grade> grades = new ArrayList<Grade>();
 
         void setState(String state) {
             this.state = state;
         }
 
-        void addGrade(String grade) {
+        void addGrade(Grade grade) {
             grades.add(grade);
         }
+
+    @Override
+    public int compareTo(Student o) {
+        return 0;
+    }
+
+    enum Grade{A, B, C, D, F};
 
         public Student(String name) {
             this.name = name;
@@ -44,27 +51,28 @@ public class Student {
             return state.equals(Student.IN_STATE);
     }
 
+        private GradingStrategy gradingStrategy = new RegularGradingStrategy();
+
+
         double getGpa() {
             if (grades.isEmpty())
                 return 0.0;
             double total = 0.0;
-            for (String grade: grades)
-                total += gradePointsFor(grade);
+            for (Grade grade: grades)
+                total += gradingStrategy.getGradePointsFor(grade);
               return total / grades.size();
 
-    }
-
-    private double gradePointsFor(String grade) {
-            if (grade.equals("A"))
-                return 4;
-            else if (grade.equals("B"))
-                return 3;
-            else if (grade.equals("C"))
-                return 2;
-            else if (grade.equals("D"))
-                return 1;
-            return 0;
         }
+
+        int gradePointsFor(Grade grade) {
+            return gradingStrategy.getGradePointsFor(grade);
+        }
+
+        void setGradingStrategy(GradingStrategy gradingStrategy) {
+            this.gradingStrategy = gradingStrategy;
+        }
+
+
 }
 
 
