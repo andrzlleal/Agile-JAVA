@@ -1,8 +1,29 @@
 package pieces;
 
 public class Piece {
-    public static final String WHITE = "White";
-    public static final String BLACK = "Black";
+    
+    private final Color color;
+
+    public static Piece noPiece() {
+        return new Piece(Color.NO_PIECE, PieceType.NO_PIECE);
+    }
+
+    public enum Color {
+        WHITE, BLACK, NO_PIECE
+    }
+    private final PieceType type;
+    private static int whitePieceCount = 0;
+    private static int blackPieceCount = 0;
+    static final char PAWN_REPRESENTATION = 'p';
+
+    static final char KNIGHT_REPRESENTATION = 'n';
+
+    static final char ROOK_REPRESENTATION = 'r';
+    static final char QUEEN_REPRESENTATION = 'q';
+    static final char BISHOP_REPRESENTATION = 'b';
+
+    static final char KING_REPRESENTATION = 'k';
+
 
     public enum PieceType{
         PAWN,
@@ -10,29 +31,31 @@ public class Piece {
         BISHOP,
         ROOK,
         QUEEN,
-        KING
+        KING,
+        NO_PIECE
     }
-
-    private final String color;
-    private final PieceType type;
-    private static int whitePieceCount = 0;
-    private static int blackPieceCount = 0;
-
-    public Piece(String color, PieceType type) {
+    public Piece(Color color, PieceType type) {
         this.color = color;
         this.type = type;
 
-        if (WHITE.equals(color)) {
+        if (Color.WHITE.equals(color)) {
             whitePieceCount++;
 
-        }else if(BLACK.equals(color)) {
+        }else if(Color.BLACK.equals(color)) {
             blackPieceCount++;
         }
+
     }
-    public static Piece createPiece(String color, PieceType type) {
+    public static Piece createWhitePiece(PieceType type) {
+        return createPiece(Color.WHITE, type);
+    }
+    public static Piece createBlackPiece(PieceType type) {
+        return createPiece(Color.BLACK, type);
+    }
+    public static Piece createPiece(Color color, PieceType type) {
         return new Piece(color, type);
     }
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
     public PieceType getType() {
@@ -45,10 +68,21 @@ public class Piece {
         return blackPieceCount;
     }
     public boolean isBlack() {
-        return BLACK.equals(color);
+        return Color.BLACK.equals(color);
     }
     public boolean isWhite() {
-        return WHITE.equals(color);
+        return Color.WHITE.equals(color);
+    }
+    public char getRepresentation() {
+        return switch (type) {
+            case PAWN -> 'p';
+            case KNIGHT -> 'n';
+            case BISHOP -> 'b';
+            case ROOK -> 'r';
+            case QUEEN -> 'q';
+            case KING -> 'k';
+            default -> '-';
+        };
     }
 
 }

@@ -27,11 +27,11 @@ public class Board {
         for (String rank : ranks) {
             for (char symbol : rank.toCharArray()) {
                 if (symbol == 'p') {
-                    pieces.add(Piece.createPiece(Piece.WHITE, Piece.PieceType.valueOf("PAWN")));
-                    pieces.add(Piece.createPiece(Piece.WHITE, Piece.PieceType.PAWN));
+                    pieces.add(Piece.createPiece(Piece.Color.WHITE, Piece.PieceType.valueOf("PAWN")));
+                    pieces.add(Piece.createPiece(Piece.Color.WHITE, Piece.PieceType.PAWN));
                 } else if (symbol == 'P') {
-                    pieces.add(Piece.createPiece(Piece.BLACK, Piece.PieceType.valueOf("PAWN")));
-                    pieces.add(Piece.createPiece(Piece.BLACK, Piece.PieceType.PAWN));
+                    pieces.add(Piece.createPiece(Piece.Color.BLACK, Piece.PieceType.valueOf("PAWN")));
+                    pieces.add(Piece.createPiece(Piece.Color.BLACK, Piece.PieceType.PAWN));
                 }
             }
         }
