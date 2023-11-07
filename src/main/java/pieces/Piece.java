@@ -1,7 +1,7 @@
 package pieces;
 
 public class Piece {
-    
+
     private final Color color;
     private final PieceType type;
     private static int whitePieceCount = 0;
@@ -118,7 +118,6 @@ public class Piece {
     public static Piece createBlackBishop() {
         return new Piece(Color.BLACK, PieceType.BISHOP);
     }
-
 
 
 }

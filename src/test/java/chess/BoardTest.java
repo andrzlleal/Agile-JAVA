@@ -12,14 +12,15 @@ public class BoardTest {
     @Before
     public void setUp() {
         board = new Board();
-        board.initializeBoard();
+
     }
     @Test
     public void testCreate() {
-        assertEquals(32, board.getNumberOfPawns());
+        board.initializeBoard();
 
-        assertEquals(16, Piece.getWhitePieceCount());
-        assertEquals(16, Piece.getBlackPieceCount());
+        assertEquals(32, board.getNumberOfPieces());
+        assertEquals(16, board.whitePieceCount());
+        assertEquals(16, board.blackPieceCount());
 
         String expectedBoard =
                 """
@@ -40,6 +41,7 @@ public class BoardTest {
 
     @Test
     public void testCountPieces() {
+        board.initializeBoard();
         int whitePawnCount = board.countPieces(Piece.Color.WHITE, 'p');
         assertEquals(8, whitePawnCount);
 
@@ -76,5 +78,9 @@ public class BoardTest {
         int blackBishopCount = board.countPieces(Piece.Color.BLACK, 'B');
         assertEquals(2, blackBishopCount);
 
+    }
+    @Test
+    public void testEmptyBoard() {
+        assertEquals(0, board.getNumberOfPieces());
     }
 }

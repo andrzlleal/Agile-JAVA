@@ -13,6 +13,7 @@ public class Board {
     public Board() {
         initializeRanks();
     }
+
     private void initializeRanks() {
         ranks.add("rnbqkbnr");
         ranks.add("pppppppp");
@@ -24,7 +25,10 @@ public class Board {
         ranks.add("RNBQKBNR");
         //System.out.println("Representation\n" + ranks);
     }
+
     public void initializeBoard() {
+        pieces.clear();
+
         for (String rank : ranks) {
             for (char symbol : rank.toCharArray()) {
                 if (symbol == 'p') {
@@ -55,31 +59,57 @@ public class Board {
             }
         }
     }
-        public int getNumberOfPawns () {
-            return pieces.size();
-        }
-        public List<String> getRanks () {
-            return ranks;
-        }
-        public String getBoardRepresentation () {
-            StringBuilder representation = new StringBuilder();
 
-            for (String rank : ranks) {
-                representation.append(rank).append("\n");
-            }
-            return representation.toString().trim();
+    public int getNumberOfPieces() {
+        return pieces.size();
+    }
+
+    public List<String> getRanks() {
+        return ranks;
+    }
+
+    public String getBoardRepresentation() {
+        StringBuilder representation = new StringBuilder();
+
+        for (String rank : ranks) {
+            representation.append(rank).append("\n");
         }
-        public int countPieces(Piece.Color color, char pieceRepresentation) {
-            int count = 0;
-            for (Piece piece : pieces) {
-                if (piece.getColor() == color && piece.getRepresentation() == pieceRepresentation) {
-                    count++;
-                }
+        return representation.toString().trim();
+    }
+
+    public int countPieces(Piece.Color color, char pieceRepresentation) {
+        int count = 0;
+        for (Piece piece : pieces) {
+            if (piece.getColor() == color && piece.getRepresentation() == pieceRepresentation) {
+                count++;
             }
-            return count;
         }
+        return count;
+    }
+
+    public int whitePieceCount() {
+        int count = 0;
+        for (Piece piece : pieces) {
+            if (piece.isWhite()) {
+                count++;
+            }
+        }
+        return count;
+
+    }
+    public int blackPieceCount() {
+        int count = 0;
+        for (Piece piece : pieces) {
+            if (piece.isBlack()) {
+                count++;
+            }
+        }
+        return count;
+
+    }
+
+
 }
-
 
 
 
