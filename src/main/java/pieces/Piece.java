@@ -52,12 +52,7 @@ public class Piece {
     public PieceType getType() {
         return type;
     }
-    public static int getWhitePieceCount() {
-        return whitePieceCount;
-    }
-    public static int getBlackPieceCount() {
-        return blackPieceCount;
-    }
+
     public boolean isBlack() {
         return Color.BLACK.equals(color);
     }

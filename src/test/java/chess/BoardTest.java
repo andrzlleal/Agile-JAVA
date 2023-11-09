@@ -12,12 +12,31 @@ public class BoardTest {
     @Before
     public void setUp() {
         board = new Board();
+    }
+
+    @Test
+    public void testInitializeBoard() {
+        assertEquals(0, board.getNumberOfPieces());
+
+        String expectedBoard =
+                """
+                        ........
+                        ........
+                        ........
+                        ........
+                        ........
+                        ........
+                        ........
+                        ........""";
+
+        String actualBoard = board.getBoardRepresentation();
+        assertEquals(expectedBoard, actualBoard);
 
     }
-    @Test
-    public void testCreate() {
-        board.initializeBoard();
 
+    @Test
+    public void testBoardWithPieces() {
+        board.initializeBoard();
         assertEquals(32, board.getNumberOfPieces());
         assertEquals(16, board.whitePieceCount());
         assertEquals(16, board.blackPieceCount());
@@ -33,15 +52,15 @@ public class BoardTest {
                         PPPPPPPP
                         RNBQKBNR""";
 
-        //System.out.println("representation\n" + expectedBoard);
-
         String actualBoard = board.getBoardRepresentation();
         assertEquals(expectedBoard, actualBoard);
     }
 
     @Test
     public void testCountPieces() {
+
         board.initializeBoard();
+
         int whitePawnCount = board.countPieces(Piece.Color.WHITE, 'p');
         assertEquals(8, whitePawnCount);
 
@@ -79,8 +98,17 @@ public class BoardTest {
         assertEquals(2, blackBishopCount);
 
     }
+
     @Test
-    public void testEmptyBoard() {
-        assertEquals(0, board.getNumberOfPieces());
+    public void selectPieces() {
+        board.initializeBoard();
+        assertEquals('q' +"", board.getPieceAt("d1").getRepresentation() +"");
+        assertEquals('R' + "", board.getPieceAt("a8").getRepresentation() + "");
+
     }
+
 }
+
+
+
+
