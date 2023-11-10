@@ -33,7 +33,6 @@ public class BoardTest {
         assertEquals(expectedBoard, actualBoard);
 
     }
-
     @Test
     public void testBoardWithPieces() {
         board.initializeBoard();
@@ -55,7 +54,6 @@ public class BoardTest {
         String actualBoard = board.getBoardRepresentation();
         assertEquals(expectedBoard, actualBoard);
     }
-
     @Test
     public void testCountPieces() {
 
@@ -96,14 +94,22 @@ public class BoardTest {
 
         int blackBishopCount = board.countPieces(Piece.Color.BLACK, 'B');
         assertEquals(2, blackBishopCount);
-
     }
-
     @Test
-    public void selectPieces() {
+    public void testSelectPieces() {
+
         board.initializeBoard();
+
         assertEquals('q' +"", board.getPieceAt("d1").getRepresentation() +"");
         assertEquals('R' + "", board.getPieceAt("a8").getRepresentation() + "");
+
+    }
+    @Test
+    public void testCreatePieceForIndex() {
+        board.initializeBoard();
+
+        //testando posições esécificas do tabuleiro
+        assertEquals('r'+ "", board.createPieceForIndex(0).getRepresentation() + "");
 
     }
 

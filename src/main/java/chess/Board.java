@@ -19,43 +19,57 @@ public class Board {
         }
     }
 
+//    public void initializeBoard() {
+//        initializeRow(Piece.Color.WHITE, 0);
+//        initializeRow(Piece.Color.BLACK, 7);
+//    }
+//
+//    private void initializeRow(Piece.Color color, int row) {
+//        pieces.set(row, Piece.createPiece(color, Piece.PieceType.ROOK));
+//        pieces.set(row + 1, Piece.createPiece(color, Piece.PieceType.KNIGHT));
+//        pieces.set(row + 2, Piece.createPiece(color, Piece.PieceType.BISHOP));
+//        pieces.set(row + 3, Piece.createPiece(color, Piece.PieceType.QUEEN));
+//        pieces.set(row + 4, Piece.createPiece(color, Piece.PieceType.KING));
+//        pieces.set(row + 5, Piece.createPiece(color, Piece.PieceType.BISHOP));
+//        pieces.set(row + 6, Piece.createPiece(color, Piece.PieceType.KNIGHT));
+//        pieces.set(row + 7, Piece.createPiece(color, Piece.PieceType.ROOK));
+//
+//        int pawnRow = (color == Piece.Color.WHITE) ? row + 1 : row - 1;
+//        for (int i = 0; i < 8; i++) {
+//            pieces.set(pawnRow * 8 + i, Piece.createPiece(color, Piece.PieceType.PAWN));
+//        }
+//    }
     public void initializeBoard() {
-        pieces.set(0, Piece.createWhiteRook());
-        pieces.set(1, Piece.createWhiteKnight());
-        pieces.set(2, Piece.createWhiteBishop());
-        pieces.set(3, Piece.createWhiteQueen());
-        pieces.set(4, Piece.createWhiteKing());
-        pieces.set(5, Piece.createWhiteBishop());
-        pieces.set(6, Piece.createWhiteKnight());
-        pieces.set(7, Piece.createWhiteRook());
-
-        pieces.set(8, Piece.createWhitePawn());
-        pieces.set(9, Piece.createWhitePawn());
-        pieces.set(10, Piece.createWhitePawn());
-        pieces.set(11, Piece.createWhitePawn());
-        pieces.set(12, Piece.createWhitePawn());
-        pieces.set(13, Piece.createWhitePawn());
-        pieces.set(14, Piece.createWhitePawn());
-        pieces.set(15, Piece.createWhitePawn());
-
-        pieces.set(56, Piece.createBlackRook());
-        pieces.set(57, Piece.createBlackKnight());
-        pieces.set(58, Piece.createBlackBishop());
-        pieces.set(59, Piece.createBlackQueen());
-        pieces.set(60, Piece.createBlackKing());
-        pieces.set(61, Piece.createBlackBishop());
-        pieces.set(62, Piece.createBlackKnight());
-        pieces.set(63, Piece.createBlackRook());
-
-        pieces.set(55, Piece.createBlackPawn());
-        pieces.set(54, Piece.createBlackPawn());
-        pieces.set(53, Piece.createBlackPawn());
-        pieces.set(52, Piece.createBlackPawn());
-        pieces.set(51, Piece.createBlackPawn());
-        pieces.set(50, Piece.createBlackPawn());
-        pieces.set(49, Piece.createBlackPawn());
-        pieces.set(48, Piece.createBlackPawn());
-
+        for (int i = 0; i < 16; i++) {
+            if (i == 0 || i == 7) {
+                pieces.set(i, Piece.createWhiteRook());
+            } else if (i == 1 || i == 6) {
+                pieces.set(i, Piece.createWhiteKnight());
+            } else if (i == 2 || i == 5) {
+                pieces.set(i, Piece.createWhiteBishop());
+            } else if (i == 3) {
+                pieces.set(i, Piece.createWhiteQueen());
+            } else if (i == 4) {
+                pieces.set(i, Piece.createWhiteKing());
+            } else {
+                pieces.set(i, Piece.createWhitePawn());
+            }
+        }
+        for (int i = 48; i < 64; i++) {
+            if (i == 56 || i == 63) {
+                pieces.set(i, Piece.createBlackRook());
+            } else if (i == 57 || i == 62) {
+                pieces.set(i, Piece.createBlackKnight());
+            } else if (i == 58 || i == 61) {
+                pieces.set(i, Piece.createBlackBishop());
+            } else if (i == 59) {
+                pieces.set(i, Piece.createBlackQueen());
+            } else if (i == 60) {
+                pieces.set(i, Piece.createBlackKing());
+            } else {
+                pieces.set(i, Piece.createBlackPawn());
+            }
+        }
     }
 
     public int getNumberOfPieces() {
@@ -99,9 +113,7 @@ public class Board {
             }
         }
         return count;
-
     }
-
     public int blackPieceCount() {
         int count = 0;
         for (Piece piece : pieces) {
@@ -110,9 +122,7 @@ public class Board {
             }
         }
         return count;
-
     }
-
     public Piece getPieceAt(String location) {
         if (location.length() != 2) {
             return Piece.noPiece();
@@ -128,11 +138,51 @@ public class Board {
         if (fileIndex < 0 || fileIndex > 7 || rankIndex < 0 || rankIndex > 7) {
             return Piece.noPiece();
         }
-
         return pieces.get(fileIndex + 8 * rankIndex);
     }
 
+    public Piece createPieceForIndex(int index) {
+        int rank = index / 8;
+        int file = index % 8;
+
+        if((rank == 0 || rank == 7) && (file == 0 || file == 7)) {
+            return (rank == 0) ?
+                    Piece.createWhiteRook():
+                    Piece.createBlackRook();
+
+        } else if ((rank == 0 || rank ==7) && (file == 1 || file == 6)) {
+            return (rank == 0) ?
+                    Piece.createWhiteKnight():
+                    Piece.createBlackKnight();
+
+        }else if ((rank == 0 || rank == 7) && (file == 2 || file == 5)) {
+            return (rank == 0) ?
+                    Piece.createWhiteBishop():
+                    Piece.createBlackBishop();
+
+
+        } else if ((rank == 0 || rank == 7) && (file == 3)) {
+            return (rank == 0) ?
+                    Piece.createWhiteQueen():
+                    Piece.createBlackQueen();
+
+        } else if ((rank == 0 || rank == 7) && (file == 4)) {
+            return (rank == 0) ?
+                    Piece.createWhiteKing():
+                    Piece.createBlackKing();
+
+        } else if (rank == 1 || rank == 6) {
+            return (rank == 1) ?
+                    Piece.createWhitePawn():
+                    Piece.createBlackPawn();
+
+        } else {
+            return Piece.noPiece();
+        }
+    }
 }
+
+
     
     
     
