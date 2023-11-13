@@ -108,13 +108,28 @@ public class BoardTest {
     public void testCreatePieceForIndex() {
         board.initializeBoard();
 
-        //testando posições esécificas do tabuleiro
-        assertEquals('r'+ "", board.createPieceForIndex(0).getRepresentation() + "");
+        assertEquals('r'+ "", Piece.createPieceForIndex(7).getRepresentation() + "");
+    }
+    @Test
+    public void testPlacePieceAt() {
+        Piece customPiece = Piece.createCustomPiece();
 
+        // Coloca a peça personalizada na posição "c4"
+        board.placePieceAt(customPiece, "c4");
+
+        // Verifica se a peça está na posição correta
+        assertEquals(customPiece, board.getPieceAt("c4"));
     }
 
+//    @Test
+//    public void testPlacePieceAtInvalidPosition() {
+//        Piece customPiece = Piece.createCustomPiece();
+//
+//        // Tenta colocar a peça personalizada em uma posição inválida
+//        board.placePieceAt(customPiece, "i9");
+//
+//        // Verifica se a peça não foi colocada em uma position inválida
+//        assertEquals(Piece.noPiece(), board.getPieceAt("i9"));
+//    }
+
 }
-
-
-
-

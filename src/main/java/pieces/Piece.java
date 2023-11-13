@@ -7,9 +7,55 @@ public class Piece {
     private static int whitePieceCount = 0;
     private static int blackPieceCount = 0;
 
+
     public static Piece noPiece() {
         return new Piece(Color.NO_PIECE, PieceType.NO_PIECE);
     }
+
+    public static Piece createPieceForIndex(int index) {
+        int rank = index / 8;
+        int file = index % 8;
+
+        if((rank == 0 || rank == 7) && (file == 0 || file == 7)) {
+            return (rank == 0) ?
+                    Piece.createWhiteRook():
+                    Piece.createBlackRook();
+
+        } else if ((rank == 0 || rank ==7) && (file == 1 || file == 6)) {
+            return (rank == 0) ?
+                    Piece.createWhiteKnight():
+                    Piece.createBlackKnight();
+
+        }else if ((rank == 0 || rank == 7) && (file == 2 || file == 5)) {
+            return (rank == 0) ?
+                    Piece.createWhiteBishop():
+                    Piece.createBlackBishop();
+
+
+        } else if ((rank == 0 || rank == 7) && (file == 3)) {
+            return (rank == 0) ?
+                    Piece.createWhiteQueen():
+                    Piece.createBlackQueen();
+
+        } else if ((rank == 0 || rank == 7) && (file == 4)) {
+            return (rank == 0) ?
+                    Piece.createWhiteKing():
+                    Piece.createBlackKing();
+
+        } else if (rank == 1 || rank == 6) {
+            return (rank == 1) ?
+                    Piece.createWhitePawn():
+                    Piece.createBlackPawn();
+
+        } else {
+            return Piece.noPiece();
+        }
+    }
+
+    public static Piece createCustomPiece() {
+        return null;
+    }
+
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
@@ -27,7 +73,7 @@ public class Piece {
         ROOK,
         QUEEN,
         KING,
-        NO_PIECE
+        NO_PIECE,
     }
     public Piece(Color color, PieceType type) {
         this.color = color;
