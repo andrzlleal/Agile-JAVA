@@ -122,4 +122,36 @@ public class Board {
         return fileIndex + 8 * rankIndex;
     }
 
+    public double getPieceValue(String position) {
+        Piece piece = getPieceAt(position);
+        return getPieceValue(piece);
+    }
+    private double getPieceValue(Piece piece) {
+        if (piece.isWhite()) {
+            return switch (piece.getType()) {
+                case PAWN -> 1.0;
+                case KNIGHT -> 2.5;
+                case BISHOP -> 3.0;
+                case ROOK -> 5.0;
+                case QUEEN -> 9.0;
+                default -> 0.0;
+            };
+        } else if (piece.isBlack()) {
+            return switch (piece.getType()) {
+                case PAWN -> -1.0;
+                case KNIGHT -> -2.5;
+                case BISHOP -> -3.0;
+                case ROOK -> -5.0;
+                case QUEEN -> -9.0;
+                default -> 0.0;
+            };
+        } else {
+
+            return 0.0;
+        }
+
+
+    }
+
+
 }

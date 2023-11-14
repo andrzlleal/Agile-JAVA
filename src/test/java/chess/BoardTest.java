@@ -100,9 +100,8 @@ public class BoardTest {
 
         board.initializeBoard();
 
-        assertEquals('q' +"", board.getPieceAt("d1").getRepresentation() +"");
+        assertEquals('q' + "", board.getPieceAt("d1").getRepresentation() + "");
         assertEquals('R' + "", board.getPieceAt("a8").getRepresentation() + "");
-
     }
     @Test
     public void testCreatePieceForIndex() {
@@ -112,24 +111,24 @@ public class BoardTest {
     }
     @Test
     public void testPlacePieceAt() {
-        Piece customPiece = Piece.createCustomPiece();
+        Piece customPiece = Piece.createBlackPawn();
 
-        // Coloca a peça personalizada na posição "c4"
         board.placePieceAt(customPiece, "c4");
+        assertEquals(customPiece.getRepresentation(), board.getPieceAt("c4").getRepresentation());
+    }
+    @Test
+    public void testCalculateBoardScore() {
+        board.initializeBoard();
 
-        // Verifica se a peça está na posição correta
-        assertEquals(customPiece, board.getPieceAt("c4"));
+
+        board.placePieceAt(Piece.createWhiteQueen(), "d4");
+        board.placePieceAt(Piece.createBlackRook(), "a8");
+
+
+        assertEquals(9, board.calculateBoardScore(), 0.01); // Rainha branca
+        assertEquals(5, board.calculateBoardScore(), 0.01); // Torre preta
+
     }
 
-//    @Test
-//    public void testPlacePieceAtInvalidPosition() {
-//        Piece customPiece = Piece.createCustomPiece();
-//
-//        // Tenta colocar a peça personalizada em uma posição inválida
-//        board.placePieceAt(customPiece, "i9");
-//
-//        // Verifica se a peça não foi colocada em uma position inválida
-//        assertEquals(Piece.noPiece(), board.getPieceAt("i9"));
-//    }
 
 }

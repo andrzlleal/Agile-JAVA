@@ -52,10 +52,6 @@ public class Piece {
         }
     }
 
-    public static Piece createCustomPiece() {
-        return null;
-    }
-
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
@@ -159,6 +155,7 @@ public class Piece {
     public static Piece createBlackBishop() {
         return new Piece(Color.BLACK, PieceType.BISHOP);
     }
+
 
 
 }
