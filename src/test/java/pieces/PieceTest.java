@@ -8,10 +8,19 @@ import static org.junit.Assert.assertTrue;
 import static pieces.Piece.Color.BLACK;
 import static pieces.Piece.Color.WHITE;
 
-public class PieceTest{
+public class PieceTest implements Comparable<Piece>{
   private Piece blackPawn;
   private Piece whitePawn;
+  private double strength;
 
+  @Override
+
+  public int compareTo(Piece otherPiece) {
+    return Double.compare(otherPiece.getStrength(), this.getStrength());
+  }
+  public double getStrength() {
+    return this.strength;
+  }
   @Before
     public void setUp() {
       blackPawn = Piece.createPiece(BLACK, Piece.PieceType.valueOf("PAWN"));
@@ -86,5 +95,6 @@ public class PieceTest{
     assertEquals(Character.toUpperCase(representation),
             blackPiece.getRepresentation());
   }
+
 
 }

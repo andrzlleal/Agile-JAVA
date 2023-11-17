@@ -3,6 +3,7 @@ package chess;
 import pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
@@ -76,6 +77,7 @@ public class Board {
         }
         return count;
     }
+
     public Piece getPieceAt(String location) {
         if (location.length() != 2) {
             return Piece.noPiece();
@@ -83,8 +85,7 @@ public class Board {
         char file = location.charAt(0);
         char rank = location.charAt(1);
 
-        int fileIndex =
-                Character.toUpperCase(file) - 'A';
+        int fileIndex = Character.toUpperCase(file) - 'A';
         int rankIndex = rank - '1';
 
         if (fileIndex < 0 || fileIndex > 7 || rankIndex < 0 || rankIndex > 7) {
@@ -124,34 +125,50 @@ public class Board {
 
     public double getPieceValue(String position) {
         Piece piece = getPieceAt(position);
-        return getPieceValue(piece);
+        return getPieceValue(piece, position);
     }
-    private double getPieceValue(Piece piece) {
-        if (piece.isWhite()) {
-            return switch (piece.getType()) {
-                case PAWN -> 1.0;
-                case KNIGHT -> 2.5;
-                case BISHOP -> 3.0;
-                case ROOK -> 5.0;
-                case QUEEN -> 9.0;
-                default -> 0.0;
-            };
-        } else if (piece.isBlack()) {
-            return switch (piece.getType()) {
-                case PAWN -> -1.0;
-                case KNIGHT -> -2.5;
-                case BISHOP -> -3.0;
-                case ROOK -> -5.0;
-                case QUEEN -> -9.0;
-                default -> 0.0;
-            };
-        } else {
 
-            return 0.0;
+    private double getPieceValue(Piece piece, String position) {
+        double baseValue = switch (piece.getType()) {
+            case PAWN -> piece.isWhite() ? 1.0 : -1.0;
+            case KNIGHT -> piece.isWhite() ? 2.5 : -2.5;
+            case BISHOP -> piece.isWhite() ? 3.0 : -3.0;
+            case ROOK -> piece.isWhite() ? 5.0 : -5.0;
+            case QUEEN -> piece.isWhite() ? 9.0 : -9.0;
+            default -> 0.0;
+        };
+        if (piece.getType() == Piece.PieceType.PAWN) {
+            int column = position.charAt(0) - 'a';
+            int whitePawnCount = countPieces(Piece.Color.WHITE, 'p');
+
+            if (whitePawnCount > 1) {
+                baseValue += piece.isWhite() ? 0.5 : -0.5;
+            } else {
+                int blackPawnCount = countPieces(Piece.Color.BLACK, 'p');
+                if (blackPawnCount > 0) {
+                    baseValue += piece.isWhite() ? 1.0 : -1.0;
+                }
+            }
         }
-
-
+        return baseValue;
     }
 
+    public void assignPieceValues() {
+        List<Piece> copyOfPieces = new ArrayList<>(pieces);
 
+        for (Piece piece : copyOfPieces) {
+            piece.setStrength(getPieceValue(piece, getPositionForPiece(piece.getRepresentation())));
+        }
+        Collections.sort(pieces);
+    }
+
+    private String getPositionForPiece(int index) {
+        char file = (char) ('a' + index % 8);
+        char rank = (char)('1' + index / 8);
+        return String.valueOf(file) +  rank;
+    }
+
+    public double getStrength(Piece piece) {
+        return piece.getStrength();
+    }
 }

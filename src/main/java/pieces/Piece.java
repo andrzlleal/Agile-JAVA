@@ -1,15 +1,21 @@
 package pieces;
 
-public class Piece {
+public class Piece implements Comparable<Piece>{
 
     private final Color color;
     private final PieceType type;
     private static int whitePieceCount = 0;
     private static int blackPieceCount = 0;
+    private double strength = 0;
 
 
     public static Piece noPiece() {
         return new Piece(Color.NO_PIECE, PieceType.NO_PIECE);
+    }
+
+    @Override
+    public int compareTo(Piece otherPiece) {
+        return Double.compare(strength, strength);
     }
 
     public static Piece createPieceForIndex(int index) {
@@ -51,6 +57,15 @@ public class Piece {
             return Piece.noPiece();
         }
     }
+
+    public void setStrength(double pieceValue) {
+        this.strength = pieceValue;
+
+    }
+    public double getStrength() {
+        return strength;
+    }
+
 
     public enum Color {
         WHITE, BLACK, NO_PIECE
@@ -120,28 +135,44 @@ public class Piece {
             return rep;
     }
     public static Piece createWhitePawn() {
-        return new Piece(Color.WHITE, PieceType.PAWN);
+        Piece pawn = new Piece(Color.WHITE, PieceType.PAWN);
+        pawn.setStrength(1.0);
+        return pawn;
     }
     public static Piece createBlackPawn() {
-        return new Piece(Color.BLACK, PieceType.PAWN);
+        Piece pawn = new Piece(Color.BLACK, PieceType.PAWN);
+        pawn.setStrength(-1.0);
+        return pawn;
     }
     public static Piece createWhiteRook() {
-        return new Piece(Color.WHITE, PieceType.ROOK);
+        Piece rook = new Piece(Color.WHITE, PieceType.ROOK);
+        rook.setStrength(5.0);
+        return rook;
     }
     public static Piece createBlackRook() {
-        return new Piece(Color.BLACK, PieceType.ROOK);
+        Piece rook = new Piece(Color.BLACK, PieceType.ROOK);
+        rook.setStrength(-5.0);
+        return rook;
     }
     public static Piece createWhiteKnight() {
-        return new Piece(Color.WHITE, PieceType.KNIGHT);
+        Piece knight = new Piece(Color.WHITE, PieceType.KNIGHT);
+        knight.setStrength(2.5);
+        return knight;
     }
     public static Piece createBlackKnight() {
-        return new Piece(Color.BLACK, PieceType.KNIGHT);
+        Piece knight = new Piece(Color.BLACK, PieceType.KNIGHT);
+        knight.setStrength(-2.5);
+        return knight;
     }
     public static Piece createWhiteQueen() {
-        return new Piece(Color.WHITE, PieceType.QUEEN);
+        Piece queen = new Piece(Color.WHITE, PieceType.QUEEN);
+        queen.setStrength(9.0);
+        return queen;
     }
     public static Piece createBlackQueen() {
-        return new Piece(Color.BLACK, PieceType.QUEEN);
+        Piece queen = new Piece(Color.BLACK, PieceType.QUEEN);
+        queen.setStrength(-9.0);
+        return queen;
     }
     public static Piece createWhiteKing() {
         return new Piece(Color.WHITE, PieceType.KING);
@@ -150,12 +181,14 @@ public class Piece {
         return new Piece(Color.BLACK, PieceType.KING);
     }
     public static Piece createWhiteBishop() {
-        return new Piece(Color.WHITE, PieceType.BISHOP);
+        Piece bishop = new Piece(Color.WHITE, PieceType.BISHOP);
+        bishop.setStrength(3.0);
+        return bishop;
     }
     public static Piece createBlackBishop() {
-        return new Piece(Color.BLACK, PieceType.BISHOP);
+        Piece bishop = new Piece(Color.BLACK, PieceType.BISHOP);
+        bishop.setStrength(-3.0);
+        return bishop;
     }
-
-
 
 }

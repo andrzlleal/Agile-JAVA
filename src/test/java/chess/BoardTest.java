@@ -117,18 +117,36 @@ public class BoardTest {
         assertEquals(customPiece.getRepresentation(), board.getPieceAt("c4").getRepresentation());
     }
     @Test
-    public void testCalculateBoardScore() {
+    public void testGetPieceValue() {
         board.initializeBoard();
 
+        assertEquals(1.5, board.getPieceValue("d2"), 0.01);
+        assertEquals(9.0, board.getPieceValue("d1"), 0.01);
+        assertEquals(3.0, board.getPieceValue("f1"), 0.01);
 
-        board.placePieceAt(Piece.createWhiteQueen(), "d4");
-        board.placePieceAt(Piece.createBlackRook(), "a8");
+        assertEquals(-9.0, board.getPieceValue("d8"), 0.01);
 
+    }
+    @Test
+    public void testAssignAndSortPieceValues() {
+        board.initializeBoard();
 
-        assertEquals(9, board.calculateBoardScore(), 0.01); // Rainha branca
-        assertEquals(5, board.calculateBoardScore(), 0.01); // Torre preta
+        assertEquals(9, board.getPieceAt("d1").getStrength(), 0.01);
+        assertEquals(-9, board.getPieceAt("d8").getStrength(), 0.01);
+        assertEquals(5, board.getPieceAt("a1").getStrength(), 0.01);
+        assertEquals(-5, board.getPieceAt("a8").getStrength(), 0.01);
+
 
     }
 
+    @Test
+    public void testGetStrength() {
+        board.initializeBoard();
+        board.assignPieceValues();
 
+        assertEquals(1.0, board.getStrength(board.getPieceAt("a2")), 0.01);
+    }
 }
+
+
+
