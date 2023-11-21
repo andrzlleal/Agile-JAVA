@@ -1,5 +1,8 @@
 package pieces;
 
+import java.util.Objects;
+import java.util.List;
+
 public class Piece implements Comparable<Piece>{
 
     private final Color color;
@@ -64,6 +67,16 @@ public class Piece implements Comparable<Piece>{
     }
     public double getStrength() {
         return strength;
+    }
+
+    public int indexOf(List<Piece> pieces) {
+        Objects.requireNonNull(pieces, "pieces cannot be null");
+        for(int i = 0; i < pieces.size(); i++) {
+            if(this.equals(pieces.get(i))){
+                return i;
+            }
+        }
+        return -1;
     }
 
 
@@ -189,6 +202,11 @@ public class Piece implements Comparable<Piece>{
         Piece bishop = new Piece(Color.BLACK, PieceType.BISHOP);
         bishop.setStrength(-3.0);
         return bishop;
+    }
+    public void addPointsForSameColumnPawn() {
+        if(getType() == PieceType.PAWN) {
+            setStrength(getStrength() + 0.5);
+        }
     }
 
 }

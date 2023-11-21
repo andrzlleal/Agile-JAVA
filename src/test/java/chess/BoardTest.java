@@ -130,6 +130,8 @@ public class BoardTest {
     @Test
     public void testAssignAndSortPieceValues() {
         board.initializeBoard();
+        Piece customPiece = Piece.createBlackPawn();
+        board.assignPieceValues();
 
         assertEquals(9, board.getPieceAt("d1").getStrength(), 0.01);
         assertEquals(-9, board.getPieceAt("d8").getStrength(), 0.01);
@@ -137,15 +139,12 @@ public class BoardTest {
         assertEquals(-5, board.getPieceAt("a8").getStrength(), 0.01);
 
 
+        //peões na mesma coluna, deve add 0.5 pontos
+        assertEquals(2.0, board.getPieceAt("d2").getStrength(), 0.01);
+        assertEquals(-2.0, board.getPieceAt("e7").getStrength(), 0.01);
+        assertEquals(-1.0, customPiece.getStrength(), 0.01);
     }
 
-    @Test
-    public void testGetStrength() {
-        board.initializeBoard();
-        board.assignPieceValues();
-
-        assertEquals(1.0, board.getStrength(board.getPieceAt("a2")), 0.01);
-    }
 }
 
 

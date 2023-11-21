@@ -138,19 +138,40 @@ public class Board {
             default -> 0.0;
         };
         if (piece.getType() == Piece.PieceType.PAWN) {
-            int column = position.charAt(0) - 'a';
+
             int whitePawnCount = countPieces(Piece.Color.WHITE, 'p');
+            int sameColumnPawnCount = countSameColumnPawns(position, piece.getColor());
 
             if (whitePawnCount > 1) {
                 baseValue += piece.isWhite() ? 0.5 : -0.5;
-            } else {
+
+            if(sameColumnPawnCount > 0 ) {
+                baseValue += piece.isWhite() ? 0.5 : -0.5;
+                System.out.println("Same column pawn found! added points for " + piece.getColor() + " pawn at " + position);
+            }
+            }else {
                 int blackPawnCount = countPieces(Piece.Color.BLACK, 'p');
+
                 if (blackPawnCount > 0) {
                     baseValue += piece.isWhite() ? 1.0 : -1.0;
+                    System.out.println("Added points for " + piece.getColor() + " pawn at " + position);
                 }
             }
         }
+        System.out.println("Piece value for " + piece.getRepresentation() + " at " + position + ": " + baseValue);
         return baseValue;
+    }
+
+    private int countSameColumnPawns(String position, Piece.Color color) {
+        int column = position.charAt(0) - 'a';
+        int count = 0;
+
+        for(Piece piece : pieces) {
+            if(piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == position.charAt(0)) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void assignPieceValues() {
@@ -158,17 +179,37 @@ public class Board {
 
         for (Piece piece : copyOfPieces) {
             piece.setStrength(getPieceValue(piece, getPositionForPiece(piece.getRepresentation())));
+            System.out.println("Strength for " + piece.getRepresentation() + ": " + piece.getStrength());
         }
+        addPointsForSameColumnPawns();
+
         Collections.sort(pieces);
+
+    }
+    private void addPointsForSameColumnPawns() {
+        for (int i = 0; i < pieces.size(); i++) {
+            Piece currentPiece = pieces.get(i);
+            if (currentPiece.getType() == Piece.PieceType.PAWN) {
+                for (int j = i + 1; j < pieces.size(); j++) {
+                    Piece otherPiece = pieces.get(j);
+                    if (otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor()) {
+                        int currentFile = i % 8;
+                        int otherFile = j % 8;
+                        if (currentFile == otherFile) {
+                            currentPiece.addPointsForSameColumnPawn();
+                            otherPiece.addPointsForSameColumnPawn();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private String getPositionForPiece(int index) {
         char file = (char) ('a' + index % 8);
-        char rank = (char)('1' + index / 8);
-        return String.valueOf(file) +  rank;
+        char rank = (char) ('1' + index / 8);
+        return String.valueOf(file) + rank;
     }
 
-    public double getStrength(Piece piece) {
-        return piece.getStrength();
-    }
+
 }
