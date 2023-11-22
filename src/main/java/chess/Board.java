@@ -2,12 +2,12 @@ package chess;
 
 import pieces.Piece;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Board {
-    private final List<Piece> pieces = new ArrayList<>();
+    private final List<Piece> pieces = new LinkedList<>();
 
     public Board() {
         initializeRanks();
@@ -21,7 +21,8 @@ public class Board {
 
     public void initializeBoard() {
         for (int i = 0; i < 64; i++) {
-            pieces.set(i, Piece.createPieceForIndex(i));
+            Piece piece = Piece.createPieceForIndex(i);
+            pieces.set(i, piece);
         }
     }
 
@@ -88,7 +89,7 @@ public class Board {
         int fileIndex = Character.toUpperCase(file) - 'A';
         int rankIndex = rank - '1';
 
-        if (fileIndex < 0 || fileIndex > 7 || rankIndex < 0 || rankIndex > 7) {
+        if(!isValidFile(file) || !isValidRank(rank)) {
             return Piece.noPiece();
         }
         return pieces.get(fileIndex + 8 * rankIndex);
@@ -147,44 +148,48 @@ public class Board {
 
             if(sameColumnPawnCount > 0 ) {
                 baseValue += piece.isWhite() ? 0.5 : -0.5;
-                System.out.println("Same column pawn found! added points for " + piece.getColor() + " pawn at " + position);
             }
             }else {
                 int blackPawnCount = countPieces(Piece.Color.BLACK, 'p');
 
                 if (blackPawnCount > 0) {
                     baseValue += piece.isWhite() ? 1.0 : -1.0;
-                    System.out.println("Added points for " + piece.getColor() + " pawn at " + position);
                 }
             }
         }
-        System.out.println("Piece value for " + piece.getRepresentation() + " at " + position + ": " + baseValue);
         return baseValue;
     }
 
     private int countSameColumnPawns(String position, Piece.Color color) {
-        int column = position.charAt(0) - 'a';
+        char column = position.charAt(0);
         int count = 0;
 
         for(Piece piece : pieces) {
-            if(piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == position.charAt(0)) {
+            if(isSameColumnPawn(piece, color, column, position.charAt(0) )) {
                 count++;
             }
         }
         return count;
     }
+    private boolean isSameColumnPawn(Piece piece, Piece.Color color, char column, char positionColumn) {
+        return piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == column &&
+                getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == positionColumn;
+    }
 
     public void assignPieceValues() {
-        List<Piece> copyOfPieces = new ArrayList<>(pieces);
+        List<Piece> copyOfPieces = new LinkedList<>(pieces);
 
-        for (Piece piece : copyOfPieces) {
-            piece.setStrength(getPieceValue(piece, getPositionForPiece(piece.getRepresentation())));
-            System.out.println("Strength for " + piece.getRepresentation() + ": " + piece.getStrength());
-        }
+        copyOfPieces.forEach(piece -> piece.setStrength(getPieceValue(piece, getPositionForPiece(piece.getRepresentation()))));
+
         addPointsForSameColumnPawns();
-
         Collections.sort(pieces);
 
+    }
+
+    private String getPositionForPiece(int index) {
+        char file = (char) ('a' + index % 8);
+        char rank = (char) ('1' + index / 8);
+        return String.valueOf(file) + rank;
     }
     private void addPointsForSameColumnPawns() {
         for (int i = 0; i < pieces.size(); i++) {
@@ -203,12 +208,6 @@ public class Board {
                 }
             }
         }
-    }
-
-    private String getPositionForPiece(int index) {
-        char file = (char) ('a' + index % 8);
-        char rank = (char) ('1' + index / 8);
-        return String.valueOf(file) + rank;
     }
 
 

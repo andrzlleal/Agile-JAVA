@@ -25,37 +25,17 @@ public class Piece implements Comparable<Piece>{
         int rank = index / 8;
         int file = index % 8;
 
-        if((rank == 0 || rank == 7) && (file == 0 || file == 7)) {
-            return (rank == 0) ?
-                    Piece.createWhiteRook():
-                    Piece.createBlackRook();
-
-        } else if ((rank == 0 || rank ==7) && (file == 1 || file == 6)) {
-            return (rank == 0) ?
-                    Piece.createWhiteKnight():
-                    Piece.createBlackKnight();
-
-        }else if ((rank == 0 || rank == 7) && (file == 2 || file == 5)) {
-            return (rank == 0) ?
-                    Piece.createWhiteBishop():
-                    Piece.createBlackBishop();
-
-
-        } else if ((rank == 0 || rank == 7) && (file == 3)) {
-            return (rank == 0) ?
-                    Piece.createWhiteQueen():
-                    Piece.createBlackQueen();
-
-        } else if ((rank == 0 || rank == 7) && (file == 4)) {
-            return (rank == 0) ?
-                    Piece.createWhiteKing():
-                    Piece.createBlackKing();
-
+        if(rank == 0 || rank == 7) {
+            switch (file) {
+                case 0, 7 -> {return (rank == 0) ? Piece.createWhiteRook() : Piece.createBlackRook(); }
+                case 1, 6 -> {return (rank == 0) ? Piece.createWhiteKnight() : Piece.createBlackKnight(); }
+                case 2, 5 -> {return (rank == 0) ? Piece.createWhiteBishop() : Piece.createBlackBishop(); }
+                case 3 -> {return (rank == 0) ? Piece.createWhiteQueen() : Piece.createBlackQueen(); }
+                case 4 -> {return (rank == 0) ? Piece.createWhiteKing() : Piece.createBlackKing(); }
+                default -> {return Piece.noPiece(); }
+            }
         } else if (rank == 1 || rank == 6) {
-            return (rank == 1) ?
-                    Piece.createWhitePawn():
-                    Piece.createBlackPawn();
-
+            return (rank == 1) ? Piece.createWhitePawn() : Piece.createBlackPawn();
         } else {
             return Piece.noPiece();
         }
@@ -111,11 +91,10 @@ public class Piece implements Comparable<Piece>{
         }
     }
     public static Piece createPiece(Color color, PieceType type) {
-        if(Color.WHITE.equals(color) || Color.BLACK.equals(color)){
-            return new Piece(color, type);
+        return (Color.WHITE.equals(color) || Color.BLACK.equals(color)) ?
+                new Piece(color, type) : Piece.noPiece();
         }
-        return new Piece(Color.NO_PIECE, PieceType.NO_PIECE);
-    }
+
     public Color getColor() {
         return color;
     }
@@ -142,10 +121,7 @@ public class Piece implements Comparable<Piece>{
                 case KING -> 'k';
                 default -> '-';
             };
-            if (isBlack()) {
-                return Character.toUpperCase(rep);
-            }
-            return rep;
+            return isBlack() ? Character.toUpperCase(rep) : rep;
     }
     public static Piece createWhitePawn() {
         Piece pawn = new Piece(Color.WHITE, PieceType.PAWN);
