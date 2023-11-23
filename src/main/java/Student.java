@@ -15,7 +15,7 @@ public class Student implements Comparable<Student>{
             this.state = state;
         }
 
-        void addGrade(Grade grade) {
+        public void addGrade(Grade grade) {
             grades.add(grade);
         }
 
@@ -24,7 +24,21 @@ public class Student implements Comparable<Student>{
         return 0;
     }
 
-    enum Grade{A, B, C, D, F};
+    enum Grade {
+            A(4),
+            B(3),
+            C(2),
+            D(1),
+            F(0);
+
+        private final int points;
+            Grade(int points) {
+                this.points = points;
+            }
+            int getPoints() {
+                return points;
+            }
+    }
 
         public Student(String name) {
             this.name = name;
@@ -51,8 +65,8 @@ public class Student implements Comparable<Student>{
             return state.equals(Student.IN_STATE);
     }
 
-        private GradingStrategy gradingStrategy = new RegularGradingStrategy();
-
+        private GradingStrategy gradingStrategy = new BasicGradingStrategy();
+        //RegularGradingStrategy
 
         double getGpa() {
             if (grades.isEmpty())

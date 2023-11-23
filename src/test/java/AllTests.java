@@ -8,7 +8,10 @@ import org.junit.runners.Suite.SuiteClasses;
         CourseSessionTest.class,
         RosterReporterTest.class,
         DateUtilTest.class,
-        CourseReportTest.class
+        CourseReportTest.class,
+        HonorsGradingStrategyTest.class,
+        BasicGradingStrategyTest.class,
+        ReportCardTest.class
 })
 public class AllTests {
 }
