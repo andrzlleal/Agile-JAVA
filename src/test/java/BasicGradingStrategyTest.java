@@ -11,6 +11,5 @@ public class BasicGradingStrategyTest {
         assertEquals(2, strategy.getGradePointsFor(Student.Grade.C));
         assertEquals(1, strategy.getGradePointsFor(Student.Grade.D));
         assertEquals(0, strategy.getGradePointsFor(Student.Grade.F));
-
     }
 }

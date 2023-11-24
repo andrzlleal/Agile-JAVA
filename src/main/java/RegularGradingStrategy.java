@@ -1,3 +1,3 @@
-public class RegularGradingStrategy extends BasicGradingStrategy{
-
+public class RegularGradingStrategy
+        extends BasicGradingStrategy {
 }

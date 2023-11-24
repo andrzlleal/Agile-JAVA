@@ -24,7 +24,7 @@ public class Student implements Comparable<Student>{
         return 0;
     }
 
-    enum Grade {
+    public enum Grade {
             A(4),
             B(3),
             C(2),
