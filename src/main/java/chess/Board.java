@@ -2,12 +2,21 @@ package chess;
 
 import pieces.Piece;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Board {
     private final List<Piece> pieces = new LinkedList<>();
+
+    private final Map<Piece.PieceType, Double> pieceValueMap = new HashMap<>();
+
+    {
+        //popula o mapa com valores padrao
+        pieceValueMap.put(Piece.PieceType.PAWN, 1.0);
+        pieceValueMap.put(Piece.PieceType.KNIGHT, 2.5);
+        pieceValueMap.put(Piece.PieceType.BISHOP, 3.0);
+        pieceValueMap.put(Piece.PieceType.ROOK, 5.0);
+        pieceValueMap.put(Piece.PieceType.QUEEN, 9.0);
+    }
 
     public Board() {
         initializeRanks();
@@ -129,19 +138,27 @@ public class Board {
         return getPieceValue(piece, position);
     }
 
+
     private double getPieceValue(Piece piece, String position) {
-        double baseValue = switch (piece.getType()) {
-            case PAWN -> piece.isWhite() ? 1.0 : -1.0;
-            case KNIGHT -> piece.isWhite() ? 2.5 : -2.5;
-            case BISHOP -> piece.isWhite() ? 3.0 : -3.0;
-            case ROOK -> piece.isWhite() ? 5.0 : -5.0;
-            case QUEEN -> piece.isWhite() ? 9.0 : -9.0;
-            default -> 0.0;
-        };
+        double baseValue = pieceValueMap.getOrDefault(piece.getType(), 0.0);
+
+        if(!piece.isWhite()) {
+            baseValue *= -1.0;
+
+        }
+
+//        double baseValue = switch (piece.getType()) {
+//            case PAWN -> piece.isWhite() ? 1.0 : -1.0;
+//            case KNIGHT -> piece.isWhite() ? 2.5 : -2.5;
+//            case BISHOP -> piece.isWhite() ? 3.0 : -3.0;
+//            case ROOK -> piece.isWhite() ? 5.0 : -5.0;
+//            case QUEEN -> piece.isWhite() ? 9.0 : -9.0;
+//            default -> 0.0;
+//        };
         if (piece.getType() == Piece.PieceType.PAWN) {
 
             int whitePawnCount = countPieces(Piece.Color.WHITE, 'p');
-            int sameColumnPawnCount = countSameColumnPawns(position, piece.getColor());
+            int sameColumnPawnCount = (int) countSameColumnPawns(position, piece.getColor());
 
             if (whitePawnCount > 1) {
                 baseValue += piece.isWhite() ? 0.5 : -0.5;
@@ -160,17 +177,12 @@ public class Board {
         return baseValue;
     }
 
-    private int countSameColumnPawns(String position, Piece.Color color) {
+    private long countSameColumnPawns(String position, Piece.Color color) {
         char column = position.charAt(0);
-        int count = 0;
-
-        for(Piece piece : pieces) {
-            if(isSameColumnPawn(piece, color, column, position.charAt(0) )) {
-                count++;
-            }
-        }
-        return count;
+        return pieces.stream()
+                .filter(piece -> isSameColumnPawn(piece, color, column, position.charAt(0))).count();
     }
+
     private boolean isSameColumnPawn(Piece piece, Piece.Color color, char column, char positionColumn) {
         return piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == column &&
                 getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == positionColumn;
@@ -191,25 +203,22 @@ public class Board {
         char rank = (char) ('1' + index / 8);
         return String.valueOf(file) + rank;
     }
+
     private void addPointsForSameColumnPawns() {
         for (int i = 0; i < pieces.size(); i++) {
             Piece currentPiece = pieces.get(i);
             if (currentPiece.getType() == Piece.PieceType.PAWN) {
-                for (int j = i + 1; j < pieces.size(); j++) {
-                    Piece otherPiece = pieces.get(j);
-                    if (otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor()) {
-                        int currentFile = i % 8;
-                        int otherFile = j % 8;
-                        if (currentFile == otherFile) {
+                int finalI = i;
+                pieces.subList(i + 1, pieces.size()).stream()
+                        .filter(otherPiece -> otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor())
+                        .filter(otherPiece -> finalI % 8 == pieces.indexOf(otherPiece) % 8)
+                        .forEach(otherPiece -> {
                             currentPiece.addPointsForSameColumnPawn();
                             otherPiece.addPointsForSameColumnPawn();
-                        }
-                    }
-                }
+                        });
             }
         }
     }
-
 
 }
 
