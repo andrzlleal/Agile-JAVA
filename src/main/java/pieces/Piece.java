@@ -71,14 +71,24 @@ public class Piece implements Comparable<Piece>{
     static final char KING_REPRESENTATION = 'k';
 
     public enum PieceType{
-        PAWN,
-        KNIGHT,
-        BISHOP,
-        ROOK,
-        QUEEN,
-        KING,
-        NO_PIECE,
+        PAWN(1.0),
+        KNIGHT(2.5),
+        BISHOP(3.0),
+        ROOK(5.0),
+        QUEEN(9.0),
+        KING(0),
+        NO_PIECE(0);
+
+        private final double pointValue;
+
+        PieceType(double pointValue) {
+            this.pointValue = pointValue;
+        }
+        public double getPointValue() {
+            return pointValue;
+        }
     }
+
     public Piece(Color color, PieceType type) {
         this.color = color;
         this.type = type;
@@ -121,47 +131,31 @@ public class Piece implements Comparable<Piece>{
                 case KING -> 'k';
                 default -> '-';
             };
-            return isBlack() ? Character.toUpperCase(rep) : rep;
+        return isBlack() ? Character.toUpperCase(type.name().charAt(0)) : type.name().charAt(0);
     }
     public static Piece createWhitePawn() {
-        Piece pawn = new Piece(Color.WHITE, PieceType.PAWN);
-        pawn.setStrength(1.0);
-        return pawn;
+        return new Piece(Color.WHITE, PieceType.PAWN);
     }
     public static Piece createBlackPawn() {
-        Piece pawn = new Piece(Color.BLACK, PieceType.PAWN);
-        pawn.setStrength(-1.0);
-        return pawn;
+        return new Piece(Color.BLACK, PieceType.PAWN);
     }
     public static Piece createWhiteRook() {
-        Piece rook = new Piece(Color.WHITE, PieceType.ROOK);
-        rook.setStrength(5.0);
-        return rook;
+        return new Piece(Color.WHITE, PieceType.ROOK);
     }
     public static Piece createBlackRook() {
-        Piece rook = new Piece(Color.BLACK, PieceType.ROOK);
-        rook.setStrength(-5.0);
-        return rook;
+        return new Piece(Color.BLACK, PieceType.ROOK);
     }
     public static Piece createWhiteKnight() {
-        Piece knight = new Piece(Color.WHITE, PieceType.KNIGHT);
-        knight.setStrength(2.5);
-        return knight;
+        return new Piece(Color.WHITE, PieceType.KNIGHT);
     }
     public static Piece createBlackKnight() {
-        Piece knight = new Piece(Color.BLACK, PieceType.KNIGHT);
-        knight.setStrength(-2.5);
-        return knight;
+        return new Piece(Color.BLACK, PieceType.KNIGHT);
     }
     public static Piece createWhiteQueen() {
-        Piece queen = new Piece(Color.WHITE, PieceType.QUEEN);
-        queen.setStrength(9.0);
-        return queen;
+        return new Piece(Color.WHITE, PieceType.QUEEN);
     }
     public static Piece createBlackQueen() {
-        Piece queen = new Piece(Color.BLACK, PieceType.QUEEN);
-        queen.setStrength(-9.0);
-        return queen;
+        return new Piece(Color.BLACK, PieceType.QUEEN);
     }
     public static Piece createWhiteKing() {
         return new Piece(Color.WHITE, PieceType.KING);
@@ -170,14 +164,10 @@ public class Piece implements Comparable<Piece>{
         return new Piece(Color.BLACK, PieceType.KING);
     }
     public static Piece createWhiteBishop() {
-        Piece bishop = new Piece(Color.WHITE, PieceType.BISHOP);
-        bishop.setStrength(3.0);
-        return bishop;
+        return new Piece(Color.WHITE, PieceType.BISHOP);
     }
     public static Piece createBlackBishop() {
-        Piece bishop = new Piece(Color.BLACK, PieceType.BISHOP);
-        bishop.setStrength(-3.0);
-        return bishop;
+        return new Piece(Color.BLACK, PieceType.BISHOP);
     }
     public void addPointsForSameColumnPawn() {
         if(getType() == PieceType.PAWN) {

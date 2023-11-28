@@ -9,14 +9,6 @@ public class Board {
 
     private final Map<Piece.PieceType, Double> pieceValueMap = new HashMap<>();
 
-    {
-        //popula o mapa com valores padrao
-        pieceValueMap.put(Piece.PieceType.PAWN, 1.0);
-        pieceValueMap.put(Piece.PieceType.KNIGHT, 2.5);
-        pieceValueMap.put(Piece.PieceType.BISHOP, 3.0);
-        pieceValueMap.put(Piece.PieceType.ROOK, 5.0);
-        pieceValueMap.put(Piece.PieceType.QUEEN, 9.0);
-    }
 
     public Board() {
         initializeRanks();
@@ -140,34 +132,26 @@ public class Board {
 
 
     private double getPieceValue(Piece piece, String position) {
-        double baseValue = pieceValueMap.getOrDefault(piece.getType(), 0.0);
+        double baseValue = piece.getType().getPointValue();
 
-        if(!piece.isWhite()) {
+        if (!piece.isWhite()) {
             baseValue *= -1.0;
-
         }
 
-//        double baseValue = switch (piece.getType()) {
-//            case PAWN -> piece.isWhite() ? 1.0 : -1.0;
-//            case KNIGHT -> piece.isWhite() ? 2.5 : -2.5;
-//            case BISHOP -> piece.isWhite() ? 3.0 : -3.0;
-//            case ROOK -> piece.isWhite() ? 5.0 : -5.0;
-//            case QUEEN -> piece.isWhite() ? 9.0 : -9.0;
-//            default -> 0.0;
-//        };
+
         if (piece.getType() == Piece.PieceType.PAWN) {
 
             int whitePawnCount = countPieces(Piece.Color.WHITE, 'p');
-            int sameColumnPawnCount = (int) countSameColumnPawns(position, piece.getColor());
+            int sameColumnPawnCount = countSameColumnPawns(position, piece.getColor());
 
             if (whitePawnCount > 1) {
                 baseValue += piece.isWhite() ? 0.5 : -0.5;
 
-            if(sameColumnPawnCount > 0 ) {
-                baseValue += piece.isWhite() ? 0.5 : -0.5;
-            }
+                if(sameColumnPawnCount > 0 ) {
+                    baseValue += piece.isWhite() ? 0.5 : -0.5;
+                }
             }else {
-                int blackPawnCount = countPieces(Piece.Color.BLACK, 'p');
+                int blackPawnCount = countPieces(Piece.Color.BLACK, 'P');
 
                 if (blackPawnCount > 0) {
                     baseValue += piece.isWhite() ? 1.0 : -1.0;
@@ -177,17 +161,22 @@ public class Board {
         return baseValue;
     }
 
-    private long countSameColumnPawns(String position, Piece.Color color) {
+    private int countSameColumnPawns(String position, Piece.Color color) {
         char column = position.charAt(0);
-        return pieces.stream()
-                .filter(piece -> isSameColumnPawn(piece, color, column, position.charAt(0))).count();
+        int count = 0;
+
+        for(Piece piece : pieces) {
+            if(isSameColumnPawn(piece, color, column, position.charAt(0) )) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private boolean isSameColumnPawn(Piece piece, Piece.Color color, char column, char positionColumn) {
         return piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == column &&
                 getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == positionColumn;
     }
-
     public void assignPieceValues() {
         List<Piece> copyOfPieces = new LinkedList<>(pieces);
 
@@ -196,6 +185,17 @@ public class Board {
         addPointsForSameColumnPawns();
         Collections.sort(pieces);
 
+        printPieceValues();
+
+    }
+    private void printPieceValues() {
+        System.out.println("Piece Values: ");
+        for(Piece piece : pieces) {
+            System.out.println("Position: " +getPositionForPiece(piece.indexOf(Collections.singletonList(piece))) +
+                    ", Color: " + piece.getColor() +
+                    "PieceType: " + piece.getType() +
+                    "Value: " + piece.getStrength());
+        }
     }
 
     private String getPositionForPiece(int index) {

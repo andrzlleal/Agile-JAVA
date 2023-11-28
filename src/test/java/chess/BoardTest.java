@@ -127,22 +127,29 @@ public class BoardTest {
         assertEquals(-9.0, board.getPieceValue("d8"), 0.01);
 
     }
+    //teste com erro de expectativa
     @Test
     public void testAssignAndSortPieceValues() {
         board.initializeBoard();
         Piece customPiece = Piece.createBlackPawn();
         board.assignPieceValues();
 
-        assertEquals(9, board.getPieceAt("d1").getStrength(), 0.01);
-        assertEquals(-9, board.getPieceAt("d8").getStrength(), 0.01);
-        assertEquals(5, board.getPieceAt("a1").getStrength(), 0.01);
-        assertEquals(-5, board.getPieceAt("a8").getStrength(), 0.01);
+        // Testes básicos de força
+        assertEquals(1.0, board.getPieceAt("d2").getStrength(), 0.01);
+        assertEquals(-1.0, board.getPieceAt("e7").getStrength(), 0.01);
+        assertEquals(5.0, board.getPieceAt("a1").getStrength(), 0.01);
+        assertEquals(-5.0, board.getPieceAt("a8").getStrength(), 0.01);
 
+        // Testes para peões na mesma coluna
+        assertEquals(1.5, board.getPieceAt("d2").getStrength(), 0.01);
+        assertEquals(-1.5, board.getPieceAt("e7").getStrength(), 0.01);
 
-        //peões na mesma coluna, deve add 0.5 pontos
-        assertEquals(2.0, board.getPieceAt("d2").getStrength(), 0.01);
-        assertEquals(-2.0, board.getPieceAt("e7").getStrength(), 0.01);
-        assertEquals(-1.0, customPiece.getStrength(), 0.01);
+        // Testes para outros tipos de peças na mesma coluna (deve manter a pontuação original)
+        assertEquals(5.0, board.getPieceAt("a2").getStrength(), 0.01);
+        assertEquals(-5.0, board.getPieceAt("a7").getStrength(), 0.01);
+
+        // Testes para peões de cores diferentes na mesma coluna (deve manter a pontuação original)
+        assertEquals(1.0, customPiece.getStrength(), 0.01);
     }
 
 }
