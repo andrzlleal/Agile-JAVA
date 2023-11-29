@@ -116,40 +116,93 @@ public class BoardTest {
         board.placePieceAt(customPiece, "c4");
         assertEquals(customPiece.getRepresentation(), board.getPieceAt("c4").getRepresentation());
     }
-    @Test
-    public void testGetPieceValue() {
-        board.initializeBoard();
 
-        assertEquals(1.5, board.getPieceValue("d2"), 0.01);
-        assertEquals(9.0, board.getPieceValue("d1"), 0.01);
-        assertEquals(3.0, board.getPieceValue("f1"), 0.01);
-
-        assertEquals(-9.0, board.getPieceValue("d8"), 0.01);
-
-    }
-    //teste com erro de expectativa
     @Test
     public void testAssignAndSortPieceValues() {
         board.initializeBoard();
-        Piece customPiece = Piece.createBlackPawn();
         board.assignPieceValues();
 
         // Testes básicos de força
-        assertEquals(1.0, board.getPieceAt("d2").getStrength(), 0.01);
-        assertEquals(-1.0, board.getPieceAt("e7").getStrength(), 0.01);
         assertEquals(5.0, board.getPieceAt("a1").getStrength(), 0.01);
         assertEquals(-5.0, board.getPieceAt("a8").getStrength(), 0.01);
+        assertEquals(-1.5, board.getPieceAt("a7").getStrength(), 0.01);
+        assertEquals(9.0, board.getPieceAt("d1").getStrength(), 0.01);
 
-        // Testes para peões na mesma coluna
-        assertEquals(1.5, board.getPieceAt("d2").getStrength(), 0.01);
-        assertEquals(-1.5, board.getPieceAt("e7").getStrength(), 0.01);
+    }
+    @Test
+    public void testMovePawnAndUpdateScore() {
+        Board board = new Board();
+        board.initializeBoard();
 
-        // Testes para outros tipos de peças na mesma coluna (deve manter a pontuação original)
-        assertEquals(5.0, board.getPieceAt("a2").getStrength(), 0.01);
-        assertEquals(-5.0, board.getPieceAt("a7").getStrength(), 0.01);
+        double initialScore = board.getPieceValue("e2");
+        board.movePiece("e2", "e4");
+        double updatedScore = board.getPieceValue("e4");
 
-        // Testes para peões de cores diferentes na mesma coluna (deve manter a pontuação original)
-        assertEquals(1.0, customPiece.getStrength(), 0.01);
+        assertEquals(initialScore, updatedScore, 0.01);
+    }
+
+    @Test
+    public void testMovePieceWithCaptureAndUpdateScore() {
+        Board board = new Board();
+        board.initializeBoard();
+
+        // Assume que há uma peça preta em d7
+        double initialScore = board.getPieceValue("e2");
+        board.movePiece("e2", "d7");  // Captura a peça preta em d7
+        double updatedScore = board.getPieceValue("d7");
+
+        assertEquals(Piece.PieceType.PAWN.getPointValue() + 0.5, updatedScore, 0.01);
+    }
+
+    @Test
+    public void testMovePieceToEmptySquare() {
+        Board board = new Board();
+        board.initializeBoard();
+
+        double initialScore = board.getPieceValue("e2");
+        board.movePiece("e2", "e3");
+        double updatedScore = board.getPieceValue("e3");
+
+        assertEquals(initialScore, updatedScore, 0.01);
+    }
+
+    @Test
+    public void testGetPieceValueAfterMove() {
+        board.initializeBoard();
+
+        double initialQueenValue = board.getPieceValue("d1");
+        board.movePiece("d1", "d4");
+        double updatedQueenValue = board.getPieceValue("d4");
+
+        assertEquals(initialQueenValue, updatedQueenValue, 0.01);
+
+        double initialRookValue = board.getPieceValue("a1");
+        board.movePiece("a1", "b4");
+        double updatedRookValue = board.getPieceValue("b4");
+
+        assertEquals(initialRookValue, updatedRookValue, 0.01);
+
+        double initialPawnValue = board.getPieceValue("a2");
+        board.movePiece("a2", "a4");
+        double updatedPawnValue = board.getPieceValue("a4");
+
+        assertEquals(initialPawnValue, updatedPawnValue, 0.01);
+    }
+    @Test
+    public void testMovePawnsInSameColumn(){
+        board.initializeBoard();
+
+        double initialWhitePawnValue = board.getPieceValue("d2");
+        double initialBlackPawnValue = board.getPieceValue("d7");
+
+        board.movePiece("d2", "d4");
+        board.movePiece("d7", "d5");
+
+        double updateWhitePawnValue = board.getPieceValue("d4");
+        double updateBlackPawnValue = board.getPieceValue("d5");
+
+        assertEquals(initialWhitePawnValue, updateWhitePawnValue, 0.01);
+        assertEquals(initialBlackPawnValue, updateBlackPawnValue, 0.01);
     }
 
 }

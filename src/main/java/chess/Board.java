@@ -7,9 +7,6 @@ import java.util.*;
 public class Board {
     private final List<Piece> pieces = new LinkedList<>();
 
-    private final Map<Piece.PieceType, Double> pieceValueMap = new HashMap<>();
-
-
     public Board() {
         initializeRanks();
     }
@@ -138,44 +135,35 @@ public class Board {
             baseValue *= -1.0;
         }
 
-
         if (piece.getType() == Piece.PieceType.PAWN) {
 
-            int whitePawnCount = countPieces(Piece.Color.WHITE, 'p');
-            int sameColumnPawnCount = countSameColumnPawns(position, piece.getColor());
-
-            if (whitePawnCount > 1) {
-                baseValue += piece.isWhite() ? 0.5 : -0.5;
-
+            int sameColumnPawnCount = countSameColumnPawns(piece, position);
                 if(sameColumnPawnCount > 0 ) {
                     baseValue += piece.isWhite() ? 0.5 : -0.5;
                 }
-            }else {
-                int blackPawnCount = countPieces(Piece.Color.BLACK, 'P');
 
-                if (blackPawnCount > 0) {
-                    baseValue += piece.isWhite() ? 1.0 : -1.0;
-                }
-            }
         }
         return baseValue;
     }
 
-    private int countSameColumnPawns(String position, Piece.Color color) {
+    private int countSameColumnPawns(Piece piece, String position) {
         char column = position.charAt(0);
         int count = 0;
 
-        for(Piece piece : pieces) {
-            if(isSameColumnPawn(piece, color, column, position.charAt(0) )) {
+        for(Piece otherPiece : pieces) {
+            if(isSameColumnPawn(piece, otherPiece, column, position.charAt(0) )) {
                 count++;
             }
         }
         return count;
     }
 
-    private boolean isSameColumnPawn(Piece piece, Piece.Color color, char column, char positionColumn) {
-        return piece.getType() == Piece.PieceType.PAWN && piece.getColor() == color && getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == column &&
-                getPositionForPiece(piece.indexOf(Collections.singletonList(piece))).charAt(0) == positionColumn;
+    private boolean isSameColumnPawn(Piece piece, Piece otherPiece, char column, char positionColumn) {
+        return piece.getType() == Piece.PieceType.PAWN &&
+                otherPiece.getType() == Piece.PieceType.PAWN &&
+                piece.getColor() == otherPiece.getColor() &&
+                getPositionForPiece(otherPiece.indexOf(pieces)).charAt(0) == column &&
+                getPositionForPiece(otherPiece.indexOf(pieces)).charAt(0) == positionColumn;
     }
     public void assignPieceValues() {
         List<Piece> copyOfPieces = new LinkedList<>(pieces);
@@ -184,17 +172,13 @@ public class Board {
 
         addPointsForSameColumnPawns();
         Collections.sort(pieces);
-
-        printPieceValues();
-
     }
-    private void printPieceValues() {
-        System.out.println("Piece Values: ");
-        for(Piece piece : pieces) {
-            System.out.println("Position: " +getPositionForPiece(piece.indexOf(Collections.singletonList(piece))) +
-                    ", Color: " + piece.getColor() +
-                    "PieceType: " + piece.getType() +
-                    "Value: " + piece.getStrength());
+    public void movePiece(String fromPosition, String toPosition) {
+        Piece piece = getPieceAt(fromPosition);
+        if(piece.getType() != Piece.PieceType.NO_PIECE) {
+            placePieceAt(Piece.noPiece(), fromPosition); //remove a peça da posição original
+            placePieceAt(piece, toPosition); //coloca a peça na nova posição
+            assignPieceValues(); //atualiza as pontuações
         }
     }
 
@@ -210,15 +194,31 @@ public class Board {
             if (currentPiece.getType() == Piece.PieceType.PAWN) {
                 int finalI = i;
                 pieces.subList(i + 1, pieces.size()).stream()
-                        .filter(otherPiece -> otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor())
-                        .filter(otherPiece -> finalI % 8 == pieces.indexOf(otherPiece) % 8)
-                        .forEach(otherPiece -> {
+                    .filter(otherPiece -> otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor())
+                    .filter(otherPiece -> finalI % 8 == pieces.indexOf(otherPiece) % 8)
+                    .forEach(otherPiece -> {
+                        if (currentPiece.getColor() == otherPiece.getColor()) {
                             currentPiece.addPointsForSameColumnPawn();
                             otherPiece.addPointsForSameColumnPawn();
-                        });
+                        }
+                    });
+                }
             }
         }
-    }
-
+//    public void movePiece(String from, String to) {
+//        Piece pieceToMove = getPieceAt(from);
+//
+//        // Antes de mover
+//        System.out.println("Before move - Piece Value: " + pieceToMove.getStrength());
+//
+//        // Realiza o movimento apenas se a posição de origem contiver uma peça
+//        if (pieceToMove.getType() != Piece.PieceType.NO_PIECE) {
+//            placePieceAt(Piece.noPiece(), from);  // Remove a peça da posição de origem
+//            placePieceAt(pieceToMove, to);        // Coloca a peça na posição de destino
+//
+//            // Depois de mover
+//            System.out.println("After move - Piece Value: " + pieceToMove.getStrength());
+//        }
+//    }
 }
 

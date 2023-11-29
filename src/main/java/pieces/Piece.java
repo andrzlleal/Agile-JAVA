@@ -131,7 +131,7 @@ public class Piece implements Comparable<Piece>{
                 case KING -> 'k';
                 default -> '-';
             };
-        return isBlack() ? Character.toUpperCase(type.name().charAt(0)) : type.name().charAt(0);
+        return isBlack() ? Character.toUpperCase(rep) : rep;
     }
     public static Piece createWhitePawn() {
         return new Piece(Color.WHITE, PieceType.PAWN);
