@@ -43,6 +43,7 @@ public class Board {
             if ((i + 1) % 8 == 0) {
                 representation.append("\n");
             }
+
         }
         return representation.toString().trim();
     }
@@ -172,6 +173,9 @@ public class Board {
 
         addPointsForSameColumnPawns();
         Collections.sort(pieces);
+
+
+
     }
     public void movePiece(String fromPosition, String toPosition) {
         Piece piece = getPieceAt(fromPosition);
@@ -205,20 +209,6 @@ public class Board {
                 }
             }
         }
-//    public void movePiece(String from, String to) {
-//        Piece pieceToMove = getPieceAt(from);
-//
-//        // Antes de mover
-//        System.out.println("Before move - Piece Value: " + pieceToMove.getStrength());
-//
-//        // Realiza o movimento apenas se a posição de origem contiver uma peça
-//        if (pieceToMove.getType() != Piece.PieceType.NO_PIECE) {
-//            placePieceAt(Piece.noPiece(), from);  // Remove a peça da posição de origem
-//            placePieceAt(pieceToMove, to);        // Coloca a peça na posição de destino
-//
-//            // Depois de mover
-//            System.out.println("After move - Piece Value: " + pieceToMove.getStrength());
-//        }
-//    }
+
 }
 

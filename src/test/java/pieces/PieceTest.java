@@ -48,37 +48,38 @@ public class PieceTest implements Comparable<Piece>{
             Piece.createWhitePawn(),
             Piece.createBlackPawn(),
             Piece.PieceType.PAWN,
-            Piece.PAWN_REPRESENTATION
+            Piece.PieceType.PAWN.getRepresentation()
     );
     verifyCreation(
             Piece.createWhiteRook(),
             Piece.createBlackRook(),
             Piece.PieceType.ROOK,
-            Piece.ROOK_REPRESENTATION
+            Piece.PieceType.ROOK.getRepresentation()
 
     );
     verifyCreation(
             Piece.createWhiteKnight(),
             Piece.createBlackKnight(),
             Piece.PieceType.KNIGHT,
-            Piece.KNIGHT_REPRESENTATION
+            Piece.PieceType.KNIGHT.getRepresentation()
     );
     verifyCreation(
             Piece.createWhiteQueen(),
             Piece.createBlackQueen(),
             Piece.PieceType.QUEEN,
-            Piece.QUEEN_REPRESENTATION
+            Piece.PieceType.QUEEN.getRepresentation()
     );
     verifyCreation(
             Piece.createWhiteKing(),
             Piece.createBlackKing(),
             Piece.PieceType.KING,
-            Piece.KING_REPRESENTATION
+            Piece.PieceType.KING.getRepresentation()
     );
     verifyCreation(
             Piece.createWhiteBishop(),
             Piece.createBlackBishop(),
-            Piece.PieceType.BISHOP, Piece.BISHOP_REPRESENTATION);
+            Piece.PieceType.BISHOP,
+            Piece.PieceType.BISHOP.getRepresentation());
 
     Piece blank = Piece.noPiece();
     assertEquals('.', blank.getRepresentation());
@@ -95,6 +96,15 @@ public class PieceTest implements Comparable<Piece>{
     assertEquals(Character.toUpperCase(representation),
             blackPiece.getRepresentation());
   }
-
+@Test
+  public void testGetPointValue() {
+    assertEquals(1.0, Piece.PieceType.PAWN.getPointValue(), 0.01);
+    assertEquals(2.5, Piece.PieceType.KNIGHT.getPointValue(), 0.01);
+    assertEquals(3.0, Piece.PieceType.BISHOP.getPointValue(), 0.01);
+    assertEquals(5.0, Piece.PieceType.ROOK.getPointValue(), 0.01);
+    assertEquals(9.0, Piece.PieceType.QUEEN.getPointValue(),0.01);
+    assertEquals(0, Piece.PieceType.KING.getPointValue(), 0.01);
+    assertEquals(0, Piece.PieceType.NO_PIECE.getPointValue(), 0.01);
+}
 
 }

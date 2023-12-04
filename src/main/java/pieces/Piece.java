@@ -59,7 +59,6 @@ public class Piece implements Comparable<Piece>{
         return -1;
     }
 
-
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
@@ -71,19 +70,25 @@ public class Piece implements Comparable<Piece>{
     static final char KING_REPRESENTATION = 'k';
 
     public enum PieceType{
-        PAWN(1.0),
-        KNIGHT(2.5),
-        BISHOP(3.0),
-        ROOK(5.0),
-        QUEEN(9.0),
-        KING(0),
-        NO_PIECE(0);
+        PAWN('p', 1.0),
+        KNIGHT('n', 2.5),
+        BISHOP('b',3.0),
+        ROOK('r', 5.0),
+        QUEEN('q',9.0),
+        KING('k', 0),
+        NO_PIECE('-',0);
 
+        private final char representation;
         private final double pointValue;
 
-        PieceType(double pointValue) {
+        PieceType(char representation, double pointValue) {
+            this.representation = representation;
             this.pointValue = pointValue;
         }
+        public char getRepresentation() {
+            return representation;
+        }
+
         public double getPointValue() {
             return pointValue;
         }
@@ -119,20 +124,18 @@ public class Piece implements Comparable<Piece>{
         return Color.WHITE.equals(color);
     }
     public char getRepresentation() {
-        if (type == PieceType.NO_PIECE) {
-            return '.';
-        }
-            char rep =  switch (type) {
-                case PAWN -> 'p';
-                case KNIGHT -> 'n';
-                case BISHOP -> 'b';
-                case ROOK -> 'r';
-                case QUEEN -> 'q';
-                case KING -> 'k';
-                default -> '-';
-            };
-        return isBlack() ? Character.toUpperCase(rep) : rep;
+        return type.getRepresentation();
     }
+//            char rep =  switch (type) {
+//                case PAWN -> 'p';
+//                case KNIGHT -> 'n';
+//                case BISHOP -> 'b';
+//                case ROOK -> 'r';
+//                case QUEEN -> 'q';
+//                case KING -> 'k';
+//                default -> '-';
+//            };
+//        return isBlack() ? Character.toUpperCase(rep) : rep;
     public static Piece createWhitePawn() {
         return new Piece(Color.WHITE, PieceType.PAWN);
     }
@@ -169,6 +172,7 @@ public class Piece implements Comparable<Piece>{
     public static Piece createBlackBishop() {
         return new Piece(Color.BLACK, PieceType.BISHOP);
     }
+
     public void addPointsForSameColumnPawn() {
         if(getType() == PieceType.PAWN) {
             setStrength(getStrength() + 0.5);

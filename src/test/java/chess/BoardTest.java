@@ -155,18 +155,6 @@ public class BoardTest {
     }
 
     @Test
-    public void testMovePieceToEmptySquare() {
-        Board board = new Board();
-        board.initializeBoard();
-
-        double initialScore = board.getPieceValue("e2");
-        board.movePiece("e2", "e3");
-        double updatedScore = board.getPieceValue("e3");
-
-        assertEquals(initialScore, updatedScore, 0.01);
-    }
-
-    @Test
     public void testGetPieceValueAfterMove() {
         board.initializeBoard();
 
