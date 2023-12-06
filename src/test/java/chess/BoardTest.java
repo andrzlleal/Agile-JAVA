@@ -100,8 +100,8 @@ public class BoardTest {
 
         board.initializeBoard();
 
-        assertEquals('q' + "", board.getPieceAt("d1").getRepresentation() + "");
-        assertEquals('R' + "", board.getPieceAt("a8").getRepresentation() + "");
+        assertEquals('q' + "", board.getPieceAt("d1").getType().getRepresentation() + "");
+        assertEquals('Q' + "", board.getPieceAt("d8").getType().getRepresentation() + "");
     }
     @Test
     public void testCreatePieceForIndex() {

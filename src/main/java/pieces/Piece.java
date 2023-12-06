@@ -62,12 +62,6 @@ public class Piece implements Comparable<Piece>{
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
-    static final char PAWN_REPRESENTATION = 'p';
-    static final char KNIGHT_REPRESENTATION = 'n';
-    static final char ROOK_REPRESENTATION = 'r';
-    static final char QUEEN_REPRESENTATION = 'q';
-    static final char BISHOP_REPRESENTATION = 'b';
-    static final char KING_REPRESENTATION = 'k';
 
     public enum PieceType{
         PAWN('p', 1.0),
@@ -76,7 +70,8 @@ public class Piece implements Comparable<Piece>{
         ROOK('r', 5.0),
         QUEEN('q',9.0),
         KING('k', 0),
-        NO_PIECE('-',0);
+        NO_PIECE('.',0);
+
 
         private final char representation;
         private final double pointValue;
@@ -85,12 +80,13 @@ public class Piece implements Comparable<Piece>{
             this.representation = representation;
             this.pointValue = pointValue;
         }
-        public char getRepresentation() {
-            return representation;
-        }
 
         public double getPointValue() {
             return pointValue;
+        }
+
+        public char getRepresentation() {
+            return representation;
         }
     }
 
@@ -123,19 +119,17 @@ public class Piece implements Comparable<Piece>{
     public boolean isWhite() {
         return Color.WHITE.equals(color);
     }
+
     public char getRepresentation() {
-        return type.getRepresentation();
+        char rep = type.getRepresentation();
+
+        if(isBlack()) {
+            System.out.println("black piece detected");
+            rep = Character.toUpperCase(rep);
+        }
+        return rep;
     }
-//            char rep =  switch (type) {
-//                case PAWN -> 'p';
-//                case KNIGHT -> 'n';
-//                case BISHOP -> 'b';
-//                case ROOK -> 'r';
-//                case QUEEN -> 'q';
-//                case KING -> 'k';
-//                default -> '-';
-//            };
-//        return isBlack() ? Character.toUpperCase(rep) : rep;
+
     public static Piece createWhitePawn() {
         return new Piece(Color.WHITE, PieceType.PAWN);
     }

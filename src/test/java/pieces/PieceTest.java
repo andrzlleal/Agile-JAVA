@@ -107,4 +107,5 @@ public class PieceTest implements Comparable<Piece>{
     assertEquals(0, Piece.PieceType.NO_PIECE.getPointValue(), 0.01);
 }
 
+
 }

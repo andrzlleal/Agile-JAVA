@@ -80,6 +80,7 @@ public class Board {
 
     public Piece getPieceAt(String location) {
         if (location.length() != 2) {
+            System.out.println("Invalid location format " + location);
             return Piece.noPiece();
         }
         char file = location.charAt(0);
@@ -88,10 +89,33 @@ public class Board {
         int fileIndex = Character.toUpperCase(file) - 'A';
         int rankIndex = rank - '1';
 
-        if(!isValidFile(file) || !isValidRank(rank)) {
+        if (!isValidFile(file) || !isValidRank(rank)) {
+            System.out.println("Invalid file or rank: " + file + ", " + rank);
             return Piece.noPiece();
         }
-        return pieces.get(fileIndex + 8 * rankIndex);
+
+        int pieceIndex = fileIndex + 8 * rankIndex;
+        System.out.println("File: " + file + ", Rank: " + rank + ", Calculated Index: " + pieceIndex);
+
+        if (pieceIndex < 0 || pieceIndex >= pieces.size()) {
+            System.out.println("Invalid piece index: " + pieceIndex);
+            return Piece.noPiece();
+        }
+
+        Piece piece = pieces.get(pieceIndex);
+
+        if (!isSameColor(piece.getColor(), piece.getRepresentation())) {
+            System.out.println("Invalid piece color: " + piece.getColor() + ", Representation: " + piece.getRepresentation());
+            return Piece.noPiece();
+        }
+
+        return piece;
+    }
+
+    private boolean isSameColor(Piece.Color color, char representation) {
+        if (color == Piece.Color.WHITE && Character.isLowerCase(representation)) {
+            return true;
+        } else return color == Piece.Color.BLACK && Character.isUpperCase(representation);
     }
 
     public void placePieceAt(Piece piece, String position) {
