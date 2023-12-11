@@ -90,22 +90,18 @@ public class Board {
         int rankIndex = rank - '1';
 
         if (!isValidFile(file) || !isValidRank(rank)) {
-            System.out.println("Invalid file or rank: " + file + ", " + rank);
             return Piece.noPiece();
         }
 
         int pieceIndex = fileIndex + 8 * rankIndex;
-        System.out.println("File: " + file + ", Rank: " + rank + ", Calculated Index: " + pieceIndex);
 
         if (pieceIndex < 0 || pieceIndex >= pieces.size()) {
-            System.out.println("Invalid piece index: " + pieceIndex);
             return Piece.noPiece();
         }
 
         Piece piece = pieces.get(pieceIndex);
 
         if (!isSameColor(piece.getColor(), piece.getRepresentation())) {
-            System.out.println("Invalid piece color: " + piece.getColor() + ", Representation: " + piece.getRepresentation());
             return Piece.noPiece();
         }
 
@@ -220,19 +216,42 @@ public class Board {
         for (int i = 0; i < pieces.size(); i++) {
             Piece currentPiece = pieces.get(i);
             if (currentPiece.getType() == Piece.PieceType.PAWN) {
-                int finalI = i;
-                pieces.subList(i + 1, pieces.size()).stream()
-                    .filter(otherPiece -> otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor())
-                    .filter(otherPiece -> finalI % 8 == pieces.indexOf(otherPiece) % 8)
-                    .forEach(otherPiece -> {
-                        if (currentPiece.getColor() == otherPiece.getColor()) {
-                            currentPiece.addPointsForSameColumnPawn();
-                            otherPiece.addPointsForSameColumnPawn();
-                        }
-                    });
+                for(int j = i + 1; j < pieces.size(); j++) {
+                 Piece otherPiece = pieces.get(j);
+                    if(otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor()
+                    && i % 8 == j % 8 ) {
+                        currentPiece.addPointsForSameColumnPawn();
+                        otherPiece.addPointsForSameColumnPawn();
+                    }
                 }
+
             }
         }
+    }
+    public void moveKing(String fromPosition, String toPosition) {
+        Piece king = getPieceAt(fromPosition);
 
+        if(king.getType() == Piece.PieceType.KING) {
+            int fromFile = getFileIndex(fromPosition);
+            int fromRank = getRankIndex(fromPosition);
+
+            int toFile = getFileIndex(toPosition);
+            int toRank = getRankIndex(toPosition);
+
+            if (isValidKingMove(fromFile, fromRank, toFile, toRank)) {
+                placePieceAt(Piece.noPiece(), fromPosition);
+                placePieceAt(king,toPosition);
+            }
+        }
+    }
+   private boolean isValidKingMove(int fromFile, int fromRank, int toFile, int toRank) {
+        return Math.abs(toFile - fromFile) <= 1 && Math.abs(toRank - fromRank) <= 1;
+   }
+   private int getFileIndex(String position) {
+        return Character.toUpperCase(position.charAt(0)) - 'A';
+   }
+   private int getRankIndex(String position) {
+        return Character.getNumericValue(position.charAt(1)) - 1;
+   }
 }
 

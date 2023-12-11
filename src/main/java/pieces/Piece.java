@@ -124,7 +124,6 @@ public class Piece implements Comparable<Piece>{
         char rep = type.getRepresentation();
 
         if(isBlack()) {
-            System.out.println("black piece detected");
             rep = Character.toUpperCase(rep);
         }
         return rep;

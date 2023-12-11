@@ -100,8 +100,8 @@ public class BoardTest {
 
         board.initializeBoard();
 
-        assertEquals('q' + "", board.getPieceAt("d1").getType().getRepresentation() + "");
-        assertEquals('Q' + "", board.getPieceAt("d8").getType().getRepresentation() + "");
+        assertEquals('q' + "", board.getPieceAt("d1").getRepresentation() + "");
+        assertEquals('Q' + "", board.getPieceAt("d8").getRepresentation() + "");
     }
     @Test
     public void testCreatePieceForIndex() {
@@ -191,6 +191,30 @@ public class BoardTest {
 
         assertEquals(initialWhitePawnValue, updateWhitePawnValue, 0.01);
         assertEquals(initialBlackPawnValue, updateBlackPawnValue, 0.01);
+    }
+    @Test
+    public void testMovesKing() {
+        board.initializeBoard();
+
+        String initialPosition = "e1";
+
+        String validMove1 = "d1";
+        String validMove2 = "f1";
+        String validMove3 = "d2";
+
+        String invalidMove1 = "e2";
+        String invalidMove2 = "c1";
+
+        //testes não estão passando, verificar onde está o erro
+        board.movePiece(initialPosition, validMove1);
+        assertEquals('K', board.getPieceAt(validMove1).getType().getRepresentation());
+        assertEquals('K', board.getPieceAt(validMove2).getType().getRepresentation());
+        assertEquals('K', board.getPieceAt(validMove3).getType().getRepresentation());
+
+        board.movePiece(initialPosition, invalidMove1);
+        assertEquals('.', board.getPieceAt(invalidMove1).getType().getRepresentation());
+        assertEquals('.', board.getPieceAt(invalidMove2).getType().getRepresentation());
+
     }
 
 }
