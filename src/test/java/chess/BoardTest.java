@@ -206,18 +206,55 @@ public class BoardTest {
         String invalidMove2 = "c1";
 
         //testes não estão passando, verificar onde está o erro
-        board.movePiece(initialPosition, validMove1);
-        assertEquals('K', board.getPieceAt(validMove1).getType().getRepresentation());
-        assertEquals('K', board.getPieceAt(validMove2).getType().getRepresentation());
-        assertEquals('K', board.getPieceAt(validMove3).getType().getRepresentation());
+        board.moveKing(initialPosition, validMove1);
+        assertEquals('k', board.getPieceAt(validMove1).getType().getRepresentation());
 
-        board.movePiece(initialPosition, invalidMove1);
+        board.moveKing(initialPosition, validMove2);
+        assertEquals('k', board.getPieceAt(validMove2).getType().getRepresentation());
+
+
+        assertEquals('k', board.getPieceAt(validMove3).getType().getRepresentation());
+
+        board.moveKing(initialPosition, invalidMove1);
         assertEquals('.', board.getPieceAt(invalidMove1).getType().getRepresentation());
         assertEquals('.', board.getPieceAt(invalidMove2).getType().getRepresentation());
-
     }
-
+//@Test
+//public void testMoveKingValid() {
+//    board.initializeBoard();
+//
+//    String initialPosition = "e1";
+//    String validMove1 = "d1";
+//    String validMove2 = "f1";
+//    String validMove3 = "d2";
+//
+//    board.movePiece(initialPosition, validMove1);
+//    assertEquals('k', board.getPieceAt(validMove1).getType().getRepresentation());
+//
+//    board.movePiece(initialPosition, validMove2);
+//    assertEquals('k', board.getPieceAt(validMove2).getType().getRepresentation());
+//
+//    board.movePiece(initialPosition, validMove3);
+//    assertEquals('K', board.getPieceAt(validMove3).getType().getRepresentation());
+//}
+//
+//    @Test
+//    public void testMoveKingInvalid() {
+//        board.initializeBoard();
+//
+//        String initialPosition = "e1";
+//        String invalidMove1 = "e2";
+//        String invalidMove2 = "c1";
+//
+//        board.movePiece(initialPosition, invalidMove1);
+//        assertEquals('K', board.getPieceAt(initialPosition).getType().getRepresentation());
+//
+//        board.movePiece(initialPosition, invalidMove2);
+//        assertEquals('K', board.getPieceAt(initialPosition).getType().getRepresentation());
+//    }
 }
+
+
 
 
 

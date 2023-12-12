@@ -21,6 +21,11 @@ public class Board {
         for (int i = 0; i < 64; i++) {
             Piece piece = Piece.createPieceForIndex(i);
             pieces.set(i, piece);
+
+
+            if (piece.getType() == Piece.PieceType.KING && piece.isWhite()) {
+                System.out.println("White King found at index " + i + " - Position: " + getPositionForPiece(i));
+            }
         }
     }
 
@@ -194,8 +199,6 @@ public class Board {
         addPointsForSameColumnPawns();
         Collections.sort(pieces);
 
-
-
     }
     public void movePiece(String fromPosition, String toPosition) {
         Piece piece = getPieceAt(fromPosition);
@@ -205,6 +208,28 @@ public class Board {
             assignPieceValues(); //atualiza as pontuações
         }
     }
+//    public void movePiece(String fromPosition, String toPosition) {
+//    Piece piece = getPieceAt(fromPosition);
+//
+//    if (isValidKingMove(fromPosition, toPosition)) {
+//        placePieceAt(Piece.noPiece(), fromPosition);
+//        placePieceAt(piece, toPosition);
+//        assignPieceValues(); // Atualizar pontuações
+//    }
+//}
+
+//    private boolean isValidKingMove(String fromPosition, String toPosition) {
+//        int fromFile = getFileIndex(fromPosition);
+//        int fromRank = getRankIndex(fromPosition);
+//
+//        int toFile = getFileIndex(toPosition);
+//        int toRank = getRankIndex(toPosition);
+//
+//        int fileDifference = Math.abs(toFile - fromFile);
+//        int rankDifference = Math.abs(toRank - fromRank);
+//
+//        return fileDifference <= 1 && rankDifference <= 1;
+//    }
 
     private String getPositionForPiece(int index) {
         char file = (char) ('a' + index % 8);
@@ -224,7 +249,6 @@ public class Board {
                         otherPiece.addPointsForSameColumnPawn();
                     }
                 }
-
             }
         }
     }
@@ -238,9 +262,10 @@ public class Board {
             int toFile = getFileIndex(toPosition);
             int toRank = getRankIndex(toPosition);
 
+            System.out.println("moving king from: " + fromPosition + " to " + toPosition);
             if (isValidKingMove(fromFile, fromRank, toFile, toRank)) {
                 placePieceAt(Piece.noPiece(), fromPosition);
-                placePieceAt(king,toPosition);
+                placePieceAt(king, toPosition);
             }
         }
     }
@@ -253,5 +278,6 @@ public class Board {
    private int getRankIndex(String position) {
         return Character.getNumericValue(position.charAt(1)) - 1;
    }
+
 }
 
