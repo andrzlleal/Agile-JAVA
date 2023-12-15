@@ -126,6 +126,7 @@ public class Piece implements Comparable<Piece>{
         if(isBlack()) {
             rep = Character.toUpperCase(rep);
         }
+
         return rep;
     }
 

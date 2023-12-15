@@ -1,24 +1,33 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Main {
+    public enum MesesDoAno {
+        JANEIRO(1, "Janeiro"),
+        FEVEREIRO(2, "Fevereiro"),
+        MARCO(3, "Março"),
 
-    public static void main(String[] args) {
-        Map<Integer, String> map = new HashMap<Integer, String>();
+        ABRIL(4, "Abril");
 
-        map.put(0, "a");
-        map.put(1, "b");
-        map.put(2, "c");
+        private final int valor;
+        private final String descricao;
 
+        MesesDoAno(int valor, String descricao) {
+            this.valor = valor;
+            this.descricao = descricao;
+        }
 
-        System.out.println("Elementos internos do map: " + map);
-
-        System.out.println("Verificando a chave 0: " + map.get(0));
-
-        System.out.println("Verificando a chave 5: " + map.get(5));
-        
+        public int getValor() {
+            return this.valor;
+        }
+        public String getDescricao() {
+            return this.descricao;
+        }
     }
 
+    public static void main(String[] args) {
+
+        MesesDoAno mes = MesesDoAno.FEVEREIRO;
+        System.out.println("Valor da constante: " + mes + "\n" + "Valor numérico do mês: " + mes.getValor() + "\n" + "Descrição do mês: " + mes.getDescricao());
+
+    }
 }
