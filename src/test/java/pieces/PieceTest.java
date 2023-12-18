@@ -3,8 +3,7 @@ package pieces;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static pieces.Piece.Color.BLACK;
 import static pieces.Piece.Color.WHITE;
 
@@ -106,6 +105,36 @@ public class PieceTest implements Comparable<Piece>{
     assertEquals(0, Piece.PieceType.KING.getPointValue(), 0.01);
     assertEquals(0, Piece.PieceType.NO_PIECE.getPointValue(), 0.01);
 }
+@Test
+  public void testIsValidQueenMove() {
+    //criando instancias de Piece
+    Piece queen = Piece.createWhiteQueen();
 
+    //Testa movimento válido para a rainha branca
+    assertTrue(queen.isValidQueenMove(4,4,1,7));
+    assertTrue(queen.isValidQueenMove(4,4,4,7));
+    assertTrue(queen.isValidQueenMove(4,4,7,7));
+
+
+    Piece blackQueen = Piece.createBlackQueen();
+
+    //Testa movimento válido para a rainha preta
+    assertTrue(blackQueen.isValidQueenMove(4,4,1,1));
+    assertTrue(blackQueen.isValidQueenMove(4,4,4,1));
+    assertTrue(blackQueen.isValidQueenMove(4,4,7,1));
+
+}
+@Test
+  public void testInvalidQueenMove() {
+    Piece queen = Piece.createWhiteQueen();
+
+    //Testa movimento inválido para a rainha branca
+    assertFalse(queen.isValidQueenMove(4,4,5,1));
+
+    //Testa movimento inválido para a rainha preta
+    Piece blackQueen = Piece.createBlackQueen();
+
+    assertFalse(blackQueen.isValidQueenMove(4,4,2,7));
+  }
 
 }

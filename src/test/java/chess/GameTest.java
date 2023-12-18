@@ -3,19 +3,17 @@ package chess;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class GameTest {
+    private Game chessGame;
     @Before
     public void setUp() {
-        Game chessGame = new Game();
+        chessGame = new Game();
         chessGame.startGame();
     }
     @Test
     public void testStartGame() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         assertEquals("rnbqkbnr\npppppppp\n........\n........\n........\n........\nPPPPPPPP\nRNBQKBNR",
         chessGame.board.getBoardRepresentation());
 
@@ -26,9 +24,6 @@ public class GameTest {
     }
     @Test
     public void testMovePiece() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         int initialNumberOfPieces = chessGame.board.getNumberOfPieces();
         chessGame.movePiece("d1", "d4");
 
@@ -36,9 +31,6 @@ public class GameTest {
     }
     @Test
     public void testMovePawnsInSameColumn() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         double initialWhitePawnValue = chessGame.board.getPieceValue("d2");
         double initialBlackPawnValue = chessGame.board.getPieceValue("d7");
 
@@ -53,9 +45,6 @@ public class GameTest {
     }
     @Test
     public void testMovePawnAndUpdateScore() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         double initialScore = chessGame.board.getPieceValue("e2");
 
         chessGame.movePiece("e2", "e4");
@@ -66,9 +55,6 @@ public class GameTest {
     }
     @Test
     public void testGetPieceValueAfterMove() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         double initialQueenValue = chessGame.board.getPieceValue("d1");
         chessGame.movePiece("d1", "d4");
         double updatedQueenValue = chessGame.board.getPieceValue("d4");
@@ -89,9 +75,6 @@ public class GameTest {
     }
     @Test
     public void testMoveKing() {
-        Game chessGame = new Game();
-        chessGame.startGame();
-
         String initialPosition = "e1";
 
         String validMove1 = "d1";
@@ -111,5 +94,29 @@ public class GameTest {
         chessGame.moveKing(initialPosition, validMove3);
         assertEquals('k', chessGame.board.getPieceAt(validMove3).getType().getRepresentation());
 
+    }
+    @Test
+    public void testMoveQueen() {
+        //testa movimento válido para a rainha branca
+        String initialPosition = "d1";
+
+        String validMove1 = "g4";
+        String validMove2 = "a1";
+
+        chessGame.moveQueen(initialPosition, validMove1);
+
+        assertEquals('q', chessGame.board.getPieceAt(validMove1).getType().getRepresentation());
+
+        chessGame.board.initializeBoard();
+
+        chessGame.moveQueen(initialPosition, validMove2);
+        assertEquals('q', chessGame.board.getPieceAt(validMove2).getType().getRepresentation());
+    }
+    @Test
+    public void testInvalidQueenMove() {
+        String validStartPosition = "d1";
+        String invalidMove = "e3";
+
+        assertFalse(chessGame.moveQueen(validStartPosition, invalidMove));
     }
 }

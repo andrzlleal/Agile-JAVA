@@ -227,4 +227,7 @@ public class Board {
     int getRankIndex(String position) {
         return Character.getNumericValue(position.charAt(1)) - 1;
     }
+
+    public void getPieceAt(Piece piece, String toPosition) {
+    }
 }
