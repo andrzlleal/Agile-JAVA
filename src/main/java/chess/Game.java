@@ -45,7 +45,7 @@ public void moveKing(String fromPosition, String toPosition) {
     }
 }
     private boolean isValidKingMove(int fromFile, int fromRank, int toFile, int toRank) {
-        return Math.abs(toFile - fromFile) <=  1 && Math.abs(toRank - fromRank) <= 1;
+        return Math.abs(toFile - fromFile) <= 1 && Math.abs(toRank - fromRank) <= 1;
     }
 public boolean moveQueen(String fromPosition, String toPosition) {
     Piece queen = board.getPieceAt(fromPosition);
