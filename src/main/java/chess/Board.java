@@ -228,6 +228,4 @@ public class Board {
         return Character.getNumericValue(position.charAt(1)) - 1;
     }
 
-    public void getPieceAt(Piece piece, String toPosition) {
-    }
 }

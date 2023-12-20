@@ -25,7 +25,7 @@ public void movePiece(String fromPosition, String toPosition) {
     }
 
 }
-public void moveKing(String fromPosition, String toPosition) {
+public boolean moveKing(String fromPosition, String toPosition) {
     Piece king = board.getPieceAt(fromPosition);
 
     if (king.getType() == Piece.PieceType.KING) {
@@ -35,18 +35,20 @@ public void moveKing(String fromPosition, String toPosition) {
         int toFile = board.getFileIndex(toPosition);
         int toRank = board.getRankIndex(toPosition);
 
-        if (isValidKingMove(fromFile, fromRank, toFile, toRank)) {
+        if (king.isValidMove(fromFile, fromRank, toFile, toRank)) {
             board.placePieceAt(Piece.noPiece(), fromPosition);
             board.placePieceAt(king, toPosition);
             System.out.println("Movimento do rei realizado: " + fromPosition + " para " + toPosition);
+            return true;
         } else {
             System.out.println("Movimento inválido para o rei de " + fromPosition + " para " + toPosition);
         }
     }
+    return false;
 }
-    private boolean isValidKingMove(int fromFile, int fromRank, int toFile, int toRank) {
-        return Math.abs(toFile - fromFile) <= 1 && Math.abs(toRank - fromRank) <= 1;
-    }
+//    private boolean isValidKingMove(int fromFile, int fromRank, int toFile, int toRank) {
+//        return Math.abs(toFile - fromFile) <= 1 && Math.abs(toRank - fromRank) <= 1;
+//    }
 public boolean moveQueen(String fromPosition, String toPosition) {
     Piece queen = board.getPieceAt(fromPosition);
 
@@ -57,20 +59,20 @@ public boolean moveQueen(String fromPosition, String toPosition) {
         int toFile = board.getFileIndex(toPosition);
         int toRank = board.getRankIndex(toPosition);
 
-        //verifica se o movimento é válido para a rainha
+        //verifica se o movimento é válido para a rainha usando o metodo isValidMove de Piece
 
-        if (queen.isValidQueenMove(fromFile, fromRank, toFile, toRank)) {
+        if (queen.isValidMove(fromFile, fromRank, toFile, toRank)) {
             //o movimento é válido, execute a movimentação
             board.placePieceAt(Piece.noPiece(), fromPosition);
             board.placePieceAt(queen, toPosition);
             board.assignPieceValues();
-            System.out.printf(" Movimento de rainha realizado: " + fromPosition + " para " + toPosition);
+            System.out.printf("Movimento de rainha realizado: " + fromPosition + " para " + toPosition);
             return true;
         } else {
-            System.out.printf(" Movimento inválido para a rainha de " + fromPosition + " para " + toPosition);
+            System.out.printf("Movimento inválido para a rainha de " + fromPosition + " para " + toPosition);
         }
         } else {
-            System.out.printf(" Peça em " + fromPosition + " não é uma rainha ");
+            System.out.printf("Peça em " + fromPosition + " não é uma rainha ");
     }
     return false;
 }
