@@ -1,8 +1,12 @@
 package chess;
 
+import pieces.NoPiece;
+import pieces.Pawn;
 import pieces.Piece;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Board {
     private final List<Piece> pieces = new LinkedList<>();
@@ -20,11 +24,8 @@ public class Board {
     public void initializeBoard() {
         for (int i = 0; i < 64; i++) {
             Piece piece = Piece.createPieceForIndex(i);
-            pieces.set(i, piece);
-
-
-            if (piece.getType() == Piece.PieceType.KING) {
-                piece.isWhite();
+            if (piece != null) {
+                pieces.set(i, piece);
             }
         }
     }
@@ -33,7 +34,7 @@ public class Board {
         int count = 0;
 
         for (Piece piece : pieces) {
-            if (piece.getType() != Piece.PieceType.NO_PIECE) {
+            if (piece.getClass() != NoPiece.class) {
                 count++;
             }
         }
@@ -44,7 +45,8 @@ public class Board {
         StringBuilder representation = new StringBuilder();
 
         for (int i = 0; i < 64; i++) {
-            representation.append(pieces.get(i).getRepresentation());
+            Piece piece = pieces.get(i);
+            representation.append(piece.getRepresentation());
             if ((i + 1) % 8 == 0) {
                 representation.append("\n");
             }
@@ -154,13 +156,13 @@ public class Board {
     }
 
     private double getPieceValue(Piece piece, String position) {
-        double baseValue = piece.getType().getPointValue();
+        double baseValue = Piece.getPointValue();
 
         if (!piece.isWhite()) {
             baseValue *= -1.0;
         }
 
-        if (piece.getType() == Piece.PieceType.PAWN) {
+        if (piece instanceof Pawn) {
 
             int sameColumnPawnCount = countSameColumnPawns(piece, position);
             if(sameColumnPawnCount > 0 ) {
@@ -183,8 +185,8 @@ public class Board {
     }
 
     private boolean isSameColumnPawn(Piece piece, Piece otherPiece, char column, char positionColumn) {
-        return piece.getType() == Piece.PieceType.PAWN &&
-                otherPiece.getType() == Piece.PieceType.PAWN &&
+        return piece instanceof Pawn &&
+                otherPiece instanceof Pawn &&
                 piece.getColor() == otherPiece.getColor() &&
                 getPositionForPiece(otherPiece.indexOf(pieces)).charAt(0) == column &&
                 getPositionForPiece(otherPiece.indexOf(pieces)).charAt(0) == positionColumn;
@@ -208,10 +210,10 @@ public class Board {
     private void addPointsForSameColumnPawns() {
         for (int i = 0; i < pieces.size(); i++) {
             Piece currentPiece = pieces.get(i);
-            if (currentPiece.getType() == Piece.PieceType.PAWN) {
+            if (currentPiece instanceof Pawn) {
                 for(int j = i + 1; j < pieces.size(); j++) {
                     Piece otherPiece = pieces.get(j);
-                    if(otherPiece.getType() == Piece.PieceType.PAWN && currentPiece.getColor() == otherPiece.getColor()
+                    if(otherPiece instanceof Pawn && currentPiece.getColor() == otherPiece.getColor()
                             && i % 8 == j % 8 ) {
                         currentPiece.addPointsForSameColumnPawn();
                         otherPiece.addPointsForSameColumnPawn();

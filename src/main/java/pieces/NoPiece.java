@@ -1,14 +1,25 @@
 package pieces;
 
 public class NoPiece extends Piece{
-    private static final PieceType color = null ;
 
     public NoPiece() {
-        super(color, PieceType.NO_PIECE);
+        super(Color.NO_PIECE);
     }
 
     @Override
     public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
         return false;
     }
+
+
+    public static char getRepresentation() {
+        return '.';
+    }
+
+    @Override
+    public void addPointsForSameColumnPawn() {
+
+    }
+
+
 }

@@ -42,14 +42,14 @@ public class BoardTest {
 
         String expectedBoard =
                 """
-                        rnbqkbnr
-                        pppppppp
-                        ........
-                        ........
-                        ........
-                        ........
-                        PPPPPPPP
-                        RNBQKBNR""";
+                rnbqkbnr
+                pppppppp
+                ........
+                ........
+                ........
+                ........
+                PPPPPPPP
+                RNBQKBNR""";
 
         String actualBoard = board.getBoardRepresentation();
         assertEquals(expectedBoard, actualBoard);
@@ -114,7 +114,8 @@ public class BoardTest {
         Piece customPiece = Piece.createBlackPawn();
 
         board.placePieceAt(customPiece, "c4");
-        assertEquals(customPiece.getRepresentation(), board.getPieceAt("c4").getRepresentation());
+        Piece retrievedPiece = board.getPieceAt("c4");
+        assertEquals(customPiece.getRepresentation(), retrievedPiece.getRepresentation());
     }
 
     @Test

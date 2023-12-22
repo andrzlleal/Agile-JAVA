@@ -1,6 +1,9 @@
 package chess;
 
+import pieces.King;
+import pieces.NoPiece;
 import pieces.Piece;
+import pieces.Queen;
 
 public class Game {
 Board board;
@@ -15,7 +18,7 @@ public void startGame() {
 }
 public void movePiece(String fromPosition, String toPosition) {
     Piece piece = board.getPieceAt(fromPosition);
-    if (piece.getType() != Piece.PieceType.NO_PIECE) {
+    if (piece instanceof NoPiece) {
         board.placePieceAt(Piece.noPiece(), fromPosition);
         board.placePieceAt(piece, toPosition);
         board.assignPieceValues();
@@ -23,12 +26,11 @@ public void movePiece(String fromPosition, String toPosition) {
     } else {
         System.out.println("Movimento inválido. Peça não encontrada em " + fromPosition);
     }
-
 }
 public boolean moveKing(String fromPosition, String toPosition) {
     Piece king = board.getPieceAt(fromPosition);
 
-    if (king.getType() == Piece.PieceType.KING) {
+    if (king instanceof King) {
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);
 
@@ -52,7 +54,7 @@ public boolean moveKing(String fromPosition, String toPosition) {
 public boolean moveQueen(String fromPosition, String toPosition) {
     Piece queen = board.getPieceAt(fromPosition);
 
-    if (queen.getType() == Piece.PieceType.QUEEN) {
+    if (queen instanceof Queen) {
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);
 

@@ -7,13 +7,20 @@ import java.util.Objects;
 public abstract class Piece implements Comparable<Piece> {
 
     private final Color color;
-    private final PieceType type;
     private static int whitePieceCount = 0;
     private static int blackPieceCount = 0;
     private double strength = 0;
 
+    public static double getPointValue() {
+        return 0;
+    }
+
 
     public List<String> getPossibleMoves(String currentPosition) {
+        if (this instanceof NoPiece) {
+            return null;
+        }
+
         List<String> possibleMoves = new ArrayList<>();
         int currentFile = currentPosition.charAt(0) - 'a';
         int currentRank = 8 - Integer.parseInt(currentPosition.substring(1));
@@ -39,22 +46,22 @@ public abstract class Piece implements Comparable<Piece> {
         return file >= 0 && file < 8 && rank >= 0 && rank < 8;
     }
 
-
     public static Piece noPiece() {
-        return new Piece(PieceType.NO_PIECE) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new NoPiece();
     }
+
     @Override
     public int compareTo(Piece otherPiece) {
         return Double.compare(strength, strength);
+    }
+
+    public static Piece createPiece(Color color, Class<? extends Piece> pieceClass) {
+        try {
+            return pieceClass.getDeclaredConstructor(Color.class).newInstance(color);
+        } catch (Exception e) {
+            e.printStackTrace(); // handle or log the exception as needed
+            return noPiece(); //default to no piece in case of instantiation failure
+        }
     }
 
     public static Piece createPieceForIndex(int index) {
@@ -95,40 +102,52 @@ public abstract class Piece implements Comparable<Piece> {
         return -1;
     }
 
+    public char getRepresentation() {
+        if (this instanceof NoPiece) {
+            return '.';
+        }else if(isWhite()) {
+            return Character.toLowerCase(getPieceRepresentation());
+        } else{
+            return getPieceRepresentation();
+        }
+    }
+
+    private char getPieceRepresentation() {
+        if (this instanceof Pawn) {
+            return 'P';
+        } else if (this instanceof Rook) {
+            return 'R';
+        } else if (this instanceof Knight) {
+            return 'N';
+        } else if (this instanceof Bishop) {
+            return 'B';
+        } else if (this instanceof Queen) {
+            return 'Q';
+        } else if (this instanceof King) {
+            return 'K';
+        } else {
+            return '.';
+        }
+    }
+
+    public abstract void addPointsForSameColumnPawn();
+
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
 
-    public enum PieceType{
-        PAWN('p', 1.0),
-        KNIGHT('n', 2.5),
-        BISHOP('b',3.0),
-        ROOK('r', 5.0),
-        QUEEN('q',9.0),
-        KING('k', 0),
-        NO_PIECE('.',0);
-
-
-        private final char representation;
-        private final double pointValue;
-
-        PieceType(char representation, double pointValue) {
-            this.representation = representation;
-            this.pointValue = pointValue;
-        }
-
-        public double getPointValue() {
-            return pointValue;
-        }
-
-        public char getRepresentation() {
-            return representation;
-        }
+    public Color getColor() {
+        return color;
+    }
+    public boolean isBlack() {
+        return Color.BLACK.equals(color);
+    }
+    public boolean isWhite() {
+        return Color.WHITE.equals(color);
     }
 
-    public Piece(PieceType type) {
+    public Piece(Color color) {
         this.color = color;
-        this.type = type;
 
         if (Color.WHITE.equals(color)) {
             whitePieceCount++;
@@ -137,208 +156,45 @@ public abstract class Piece implements Comparable<Piece> {
             blackPieceCount++;
         }
     }
-    public static Piece createPiece(Color color, PieceType type) {
-        return switch (type) {
-            case PAWN -> new Pawn(color);
-            case KING -> new King(color);
-            case BISHOP -> new Bishop(color);
-            case KNIGHT -> new Knight(color);
-            case QUEEN -> new Queen(color);
-            case ROOK -> new Rook(color);
-            case NO_PIECE -> new NoPiece();
-        };
-    }
 
-    public Color getColor() {
-        return color;
-    }
-    public PieceType getType() {
-        return type;
-    }
-
-    public boolean isBlack() {
-        return Color.BLACK.equals(color);
-    }
-    public boolean isWhite() {
-        return Color.WHITE.equals(color);
-    }
-
-    public char getRepresentation() {
-        char rep;
-        rep = type.getRepresentation();
-
-        if(isBlack()) {
-            rep = Character.toUpperCase(rep);
-        }
-
-        return rep;
-    }
     public static Piece createWhitePawn() {
-        return new Piece(PieceType.PAWN) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-            //implementação dos movimentos do peao branco
-            //List<String> possibleMoves = new ArrayList<>();
-            //add movimentos válidos
-            //return possibleMoves;
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-            //implementação da lógica de movimento válido para o peão branco
-            //return false;
-        };
+        return new Pawn (Color.WHITE);
     }
+
     public static Piece createBlackPawn() {
-        return new Piece(PieceType.PAWN) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Pawn(Color.BLACK);
     }
+
     public static Piece createWhiteRook() {
-        return new Piece(PieceType.ROOK) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Rook(Color.WHITE);
     }
-    public static Piece createBlackRook() {
-        return new Piece(PieceType.ROOK) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
 
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+    public static Piece createBlackRook() {
+        return new Rook(Color.BLACK);
     }
     public static Piece createWhiteKnight() {
-        return new Piece(PieceType.KNIGHT) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Knight(Color.WHITE);
     }
     public static Piece createBlackKnight() {
-        return new Piece(PieceType.KNIGHT) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Knight(Color.BLACK);
     }
     public static Piece createWhiteQueen() {
-        return new Piece(PieceType.QUEEN) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Queen(Color.WHITE);
     }
     public static Piece createBlackQueen() {
-        return new Piece(PieceType.QUEEN) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Queen(Color.BLACK);
     }
     public static Piece createWhiteKing() {
-        return new Piece(PieceType.KING) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new King(Color.WHITE);
     }
     public static Piece createBlackKing() {
-        return new Piece(PieceType.KING) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new King(Color.BLACK);
     }
     public static Piece createWhiteBishop() {
-        return new Piece(PieceType.BISHOP) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
+        return new Bishop(Color.WHITE);
     }
     public static Piece createBlackBishop() {
-        return new Piece(PieceType.BISHOP) {
-            @Override
-            public List<String> getPossibleMoves(String currentPosition) {
-                return null;
-            }
-
-            @Override
-            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
-                return false;
-            }
-        };
-    }
-
-    public void addPointsForSameColumnPawn() {
-        if(getType() == PieceType.PAWN) {
-            setStrength(getStrength() + 0.5);
-        }
+        return new Bishop(Color.BLACK);
     }
 
 }

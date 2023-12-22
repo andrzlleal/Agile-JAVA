@@ -82,13 +82,13 @@ public class GameTest {
         game.board.placePieceAt(new King(Piece.Color.WHITE), "e1");
 
         assertTrue(game.moveKing("e1", "d1"));
-        assertEquals('k', game.board.getPieceAt("d1").getType().getRepresentation());
+        assertEquals('k', game.board.getPieceAt("d1").getClass());
 
         game.board.initializeBoard();
         game.board.placePieceAt(new King(Piece.Color.WHITE), "e1");
 
         assertTrue(game.moveKing("e1", "f1"));
-        assertEquals('k', game.board.getPieceAt("f1").getType().getRepresentation());
+        assertEquals('k', game.board.getPieceAt("f1").getClass());
 
     }
     @Test
@@ -98,13 +98,13 @@ public class GameTest {
 
         //testa movimento válido para a rainha branca
         assertTrue(game.moveQueen("d1", "g4"));
-        assertEquals('q', game.board.getPieceAt("g4").getType().getRepresentation());
+        assertEquals('q', game.board.getPieceAt("g4").getClass());
 
         game.board.initializeBoard();
         game.board.placePieceAt(new Queen(Piece.Color.WHITE), "d1");
 
         assertTrue(game.moveQueen("d1", "a1"));
-        assertEquals('q', game.board.getPieceAt("a1").getType().getRepresentation());
+        assertEquals('q', game.board.getPieceAt("a1").getClass());
     }
 
     @Test
