@@ -21,10 +21,11 @@ public class Queen extends Piece{
         return (isDiagonal || isVertical || isHorizontal) && isValidSquare(toFile, toRank) && (isBlackQueen || isWhiteQueen);
     }
 
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'Q' : 'q';
+    public char getRepresentation() {
+        return isBlack() ? 'Q' : 'q';
     }
-    public static double getPointValue() {
+
+    public static double getPieceValue() {
         return 9.0;
     }
 

@@ -11,7 +11,7 @@ public abstract class Piece implements Comparable<Piece> {
     private static int blackPieceCount = 0;
     private double strength = 0;
 
-    public static double getPointValue() {
+    public static double getPieceValue() {
         return 0;
     }
 
@@ -105,10 +105,10 @@ public abstract class Piece implements Comparable<Piece> {
     public char getRepresentation() {
         if (this instanceof NoPiece) {
             return '.';
-        }else if(isWhite()) {
+        } else if (isWhite()) {
             return Character.toLowerCase(getPieceRepresentation());
-        } else{
-            return getPieceRepresentation();
+        } else {
+            return Character.toUpperCase(getPieceRepresentation());
         }
     }
 

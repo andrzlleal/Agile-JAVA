@@ -12,7 +12,7 @@ public class NoPiece extends Piece{
     }
 
 
-    public static char getRepresentation() {
+    public char getRepresentation() {
         return '.';
     }
 

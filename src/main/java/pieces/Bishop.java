@@ -12,10 +12,11 @@ public class Bishop extends Piece{
         return false;
     }
 
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'B' : 'b';
+    public char getRepresentation() {
+        return isBlack() ? 'B' : 'b';
     }
-    public static double getPointValue() {
+
+    public static double getPieceValue() {
         return 3.0;
     }
 

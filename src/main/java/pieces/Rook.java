@@ -10,10 +10,10 @@ public class Rook extends Piece{
         //add lógica espeficia aqui
         return false;
     }
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'R' : 'r';
+    public char getRepresentation() {
+        return isBlack() ? 'R' : 'r';
     }
-    public static double getPointValue() {
+    public static double getPieceValue() {
         return 5.0;
     }
 

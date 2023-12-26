@@ -156,17 +156,21 @@ public class Board {
     }
 
     private double getPieceValue(Piece piece, String position) {
-        double baseValue = Piece.getPointValue();
+        double baseValue = Piece.getPieceValue();
 
         if (!piece.isWhite()) {
             baseValue *= -1.0;
         }
+        System.out.printf("Piece" + piece + "Base Value" + baseValue);
 
         if (piece instanceof Pawn) {
 
             int sameColumnPawnCount = countSameColumnPawns(piece, position);
             if(sameColumnPawnCount > 0 ) {
-                baseValue += piece.isWhite() ? 0.5 : -0.5;
+                double pawnValue = piece.isWhite() ? 0.5 : -0.5;
+                baseValue += pawnValue;
+
+                System.out.printf("Same Column Pawns " + sameColumnPawnCount + "Pawn Value" + pawnValue);
             }
         }
         return baseValue;
@@ -194,7 +198,7 @@ public class Board {
     public void assignPieceValues() {
         List<Piece> copyOfPieces = new LinkedList<>(pieces);
 
-        copyOfPieces.forEach(piece -> piece.setStrength(getPieceValue(piece, getPositionForPiece(piece.getRepresentation()))));
+        copyOfPieces.forEach(piece -> piece.setStrength(Piece.getPieceValue()));
 
         addPointsForSameColumnPawns();
         Collections.sort(pieces);

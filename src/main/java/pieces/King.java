@@ -10,10 +10,13 @@ public class King extends Piece{
         return Math.abs(toFile - fromFile) <= 1 && Math.abs(toRank - fromRank) <= 1;
     }
 
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'K' : 'k';
+    public char getRepresentation() {
+        return isBlack() ? 'K' : 'k';
     }
 
+    public static double getPieceValue() {
+        return 0;
+    }
     @Override
     public void addPointsForSameColumnPawn() {
 

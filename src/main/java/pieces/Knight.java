@@ -11,10 +11,12 @@ public class Knight extends Piece{
         return false;
     }
 
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'N' : 'n';
+    public char getRepresentation() {
+        return isBlack() ? 'N' : 'n';
     }
-    public static double getPointValue() {
+
+
+    public static double getPieceValue() {
         return 2.5;
     }
 

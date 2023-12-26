@@ -10,10 +10,12 @@ public class Pawn extends Piece{
         return false;
     }
 
-    public static char getRepresentation() {
-        return new Pawn(Color.BLACK).isBlack() ? 'P' : 'p';
+    public char getRepresentation() {
+        return isBlack() ? 'P' : 'p';
     }
-    public static double getPointValue() {
+
+
+    public static double getPieceValue() {
         return 1.0;
     }
     @Override

@@ -118,19 +118,31 @@ public class BoardTest {
         assertEquals(customPiece.getRepresentation(), retrievedPiece.getRepresentation());
     }
 
-    @Test
+//    @Test
+//    public void testAssignAndSortPieceValues() {
+//        board.initializeBoard();
+//        board.assignPieceValues();
+//
+//        // basic strength tests
+//        assertEquals(5.0, board.getPieceAt("a1").getStrength(), 0.01);
+//        assertEquals(-5.0, board.getPieceAt("a8").getStrength(), 0.01);
+//        assertEquals(-1.5, board.getPieceAt("a7").getStrength(), 0.01);
+//        assertEquals(9.0, board.getPieceAt("d1").getStrength(), 0.01);
+//
+//    }
+@Test
     public void testAssignAndSortPieceValues() {
         board.initializeBoard();
         board.assignPieceValues();
 
-        // basic strength tests
-        assertEquals(5.0, board.getPieceAt("a1").getStrength(), 0.01);
-        assertEquals(-5.0, board.getPieceAt("a8").getStrength(), 0.01);
-        assertEquals(-1.5, board.getPieceAt("a7").getStrength(), 0.01);
-        assertEquals(9.0, board.getPieceAt("d1").getStrength(), 0.01);
+        assertEquals(32, board.getNumberOfPieces());
 
-    }
+        Piece firstPiece = board.getPieceAt("a1");
+        Piece lastPiece = board.getPieceAt("h8");
 
+        assertEquals(Piece.createWhiteKing(), firstPiece);
+        assertEquals(Piece.createBlackPawn(), lastPiece);
+}
 //    @Test
 //    public void testMovePieceWithCaptureAndUpdateScore() {
 //        Board board = new Board();

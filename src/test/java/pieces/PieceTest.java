@@ -98,13 +98,13 @@ public class PieceTest implements Comparable<Piece>{
   }
 @Test
   public void testGetPointValue() {
-    assertEquals(1.0, Pawn.getPointValue(), 0.01);
-    assertEquals(2.5, Knight.getPointValue(), 0.01);
-    assertEquals(3.0, Bishop.getPointValue(), 0.01);
-    assertEquals(5.0, Rook.getPointValue(), 0.01);
-    assertEquals(9.0, Queen.getPointValue(),0.01);
-    assertEquals(0, King.getPointValue(), 0.01);
-    assertEquals(0, NoPiece.getPointValue(), 0.01);
+    assertEquals(1.0, Pawn.getPieceValue(), 0.01);
+    assertEquals(2.5, Knight.getPieceValue(), 0.01);
+    assertEquals(3.0, Bishop.getPieceValue(), 0.01);
+    assertEquals(5.0, Rook.getPieceValue(), 0.01);
+    assertEquals(9.0, Queen.getPieceValue(),0.01);
+    assertEquals(0, King.getPieceValue(), 0.01);
+    assertEquals(0, NoPiece.getPieceValue(), 0.01);
 }
 @Test
   public void testGetPossibleMovesForQueen() {
