@@ -1,6 +1,7 @@
 package pieces;
 
 public class Queen extends Piece{
+
     public Queen(Color color) {
         super(color);
     }
@@ -16,7 +17,7 @@ public class Queen extends Piece{
         Boolean isHorizontal = fromRank == toRank;
 
         boolean isBlackQueen = isBlack();
-        boolean isWhiteQueen = this.isWhite();
+        boolean isWhiteQueen = isWhite();
 
         return (isDiagonal || isVertical || isHorizontal) && isValidSquare(toFile, toRank) && (isBlackQueen || isWhiteQueen);
     }

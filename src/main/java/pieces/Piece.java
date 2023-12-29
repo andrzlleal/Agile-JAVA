@@ -2,6 +2,7 @@ package pieces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public abstract class Piece implements Comparable<Piece> {
@@ -37,7 +38,6 @@ public abstract class Piece implements Comparable<Piece> {
 
     public abstract boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank);
 
-
     static String fileToLetter(int file) {
         return String.valueOf((char) ('a' + file));
     }
@@ -52,7 +52,7 @@ public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece otherPiece) {
-        return Double.compare(strength, strength);
+        return Double.compare(this.strength, otherPiece.strength);
     }
 
     public static Piece createPiece(Color color, Class<? extends Piece> pieceClass) {
@@ -68,14 +68,26 @@ public abstract class Piece implements Comparable<Piece> {
         int rank = index / 8;
         int file = index % 8;
 
-        if(rank == 0 || rank == 7) {
+        if (rank == 0 || rank == 7) {
             switch (file) {
-                case 0, 7 -> {return (rank == 0) ? Piece.createWhiteRook() : Piece.createBlackRook(); }
-                case 1, 6 -> {return (rank == 0) ? Piece.createWhiteKnight() : Piece.createBlackKnight(); }
-                case 2, 5 -> {return (rank == 0) ? Piece.createWhiteBishop() : Piece.createBlackBishop(); }
-                case 3 -> {return (rank == 0) ? Piece.createWhiteQueen() : Piece.createBlackQueen(); }
-                case 4 -> {return (rank == 0) ? Piece.createWhiteKing() : Piece.createBlackKing(); }
-                default -> {return Piece.noPiece(); }
+                case 0, 7 -> {
+                    return (rank == 0) ? Piece.createWhiteRook() : Piece.createBlackRook();
+                }
+                case 1, 6 -> {
+                    return (rank == 0) ? Piece.createWhiteKnight() : Piece.createBlackKnight();
+                }
+                case 2, 5 -> {
+                    return (rank == 0) ? Piece.createWhiteBishop() : Piece.createBlackBishop();
+                }
+                case 3 -> {
+                    return (rank == 0) ? Piece.createWhiteQueen() : Piece.createBlackQueen();
+                }
+                case 4 -> {
+                    return (rank == 0) ? Piece.createWhiteKing() : Piece.createBlackKing();
+                }
+                default -> {
+                    return Piece.noPiece();
+                }
             }
         } else if (rank == 1 || rank == 6) {
             return (rank == 1) ? Piece.createWhitePawn() : Piece.createBlackPawn();
@@ -88,14 +100,15 @@ public abstract class Piece implements Comparable<Piece> {
         this.strength = pieceValue;
 
     }
+
     public double getStrength() {
         return strength;
     }
 
     public int indexOf(List<Piece> pieces) {
         Objects.requireNonNull(pieces, "pieces cannot be null");
-        for(int i = 0; i < pieces.size(); i++) {
-            if(this.equals(pieces.get(i))){
+        for (int i = 0; i < pieces.size(); i++) {
+            if (this.equals(pieces.get(i))) {
                 return i;
             }
         }
@@ -112,25 +125,22 @@ public abstract class Piece implements Comparable<Piece> {
         }
     }
 
-    private char getPieceRepresentation() {
-        if (this instanceof Pawn) {
-            return 'P';
-        } else if (this instanceof Rook) {
-            return 'R';
-        } else if (this instanceof Knight) {
-            return 'N';
-        } else if (this instanceof Bishop) {
-            return 'B';
-        } else if (this instanceof Queen) {
-            return 'Q';
-        } else if (this instanceof King) {
-            return 'K';
-        } else {
-            return '.';
-        }
+    private static final Map<Class<? extends Piece>, Character> pieceRepresentationMap = Map.of(
+            Pawn.class, 'P',
+            Rook.class, 'R',
+            Knight.class, 'N',
+            Bishop.class, 'B',
+            Queen.class, 'Q',
+            King.class, 'K'
+    );
+    public char getPieceRepresentation() {
+        return pieceRepresentationMap.getOrDefault(getClass(), '.');
     }
 
     public abstract void addPointsForSameColumnPawn();
+
+    protected void move() {
+    }
 
     public enum Color {
         WHITE, BLACK, NO_PIECE
@@ -160,15 +170,12 @@ public abstract class Piece implements Comparable<Piece> {
     public static Piece createWhitePawn() {
         return new Pawn (Color.WHITE);
     }
-
     public static Piece createBlackPawn() {
         return new Pawn(Color.BLACK);
     }
-
     public static Piece createWhiteRook() {
         return new Rook(Color.WHITE);
     }
-
     public static Piece createBlackRook() {
         return new Rook(Color.BLACK);
     }

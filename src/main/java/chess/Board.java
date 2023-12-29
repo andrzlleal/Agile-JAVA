@@ -9,10 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Board {
-    private final List<Piece> pieces = new LinkedList<>();
+    private static final List<Piece> pieces = new LinkedList<>();
 
     public Board() {
         initializeRanks();
+    }
+
+    public static boolean isEmpty(int toFile, int toRank) {
+        int index = toFile + 8 * toRank;
+        return pieces.get(index) instanceof NoPiece;
     }
 
     private void initializeRanks() {
@@ -34,7 +39,7 @@ public class Board {
         int count = 0;
 
         for (Piece piece : pieces) {
-            if (piece.getClass() != NoPiece.class) {
+            if (!piece.getClass().equals(NoPiece.class)) {
                 count++;
             }
         }
@@ -196,9 +201,13 @@ public class Board {
                 getPositionForPiece(otherPiece.indexOf(pieces)).charAt(0) == positionColumn;
     }
     public void assignPieceValues() {
-        List<Piece> copyOfPieces = new LinkedList<>(pieces);
+        System.out.print("Before assigning values: " + pieces);
+
+        List<Piece>copyOfPieces = new LinkedList<>(pieces);
 
         copyOfPieces.forEach(piece -> piece.setStrength(Piece.getPieceValue()));
+
+        System.out.println("After assigning values: " + pieces);
 
         addPointsForSameColumnPawns();
         Collections.sort(pieces);
@@ -215,10 +224,11 @@ public class Board {
         for (int i = 0; i < pieces.size(); i++) {
             Piece currentPiece = pieces.get(i);
             if (currentPiece instanceof Pawn) {
-                for(int j = i + 1; j < pieces.size(); j++) {
+                for (int j = i + 1; j < pieces.size(); j++) {
                     Piece otherPiece = pieces.get(j);
-                    if(otherPiece instanceof Pawn && currentPiece.getColor() == otherPiece.getColor()
-                            && i % 8 == j % 8 ) {
+                    if (otherPiece instanceof Pawn &&
+                            currentPiece.getColor() == otherPiece.getColor() &&
+                            i % 8 == j % 8) {
                         currentPiece.addPointsForSameColumnPawn();
                         otherPiece.addPointsForSameColumnPawn();
                     }

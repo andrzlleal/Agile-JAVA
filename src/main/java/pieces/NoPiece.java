@@ -11,7 +11,6 @@ public class NoPiece extends Piece{
         return false;
     }
 
-
     public char getRepresentation() {
         return '.';
     }

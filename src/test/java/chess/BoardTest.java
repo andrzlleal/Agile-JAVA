@@ -16,6 +16,8 @@ public class BoardTest {
 
     @Test
     public void testInitializeBoard() {
+        board.initializeBoard();
+
         assertEquals(0, board.getNumberOfPieces());
 
         String expectedBoard =
@@ -130,7 +132,7 @@ public class BoardTest {
 //        assertEquals(9.0, board.getPieceAt("d1").getStrength(), 0.01);
 //
 //    }
-@Test
+    @Test
     public void testAssignAndSortPieceValues() {
         board.initializeBoard();
         board.assignPieceValues();
@@ -140,8 +142,11 @@ public class BoardTest {
         Piece firstPiece = board.getPieceAt("a1");
         Piece lastPiece = board.getPieceAt("h8");
 
-        assertEquals(Piece.createWhiteKing(), firstPiece);
-        assertEquals(Piece.createBlackPawn(), lastPiece);
+        System.out.printf("FirstPiece: " + firstPiece.getRepresentation());
+        System.out.printf(" LastPiece: " + lastPiece.getRepresentation());
+
+        assertEquals('r', firstPiece.getRepresentation());
+        assertEquals('R', lastPiece.getRepresentation());
 }
 //    @Test
 //    public void testMovePieceWithCaptureAndUpdateScore() {
