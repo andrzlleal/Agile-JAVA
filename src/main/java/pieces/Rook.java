@@ -10,6 +10,7 @@ public class Rook extends Piece{
         //add lógica espeficia aqui
         return false;
     }
+
     public char getRepresentation() {
         return isBlack() ? 'R' : 'r';
     }
@@ -21,4 +22,5 @@ public class Rook extends Piece{
     public void addPointsForSameColumnPawn() {
 
     }
+
 }

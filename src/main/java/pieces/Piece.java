@@ -42,7 +42,7 @@ public abstract class Piece implements Comparable<Piece> {
         return String.valueOf((char) ('a' + file));
     }
 
-    static boolean isValidSquare(int file, int rank) {
+    public static boolean isValidSquare(int file, int rank) {
         return file >= 0 && file < 8 && rank >= 0 && rank < 8;
     }
 
@@ -52,7 +52,7 @@ public abstract class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece otherPiece) {
-        return Double.compare(this.strength, otherPiece.strength);
+        return Double.compare(this.strength, otherPiece.getStrength());
     }
 
     public static Piece createPiece(Color color, Class<? extends Piece> pieceClass) {
@@ -65,34 +65,34 @@ public abstract class Piece implements Comparable<Piece> {
     }
 
     public static Piece createPieceForIndex(int index) {
-        int rank = index / 8;
         int file = index % 8;
+        int rank = index / 8;
 
         if (rank == 0 || rank == 7) {
             switch (file) {
                 case 0, 7 -> {
-                    return (rank == 0) ? Piece.createWhiteRook() : Piece.createBlackRook();
+                    return (rank == 0) ? createWhiteRook() : createBlackRook();
                 }
                 case 1, 6 -> {
-                    return (rank == 0) ? Piece.createWhiteKnight() : Piece.createBlackKnight();
+                    return (rank == 0) ? createWhiteKnight() : createBlackKnight();
                 }
                 case 2, 5 -> {
-                    return (rank == 0) ? Piece.createWhiteBishop() : Piece.createBlackBishop();
+                    return (rank == 0) ? createWhiteBishop() : createBlackBishop();
                 }
                 case 3 -> {
-                    return (rank == 0) ? Piece.createWhiteQueen() : Piece.createBlackQueen();
+                    return (rank == 0) ? createWhiteQueen() : createBlackQueen();
                 }
                 case 4 -> {
-                    return (rank == 0) ? Piece.createWhiteKing() : Piece.createBlackKing();
+                    return (rank == 0) ? createWhiteKing() : createBlackKing();
                 }
                 default -> {
-                    return Piece.noPiece();
+                    return noPiece();
                 }
             }
         } else if (rank == 1 || rank == 6) {
-            return (rank == 1) ? Piece.createWhitePawn() : Piece.createBlackPawn();
+            return (rank == 1) ? createWhitePawn() : createBlackPawn();
         } else {
-            return Piece.noPiece();
+            return noPiece();
         }
     }
 
@@ -100,16 +100,18 @@ public abstract class Piece implements Comparable<Piece> {
         this.strength = pieceValue;
 
     }
-
     public double getStrength() {
         return strength;
     }
 
-    public int indexOf(List<Piece> pieces) {
+    public int indexOf(Piece[][] pieces) {
         Objects.requireNonNull(pieces, "pieces cannot be null");
-        for (int i = 0; i < pieces.size(); i++) {
-            if (this.equals(pieces.get(i))) {
-                return i;
+
+        for (int file = 0; file < pieces.length; file++) {
+            for (int rank = 0; rank < pieces[file].length; rank++) {
+                if (this.equals(pieces[file][rank])) {
+                    return file * 8 + rank;
+                }
             }
         }
         return -1;
@@ -118,10 +120,8 @@ public abstract class Piece implements Comparable<Piece> {
     public char getRepresentation() {
         if (this instanceof NoPiece) {
             return '.';
-        } else if (isWhite()) {
-            return Character.toLowerCase(getPieceRepresentation());
         } else {
-            return Character.toUpperCase(getPieceRepresentation());
+            return isWhite() ? Character.toLowerCase(getPieceRepresentation()) : Character.toUpperCase(getRepresentation());
         }
     }
 
@@ -141,7 +141,7 @@ public abstract class Piece implements Comparable<Piece> {
 
     protected void move() {
     }
-
+    
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }

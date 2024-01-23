@@ -6,6 +6,7 @@ public class NoPiece extends Piece{
         super(Color.NO_PIECE);
     }
 
+
     @Override
     public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
         return false;
@@ -19,6 +20,7 @@ public class NoPiece extends Piece{
     public void addPointsForSameColumnPawn() {
 
     }
+
 
 
 }

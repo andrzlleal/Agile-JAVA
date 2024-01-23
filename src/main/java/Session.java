@@ -1,12 +1,32 @@
 import java.util.*;
 
-abstract public class Session implements Comparable<Session> {
+abstract public class Session implements Comparable<Session>, Iterable<Student> {
     private static int count;
     private final String department;
     private final String number;
-    private final List<Student> students = new ArrayList<Student>();
+    //private final List<Student> students = new ArrayList<Student>();
     private final Date startDate;
     private int numberOfCredits;
+    private final Vector<Student> students = new Vector<Student>();
+
+    public Iterator<Student> iterator() {
+        return students.iterator();
+    }
+    double averageGpaForPartTimeStudents() {
+        double total = 0.0;
+        int count = 0;
+        for (Enumeration<Student> it = students.elements();
+             it.hasMoreElements(); ) {
+            Student student = it.nextElement();
+            if (student.isFullTime())
+                continue;
+            count++;
+            total += student.getGpa();
+        }
+        if (count == 0) return 0.0;
+        return total / count;
+    }
+
     protected Session(
             String department, String number, Date startDate) {
         this.department = department;

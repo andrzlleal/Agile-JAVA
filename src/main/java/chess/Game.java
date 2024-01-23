@@ -17,55 +17,61 @@ public void startGame() {
 }
 
 public boolean movePiece(String fromPosition, String toPosition) {
-    Piece piece = board.getPieceAt(fromPosition);
-    if (!(piece instanceof NoPiece)){
-        board.placePieceAt(piece, toPosition);
-        board.placePieceAt(Piece.noPiece(), fromPosition);
+    int fromFile = board.getFileIndex(fromPosition);
+    int fromRank = board.getRankIndex(fromPosition);
+
+    int toFile = board.getFileIndex(toPosition);
+    int toRank = board.getRankIndex(toPosition);
+
+    Piece pieceAtFromPosition = board.getPieceAt(fromFile, fromRank);
+
+    if (!(pieceAtFromPosition instanceof NoPiece)) {
+        board.placePieceAt(Piece.noPiece(), toFile, toRank);
+        board.placePieceAt(pieceAtFromPosition, toFile, toRank);
         board.assignPieceValues();
         System.out.println("Movimento realizado: " + fromPosition + " para " + toPosition);
-        return true;
-    } else {
+            return true;
+    }else {
         System.out.println("Movimento inválido. Peça não encontrada em " + fromPosition);
     }
     return false;
 }
 public boolean moveKing(String fromPosition, String toPosition) {
-    Piece king = board.getPieceAt(fromPosition);
-
-    if (king instanceof King) {
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);
 
         int toFile = board.getFileIndex(toPosition);
         int toRank = board.getRankIndex(toPosition);
 
-        if(!fromPosition.equals(toPosition) && king.isValidMove(fromFile, fromRank, toFile, toRank)) {
-            board.placePieceAt(Piece.noPiece(), fromPosition);
-            board.placePieceAt(king, toPosition);
-            System.out.println("Movimento do rei realizado: " + fromPosition + " para " + toPosition);
-            return true;
-        } else {
-            System.out.println("Movimento inválido para o rei de " + fromPosition + " para " + toPosition);
+        Piece king = board.getPieceAt(fromFile, fromRank);
+
+        if (king instanceof King) {
+            if (!fromPosition.equals(toPosition) && king.isValidMove(fromFile, fromRank, toFile, toRank)) {
+                board.placePieceAt(Piece.noPiece(), fromFile, fromRank);
+                board.placePieceAt(king, toFile, fromRank);
+                System.out.println("Movimento do Rei realizado de: " + fromPosition + " para " + toPosition);
+                    return true;
+            } else {
+                System.out.println("Movimento inválido para o Rei de: " + fromPosition + " para " + toPosition);
+            }
+
         }
-    }
-    return false;
+            return false;
 }
 public boolean moveQueen(String fromPosition, String toPosition) {
-    Piece queen = board.getPieceAt(fromPosition);
-
-    if (queen instanceof Queen) {
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);
 
         int toFile = board.getFileIndex(toPosition);
         int toRank = board.getRankIndex(toPosition);
 
-        //verifica se o movimento é válido para a rainha usando o metodo isValidMove de Piece
-
+        Piece queen = board.getPieceAt(fromFile, fromRank);
+        if (queen instanceof Queen) {
+            //verifica se o movimento é válido para a rainha usando o metodo isValidMove de Piece
         if (queen.isValidMove(fromFile, fromRank, toFile, toRank)) {
             //o movimento é válido, execute a movimentação
-            board.placePieceAt(Piece.noPiece(), fromPosition);
-            board.placePieceAt(queen, toPosition);
+            board.placePieceAt(Piece.noPiece(), fromFile, fromRank);
+            board.placePieceAt(queen, toFile, toRank);
             board.assignPieceValues();
             System.out.printf("Movimento de rainha realizado: " + fromPosition + " para " + toPosition);
             return true;

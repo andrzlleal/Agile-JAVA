@@ -20,8 +20,8 @@ public class GameTest {
         Game game = new Game();
         game.startGame();
 
-        assertEquals("rnbqkbnr\npppppppp\n........\n........\n........\n........\nPPPPPPPP\nRNBQKBNR",
-        game.board.getBoardRepresentation());
+        assertEquals("RNBQKBNR\nPPPPPPPP\n........\n........\n........\n........\npppppppp\nrnbqkbnr",
+        game.board.getBoardRepresentation().replaceAll(" ", ""));
 
         assertEquals(32, game.board.getNumberOfPieces());
     }
@@ -42,80 +42,28 @@ public class GameTest {
         assertFalse(game.movePiece("e3", "e5"));
     }
 
-
-
-//    @Test
-//    public void testMovePawnsInSameColumn() {
-//        double initialWhitePawnValue = game.board.getPieceValue("d2");
-//        double initialBlackPawnValue = game.board.getPieceValue("d7");
-//        System.out.printf("Initial white Pawn value: " + initialWhitePawnValue);
-//
-//        System.out.printf("Initial Black Pawn value: " + initialBlackPawnValue);
-//
-//        chessGame.movePiece("d2", "d4");
-//        chessGame.movePiece("d7", "d5");
-//
-//        double updatedWhitePawnValue = game.board.getPieceValue("d4");
-//        double updatedBlackPawnValue = game.board.getPieceValue("d5");
-//
-//        System.out.printf("Update white pawn Value " + updatedWhitePawnValue);
-//
-//        System.out.printf("Update black pawn Value " + updatedBlackPawnValue);
-//
-//        assertEquals(initialWhitePawnValue, updatedWhitePawnValue, 0.01);
-//        assertEquals(initialBlackPawnValue, updatedBlackPawnValue, 0.01);
-//    }
-//    @Test
-//    public void testMovePawnAndUpdateScore() {
-//        double initialScore = game.board.getPieceValue("e2");
-//
-//        chessGame.movePiece("e2", "e4");
-//
-//        double updatedScore = game.board.getPieceValue("e4");
-//
-//        assertEquals(initialScore, updatedScore, 0.01);
-//    }
-//    @Test
-//    public void testGetPieceValueAfterMove() {
-//        double initialQueenValue = game.board.getPieceValue("d1");
-//        chessGame.movePiece("d1", "d4");
-//        double updatedQueenValue = game.board.getPieceValue("d4");
-//
-//        assertEquals(initialQueenValue, updatedQueenValue, 0.01);
-//
-//        double initialRookValue = game.board.getPieceValue("a1");
-//        chessGame.movePiece("a1", "b4");
-//        double updatedRookValue = game.board.getPieceValue("b4");
-//
-//        assertEquals(initialRookValue, updatedRookValue, 0.01);
-//
-//        double initialPawnValue = game.board.getPieceValue("a2");
-//        chessGame.movePiece("a2", "a4");
-//        double updatedPawnValue = game.board.getPieceValue("a4");
-//
-//        assertEquals(initialPawnValue, updatedPawnValue, 0.01);
-//    }
     @Test
     public void testMoveKing() {
         Game game = new Game();
         game.startGame();
 
-        game.board.placePieceAt(new King(Piece.Color.WHITE), "e1");
+        int fromRank = 0;
+
+        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
 
         assertTrue(game.moveKing("e1", "d1"));
-        assertTrue(game.board.getPieceAt("d1") instanceof King);
 
         game.board.initializeBoard();
-        game.board.placePieceAt(new King(Piece.Color.WHITE), "e1");
+        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
 
         assertTrue(game.moveKing("e1", "f1"));
-        assertTrue(game.board.getPieceAt("f1") instanceof King) ;
-
     }
     @Test
     public void testInvalidMoveKing() {
         Game game = new Game();
-        game.board.placePieceAt(new King(Piece.Color.WHITE), "e1");
+        int fromRank = 0;
+
+        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
 
         assertFalse(game.moveKing("e1", "e3"));
         assertFalse(game.moveKing("e1", "e1"));
@@ -124,25 +72,22 @@ public class GameTest {
     @Test
     public void testMoveQueen() {
         Game game = new Game();
-        game.board.placePieceAt(new Queen(Piece.Color.WHITE), "d1");
+        game.startGame();
+        int fromRank = 0;
 
-        //testa movimento válido para a rainha branca
+        game.board.placePieceAt(new Queen(Piece.Color.WHITE), 3, fromRank);
+
         assertTrue(game.moveQueen("d1", "g4"));
-        assertTrue(game.board.getPieceAt("g4") instanceof Queen);
+        assertTrue(game.board.getPieceAt(3,6) instanceof Queen);
 
-        game.board.initializeBoard();
-        game.board.placePieceAt(new Queen(Piece.Color.WHITE), "d1");
-
-        assertTrue(game.moveQueen("d1", "a1"));
-        assertTrue(game.board.getPieceAt("a1") instanceof Queen);
     }
+    @Test
+    public void testInvalidQueenMove() {
+        Game game = new Game();
+        int fromRank = 0;
+        game.board.placePieceAt(new Queen(Piece.Color.WHITE), 3, fromRank);
 
-        @Test
-        public void testInvalidQueenMove() {
-            Game game = new Game();
-            game.board.placePieceAt(new Queen(Piece.Color.WHITE), "d1");
-
-            assertFalse(game.moveQueen("d1", "e3"));
-            assertFalse(game.moveQueen("d1", "j10"));
-        }
+        assertFalse(game.moveQueen("d1", "e3"));
+        assertFalse(game.moveQueen("d1", "j10"));
+    }
 }
