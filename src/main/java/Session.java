@@ -15,6 +15,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     public Iterator<Student> iterator() {
         return students.iterator();
     }
+
     double averageGpaForPartTimeStudents() {
         double total = 0.0;
         int count = 0;
@@ -36,6 +37,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
         this.number = number;
         this.startDate = startDate;
     }
+
     public int compareTo(Session that) {
         int compare =
                 this.getDepartment().compareTo(that.getDepartment());
@@ -43,31 +45,42 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
             return compare;
         return this.getNumber().compareTo(that.getNumber());
     }
+
     void setNumberOfCredits(int numberOfCredits) {
         this.numberOfCredits = numberOfCredits;
-    }public String getDepartment() {
+    }
+
+    public String getDepartment() {
         return department;
     }
+
     public String getNumber() {
         return number;
     }
+
     int getNumberOfStudents() {
         return students.size();
     }
+
     public void enroll(Student student) {
         student.addCredits(numberOfCredits);
         students.add(student);
     }
+
     Student get(int index) {
         return students.get(index);
     }
+
     protected Date getStartDate() {
         return startDate;
     }
+
     public List<Student> getAllStudents() {
         return students;
     }
+
     abstract protected int getSessionLength();
+
     public Date getEndDate() {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(getStartDate());
@@ -79,11 +92,19 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
         return calendar.getTime();
     }
 
-    public void setUrl(String urlString) throws MalformedURLException {
-        this.url = new URL(urlString);
+    public void setUrl(String urlString) throws SessionException {
+        try {
+            this.url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            log(e);
+            throw new SessionException(e);
+        }
     }
+
+    private void log(Exception e) {
+    }
+
     public URL getUrl() {
         return url;
     }
-
 }

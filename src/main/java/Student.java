@@ -3,10 +3,12 @@ import java.util.Collections;
 import java.util.List;
 
 
-
-
 public class Student implements Comparable<Student>{
-        private final String name;
+
+//    final static Logger logger =
+//            Logger.getLogger(Student.class.getName());
+
+    private final String name;
         private int credits;
         static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
         private String firstName = "";
@@ -16,7 +18,6 @@ public class Student implements Comparable<Student>{
         static final String IN_STATE = "CO";
 
         private String state = "";
-        private Student[] students;
 
         private final ArrayList<Grade> grades = new ArrayList<Grade>();
 
@@ -27,8 +28,8 @@ public class Student implements Comparable<Student>{
         public void addGrade(Grade grade) {
             grades.add(grade);
         }
-    private List<Integer> charges = new ArrayList<Integer>();
-
+        static final String TOO_MANY_NAME_PARTS_MSG =
+            "Student name '%s' contains more than %d parts";
     @Override
     public int compareTo(Student o) {
         return 0;
@@ -53,35 +54,29 @@ public class Student implements Comparable<Student>{
             D(1),
             F(0);
 
-        private final int points;
-            Grade(int points) {
-                this.points = points;
-            }
-            int getPoints() {
-                return points;
-            }
+        Grade(int points) {
+        }
+
     }
-    public void addCharge(int charge) {
-        charges.add(charge);
-    }
-    public int totalCharges() {
-        int total = 0;
-        for (Integer charge: charges)
-            total += charge;
-        return total;
-    }
+//
+//    public int totalCharges() {
+//        int total = 0;
+//        for (Integer charge: charges)
+//            total += charge;
+//        return total;
+//    }
 
     public Student(String fullName) throws StudentNameFormatException {
-            this.name = fullName;
-            credits = 0;
-            List<String> nameParts = split(fullName);
-            final int maximumNumberOfNameParts = 3;
-            if (nameParts.size() > maximumNumberOfNameParts) {
-                String message =
-                        "Student name '" + fullName + "'contains more than " + maximumNumberOfNameParts + " parts";
-                throw new StudentNameFormatException(message);
-            }
-            setName(nameParts);
+        this.name = fullName;
+        credits = 0;
+        List<String> nameParts = split(fullName);
+        if (nameParts.size() > MAX_NAME_PARTS) {
+            String message =
+                    String.format(Student.TOO_MANY_NAME_PARTS_MSG,
+                            fullName, MAX_NAME_PARTS);
+            throw new StudentNameFormatException(message);
+        }
+        setName(nameParts);
     }
 
     private List<String> split(String fullName) {
@@ -126,9 +121,7 @@ public class Student implements Comparable<Student>{
         public boolean isInState() {
             return state.equals(Student.IN_STATE);
     }
-
         private GradingStrategy gradingStrategy = new BasicGradingStrategy();
-        //RegularGradingStrategy
 
         double getGpa() {
             if (grades.isEmpty())
@@ -140,15 +133,13 @@ public class Student implements Comparable<Student>{
 
         }
 
-        int gradePointsFor(Grade grade) {
-            return gradingStrategy.getGradePointsFor(grade);
-        }
+//        int gradePointsFor(Grade grade) {
+//            return gradingStrategy.getGradePointsFor(grade);
+//        }
 
         void setGradingStrategy(GradingStrategy gradingStrategy) {
             this.gradingStrategy = gradingStrategy;
         }
-
-
 
 }
 

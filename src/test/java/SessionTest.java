@@ -73,18 +73,21 @@ abstract public class SessionTest {
         session.enroll(new Student("3"));
     }
     @Test
-    public void testSessionUrl() throws MalformedURLException {
+    public void testSessionUrl() throws SessionException{
         final String url = "http://course.langrsoft.com/cmsc300";
         session.setUrl(url);
         assertEquals(url, session.getUrl().toString());
     }
     @Test
     public void testInvalidSessionUrl() {
-        final String url = "https://course.langrsoft.com/cmsc300";
+        final String url = "httsp://course.langrsoft.com/cmsc300";
         try {
             session.setUrl(url);
             fail("expected exception due to invalid protocol in URL");
-        } catch (MalformedURLException success){
+        }
+        catch (SessionException expectedException) {
+            Throwable cause = expectedException.getCause();
+            assertEquals(MalformedURLException.class, cause.getClass());
         }
     }
 }

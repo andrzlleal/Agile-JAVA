@@ -79,21 +79,30 @@ public class StudentTest {
     @Test
     public void testCalculateHonorsStudentGpa() throws StudentNameFormatException {
         assertGpa(createHonorsStudent(), 0.0);
-        assertGpa(createHonorsStudent(Student.Grade.A), 5.0);
-        assertGpa(createHonorsStudent(Student.Grade.B), 4.0);
-        assertGpa(createHonorsStudent(Student.Grade.C), 3.0);
-        assertGpa(createHonorsStudent(Student.Grade.D), 2.0);
-        assertGpa(createHonorsStudent(Student.Grade.F), 0.0);
+        assertGpa(createHonorsStudent(), 5.0);
+        assertGpa(createHonorsStudent(), 4.0);
+        assertGpa(createHonorsStudent(), 3.0);
+        assertGpa(createHonorsStudent(), 2.0);
+        assertGpa(createHonorsStudent(), 0.0);
     }
-    private Student createHonorsStudent(Student.Grade grade) throws StudentNameFormatException {
-        Student student = createHonorsStudent();
-        student.addGrade(grade);
-        return student;
-    }
+
     private Student createHonorsStudent() throws StudentNameFormatException {
         Student student = new Student("a");
         student.setGradingStrategy(new HonorsGradingStrategy());
         return student;
     }
+    @Test
+    public void testBadlyFormattedName() {
+        final String studentName = "a b c d";
+        try {
+            new Student(studentName);
+            fail("expected exception from 4-part name");
+        }
+        catch (StudentNameFormatException expectedException) {
+            assertEquals(
+                    String.format(Student.TOO_MANY_NAME_PARTS_MSG,
+                            studentName, Student.MAX_NAME_PARTS),
+                    expectedException.getMessage());
+        }
 
 }
