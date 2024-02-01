@@ -1,27 +1,27 @@
 package pieces;
 
-import chess.Board;
 
-public class Pawn extends Piece {
+public abstract class Pawn extends Piece {
     private boolean hasMoved = false;
 
     public Pawn(Color color) {
         super(color);
     }
 
+    public boolean hasMoved() {
+        return hasMoved;
+    }
+
     @Override
-    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
         int forwardDirection = isBlack() ? 1 : -1;
 
-        Board board = null;
-        if ((toFile == fromFile) && (toRank == (fromRank + forwardDirection)) && board.isEmpty(toFile, toRank)) {
+        if ((toFile == fromFile) && (toRank == (fromRank + forwardDirection)) && isEmpty(toFile, toRank, pieces)) {
             return true;
         }
-        if (hasMoved || toFile != fromFile || toRank != fromRank + 2 * forwardDirection) return false;
-        assert board != null;
-        return board.isEmpty(toFile, toRank);
+        return !hasMoved() && toFile == fromFile && toRank == fromRank + 2 * forwardDirection && isEmpty(toFile, toRank, pieces);
     }
-    public char getRepresentation() {
+    public char getPieceRepresentation() {
         return isBlack() ? 'P' : 'p';
     }
 
@@ -38,7 +38,9 @@ public class Pawn extends Piece {
         super.move();
         hasMoved = true;
     }
-
+    private boolean isEmpty(int file, int rank, Piece[][] pieces) {
+        return pieces[file][rank] instanceof NoPiece;
+    }
 
 
 }

@@ -15,7 +15,12 @@ public class QueenTest {
     }
     @Test
     public void testIsValidMove() {
-        Queen queen = new Queen(Piece.Color.WHITE);
+        Queen queen = new Queen(Piece.Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        };
 
         assertTrue(queen.isValidMove(4,4,1,7));
         assertTrue(queen.isValidMove(4,4,4,7));

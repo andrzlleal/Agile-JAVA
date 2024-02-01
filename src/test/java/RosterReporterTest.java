@@ -1,16 +1,12 @@
 import org.junit.Test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import static org.junit.Assert.assertEquals;
 
 
 public class RosterReporterTest{
 
     @Test
-    public void testRosterReport() {
+    public void testRosterReport() throws StudentNameFormatException {
         CourseSession session =
                 new CourseSession("ENGL", "101", DateUtil.createDate(2003, 1, 6));
 
@@ -26,13 +22,13 @@ public class RosterReporterTest{
 
                         ReportConstant.NEWLINE, rosterReport);
     }
-    @Test
-    Date createDate(int year, int month, int date) {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1);
-        calendar.set(Calendar.DAY_OF_MONTH, date);
-        return calendar.getTime();
-    }
+//    @Test
+//    public Date createDate() {
+//        GregorianCalendar calendar = new GregorianCalendar();
+//        calendar.clear();
+//        calendar.set(Calendar.YEAR, year);
+//        calendar.set(Calendar.MONTH, month - 1);
+//        calendar.set(Calendar.DAY_OF_MONTH, date);
+//        return calendar.getTime();
+//    }
 }

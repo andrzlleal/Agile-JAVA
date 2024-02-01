@@ -3,7 +3,7 @@ package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Queen extends Piece{
+public abstract class Queen extends Piece{
 
     public Queen(Color color) {
         super(color);
@@ -25,7 +25,7 @@ public class Queen extends Piece{
         return (isDiagonal || isVertical || isHorizontal) && isValidSquare(toFile, toRank) && (isBlackQueen || isWhiteQueen);
     }
 
-    public char getRepresentation() {
+    public char getPieceRepresentation() {
         return isBlack() ? 'Q' : 'q';
     }
 

@@ -3,21 +3,21 @@ package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-public class King extends Piece{
+public abstract class King extends Piece{
 
     public King(Color color) {
         super(color);
     }
 
     @Override
-    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
         int fileDifference = Math.abs(toFile - fromFile);
         int rankDifference = Math.abs(toRank - fromRank);
 
-        return fileDifference <= 1 && rankDifference <= 1 && isValidSquare(toFile, toRank);
+        return fileDifference <= 1 && rankDifference <= 1;
     }
 
-    public char getRepresentation() {
+    public char getPieceRepresentation() {
         return isBlack() ? 'K' : 'k';
     }
 

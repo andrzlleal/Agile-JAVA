@@ -1,17 +1,17 @@
 package pieces;
 
-public class Rook extends Piece{
+public abstract class Rook extends Piece{
     public Rook(Color color) {
         super(color);
     }
 
     @Override
-    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+    public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
         //add lógica espeficia aqui
         return false;
     }
 
-    public char getRepresentation() {
+    public char getPieceRepresentation() {
         return isBlack() ? 'R' : 'r';
     }
     public static double getPieceValue() {

@@ -7,7 +7,7 @@ public class StudentTest {
     private static final double GRADE_TOLERANCE = 0.05;
 
     @Test
-    public void test() {
+    public void test() throws StudentNameFormatException {
         final String firstStudentName = "Jane Doe";
         Student firstStudent = new Student(firstStudentName);
         assertEquals(firstStudentName, firstStudent.getName());
@@ -32,7 +32,7 @@ public class StudentTest {
     }
 
     @Test
-    public void testStudentStatus() {
+    public void testStudentStatus() throws StudentNameFormatException {
         Student student  = new Student("a");
         assertEquals(0, student.getCredits());
         assertFalse(student.isFullTime());
@@ -50,7 +50,7 @@ public class StudentTest {
         assertTrue(student.isFullTime());
     }
     @Test
-        public void testInState() {
+        public void testInState() throws StudentNameFormatException {
         Student student = new Student("a");
         assertFalse(student.isInState());
         student.setState(Student.IN_STATE);
@@ -59,7 +59,7 @@ public class StudentTest {
         assertFalse(student.isInState());
     }
     @Test
-    public void testCalculateGpa() {
+    public void testCalculateGpa() throws StudentNameFormatException {
         Student student = new Student("a");
         assertGpa(student, 0.0);
         student.addGrade(Student.Grade.A);
@@ -77,7 +77,7 @@ public class StudentTest {
         assertEquals(expectedGpa, student.getGpa(), GRADE_TOLERANCE);
     }
     @Test
-    public void testCalculateHonorsStudentGpa() {
+    public void testCalculateHonorsStudentGpa() throws StudentNameFormatException {
         assertGpa(createHonorsStudent(), 0.0);
         assertGpa(createHonorsStudent(Student.Grade.A), 5.0);
         assertGpa(createHonorsStudent(Student.Grade.B), 4.0);
@@ -85,12 +85,12 @@ public class StudentTest {
         assertGpa(createHonorsStudent(Student.Grade.D), 2.0);
         assertGpa(createHonorsStudent(Student.Grade.F), 0.0);
     }
-    private Student createHonorsStudent(Student.Grade grade) {
+    private Student createHonorsStudent(Student.Grade grade) throws StudentNameFormatException {
         Student student = createHonorsStudent();
         student.addGrade(grade);
         return student;
     }
-    private Student createHonorsStudent() {
+    private Student createHonorsStudent() throws StudentNameFormatException {
         Student student = new Student("a");
         student.setGradingStrategy(new HonorsGradingStrategy());
         return student;

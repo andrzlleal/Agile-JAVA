@@ -1,3 +1,5 @@
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 abstract public class Session implements Comparable<Session>, Iterable<Student> {
@@ -8,6 +10,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     private final Date startDate;
     private int numberOfCredits;
     private final Vector<Student> students = new Vector<Student>();
+    private URL url;
 
     public Iterator<Student> iterator() {
         return students.iterator();
@@ -75,4 +78,12 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
     }
+
+    public void setUrl(String urlString) throws MalformedURLException {
+        this.url = new URL(urlString);
+    }
+    public URL getUrl() {
+        return url;
+    }
+
 }

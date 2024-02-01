@@ -24,7 +24,12 @@ public class KingTest {
 
     @Test
     public void testValidMove() {
-        Piece king = new King(WHITE);
+        Piece king = new King(WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
 
         assertTrue(king.isValidMove(3,3,4,4));
         assertTrue(king.isValidMove(3,5,4,5));

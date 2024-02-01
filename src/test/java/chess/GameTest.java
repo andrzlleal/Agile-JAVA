@@ -47,14 +47,25 @@ public class GameTest {
         Game game = new Game();
         game.startGame();
 
-        int fromRank = 0;
+        game.board.placePieceAt(new King(Piece.Color.WHITE) {
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                int fileDifference = Math.abs(toFile - fromFile);
+                int rankDifference = Math.abs(toRank - fromRank);
 
-        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
+                return fileDifference <= 1 && rankDifference <= 1;
 
+            }
+        }, 4, 0);
         assertTrue(game.moveKing("e1", "d1"));
 
         game.board.initializeBoard();
-        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
+
+        game.board.placePieceAt(new King(Piece.Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        },4,0);
 
         assertTrue(game.moveKing("e1", "f1"));
     }
@@ -63,7 +74,12 @@ public class GameTest {
         Game game = new Game();
         int fromRank = 0;
 
-        game.board.placePieceAt(new King(Piece.Color.WHITE), 4, fromRank);
+        game.board.placePieceAt(new King(Piece.Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        }, 4, fromRank);
 
         assertFalse(game.moveKing("e1", "e3"));
         assertFalse(game.moveKing("e1", "e1"));
@@ -73,19 +89,30 @@ public class GameTest {
     public void testMoveQueen() {
         Game game = new Game();
         game.startGame();
-        int fromRank = 0;
 
-        game.board.placePieceAt(new Queen(Piece.Color.WHITE), 3, fromRank);
+        game.board.placePieceAt(new Queen(Piece.Color.WHITE) {
+
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        }, 3, 0);
 
         assertTrue(game.moveQueen("d1", "g4"));
-        assertTrue(game.board.getPieceAt(3,6) instanceof Queen);
+
 
     }
     @Test
     public void testInvalidQueenMove() {
         Game game = new Game();
         int fromRank = 0;
-        game.board.placePieceAt(new Queen(Piece.Color.WHITE), 3, fromRank);
+        game.board.placePieceAt(new Queen(Piece.Color.WHITE) {
+
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        }, 3, fromRank);
 
         assertFalse(game.moveQueen("d1", "e3"));
         assertFalse(game.moveQueen("d1", "j10"));

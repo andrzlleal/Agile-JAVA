@@ -1,6 +1,6 @@
 package pieces;
 
-public class Bishop extends Piece{
+public abstract class Bishop extends Piece{
 
     public Bishop(Color color) {
         super(color);
@@ -12,7 +12,7 @@ public class Bishop extends Piece{
         return false;
     }
 
-    public char getRepresentation() {
+    public char getPieceRepresentation() {
         return isBlack() ? 'B' : 'b';
     }
 

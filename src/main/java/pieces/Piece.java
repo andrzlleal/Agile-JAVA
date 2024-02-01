@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public abstract class Piece implements Comparable<Piece> {
 
@@ -12,10 +13,38 @@ public abstract class Piece implements Comparable<Piece> {
     private static int blackPieceCount = 0;
     private double strength = 0;
 
+    int file;
+    int rank;
+
     public static double getPieceValue() {
         return 0;
     }
 
+    public Piece(Color color, int file, int rank) {
+        this.color = color;
+        this.file = file;
+        this.rank = rank;
+
+        incrementPieceCount();
+    }
+    private void incrementPieceCount() {
+     if (isWhite()) {
+         whitePieceCount++;
+     } else if (isBlack()) {
+         blackPieceCount++;
+     }
+    }
+
+    public int getFile() {
+        return file;
+    }
+    public void setFile(int file) { this.file = file; }
+    public int getRank() {
+        return rank;
+    }
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
 
     public List<String> getPossibleMoves(String currentPosition) {
         if (this instanceof NoPiece) {
@@ -47,53 +76,73 @@ public abstract class Piece implements Comparable<Piece> {
     }
 
     public static Piece noPiece() {
-        return new NoPiece();
+        return NoPiece.getInstance();
     }
 
     @Override
     public int compareTo(Piece otherPiece) {
         return Double.compare(this.strength, otherPiece.getStrength());
     }
+    private static final Map<Class<? extends Piece>, Supplier<Piece>> pieceConstructors = Map.of(
+            Pawn.class, Piece::createPawn
 
-    public static Piece createPiece(Color color, Class<? extends Piece> pieceClass) {
-        try {
-            return pieceClass.getDeclaredConstructor(Color.class).newInstance(color);
-        } catch (Exception e) {
-            e.printStackTrace(); // handle or log the exception as needed
-            return noPiece(); //default to no piece in case of instantiation failure
-        }
+            // Adicionar outras classes de peças
+    );
+    public static Piece createPiece(Color color, Class<? extends Piece> pieceClass, int file, int rank) {
+        return pieceConstructors.getOrDefault(pieceClass, Piece::noPiece).get();
+    }
+
+    private static Piece createPawn() {
+        return new Pawn(Color.NO_PIECE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
+    }
+
+    private static NoPiece createNoPiece() {
+        return NoPiece.getInstance();
     }
 
     public static Piece createPieceForIndex(int index) {
         int file = index % 8;
         int rank = index / 8;
 
-        if (rank == 0 || rank == 7) {
-            switch (file) {
-                case 0, 7 -> {
-                    return (rank == 0) ? createWhiteRook() : createBlackRook();
-                }
-                case 1, 6 -> {
-                    return (rank == 0) ? createWhiteKnight() : createBlackKnight();
-                }
-                case 2, 5 -> {
-                    return (rank == 0) ? createWhiteBishop() : createBlackBishop();
-                }
-                case 3 -> {
-                    return (rank == 0) ? createWhiteQueen() : createBlackQueen();
-                }
-                case 4 -> {
-                    return (rank == 0) ? createWhiteKing() : createBlackKing();
-                }
-                default -> {
-                    return noPiece();
-                }
-            }
-        } else if (rank == 1 || rank == 6) {
-            return (rank == 1) ? createWhitePawn() : createBlackPawn();
-        } else {
-            return noPiece();
+        switch (rank) {
+            case 0, 7 -> {return createPieceForTopAndBottomRank(file, rank); }
+            case 1, 6 -> {return (rank ==1) ? createWhitePawn() : createBlackPawn(); }
+            default -> {return NoPiece.getInstance(); }
         }
+    }
+    private static Piece createPieceForTopAndBottomRank(int file, int rank) {
+        return switch (file) {
+            case 0, 7 -> createRook(rank);
+            case 1, 6 -> createKnight(rank);
+            case 2, 5 -> createBishop(rank);
+            case 3 -> createQueen(rank);
+            case 4 -> createKing(rank);
+            default -> createNoPiece();
+        };
+    }
+    private static Piece createRook(int rank) {
+        return (rank == 0) ? createWhiteRook() : createBlackRook();
+    }
+
+    private static Piece createKnight(int rank) {
+        return (rank == 0) ? createWhiteKnight() : createBlackKnight();
+    }
+
+    private static Piece createBishop(int rank) {
+        return (rank == 0) ? createWhiteBishop() : createBlackBishop();
+    }
+
+    private static Piece createQueen(int rank) {
+        return (rank == 0) ? createWhiteQueen() : createBlackQueen();
+    }
+
+    private static Piece createKing(int rank) {
+        return (rank == 0) ? createWhiteKing() : createBlackKing();
     }
 
     public void setStrength(double pieceValue) {
@@ -117,12 +166,10 @@ public abstract class Piece implements Comparable<Piece> {
         return -1;
     }
 
+    public abstract boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces);
+
     public char getRepresentation() {
-        if (this instanceof NoPiece) {
-            return '.';
-        } else {
-            return isWhite() ? Character.toLowerCase(getPieceRepresentation()) : Character.toUpperCase(getRepresentation());
-        }
+        return (this instanceof NoPiece) ? '.' : getPieceRepresentation();
     }
 
     private static final Map<Class<? extends Piece>, Character> pieceRepresentationMap = Map.of(
@@ -141,7 +188,7 @@ public abstract class Piece implements Comparable<Piece> {
 
     protected void move() {
     }
-    
+
     public enum Color {
         WHITE, BLACK, NO_PIECE
     }
@@ -158,50 +205,105 @@ public abstract class Piece implements Comparable<Piece> {
 
     public Piece(Color color) {
         this.color = color;
-
-        if (Color.WHITE.equals(color)) {
-            whitePieceCount++;
-
-        }else if(Color.BLACK.equals(color)) {
-            blackPieceCount++;
-        }
+        incrementPieceCount();
     }
+
 
     public static Piece createWhitePawn() {
-        return new Pawn (Color.WHITE);
+      return new Pawn(Color.WHITE) {
+          @Override
+          public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return toFile == fromFile && toRank == fromRank +1;
+          }
+      };
     }
     public static Piece createBlackPawn() {
-        return new Pawn(Color.BLACK);
+      return new Pawn(Color.BLACK) {
+          @Override
+          public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+             return toFile == fromFile && toRank == fromRank - 1;
+             }
+      };
     }
     public static Piece createWhiteRook() {
-        return new Rook(Color.WHITE);
+        return new Rook(Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createBlackRook() {
-        return new Rook(Color.BLACK);
+        return new Rook(Color.BLACK) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createWhiteKnight() {
-        return new Knight(Color.WHITE);
+        return new Knight(Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createBlackKnight() {
-        return new Knight(Color.BLACK);
+        return new Knight(Color.BLACK) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createWhiteQueen() {
-        return new Queen(Color.WHITE);
+        return new Queen(Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        };
     }
     public static Piece createBlackQueen() {
-        return new Queen(Color.BLACK);
+        return new Queen(Color.BLACK) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        };
     }
     public static Piece createWhiteKing() {
-        return new King(Color.WHITE);
+        return new King(Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createBlackKing() {
-        return new King(Color.BLACK);
+        return new King(Color.BLACK) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank) {
+                return false;
+            }
+        };
     }
     public static Piece createWhiteBishop() {
-        return new Bishop(Color.WHITE);
+        return new Bishop(Color.WHITE) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        };
     }
     public static Piece createBlackBishop() {
-        return new Bishop(Color.BLACK);
+        return new Bishop(Color.BLACK) {
+            @Override
+            public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
+                return false;
+            }
+        };
     }
 
 }

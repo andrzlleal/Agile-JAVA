@@ -59,7 +59,11 @@ public class Board implements Iterable<Piece>{
 
             for (Piece[] rank : pieces) {
                 for (Piece piece : rank) {
-                    representation.append(piece.getRepresentation());
+                    if (piece != null) {
+                        representation.append(piece.getRepresentation());
+                    } else {
+                        representation.append('.');
+                    }
             }
                 representation.append("\n");
         }
@@ -192,13 +196,11 @@ public class Board implements Iterable<Piece>{
     }
 
     public void assignPieceValues() {
-
         for (Piece[] rank : pieces) {
             for (Piece currentPiece : rank) {
                 currentPiece.setStrength(Piece.getPieceValue());
             }
         }
-
         addPointsForSameColumnPawns();
     }
 
@@ -230,6 +232,14 @@ public class Board implements Iterable<Piece>{
     }
     public int getRankIndex(String position) {
         return Character.getNumericValue(position.charAt(1)) - 1;
+    }
+
+    public Piece[][] getPieces() {
+        Piece[][] copy = new Piece[8][8];
+        for (int rank = 0; rank < 8; rank++) {
+            System.arraycopy(pieces[rank], 0, copy[rank], 0, pieces[rank].length);
+        }
+        return copy;
     }
 
 }

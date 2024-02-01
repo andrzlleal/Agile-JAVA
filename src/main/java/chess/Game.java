@@ -36,7 +36,8 @@ public boolean movePiece(String fromPosition, String toPosition) {
     }
     return false;
 }
-public boolean moveKing(String fromPosition, String toPosition) {
+    public boolean moveKing(String fromPosition, String toPosition) {
+
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);
 
@@ -46,18 +47,18 @@ public boolean moveKing(String fromPosition, String toPosition) {
         Piece king = board.getPieceAt(fromFile, fromRank);
 
         if (king instanceof King) {
-            if (!fromPosition.equals(toPosition) && king.isValidMove(fromFile, fromRank, toFile, toRank)) {
+            if (king.isValidMove(fromFile, fromRank, toFile, toRank, board.getPieces())) {
                 board.placePieceAt(Piece.noPiece(), fromFile, fromRank);
-                board.placePieceAt(king, toFile, fromRank);
+                board.placePieceAt(king, toFile, toRank);
                 System.out.println("Movimento do Rei realizado de: " + fromPosition + " para " + toPosition);
-                    return true;
+                return true;
             } else {
                 System.out.println("Movimento inválido para o Rei de: " + fromPosition + " para " + toPosition);
             }
-
         }
-            return false;
-}
+
+        return false;
+    }
 public boolean moveQueen(String fromPosition, String toPosition) {
         int fromFile = board.getFileIndex(fromPosition);
         int fromRank = board.getRankIndex(fromPosition);

@@ -1,12 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 abstract public class SessionTest {
     private Session session;
@@ -31,7 +31,7 @@ abstract public class SessionTest {
         assertEquals(startDate, session.getStartDate());}
 
     @Test
-    public void testEnrollStudents() {
+    public void testEnrollStudents() throws StudentNameFormatException {
         Student student1 = new Student("Cain DiVoe");
         session.enroll(student1);
         assertEquals(CREDITS, student1.getCredits());
@@ -58,7 +58,7 @@ abstract public class SessionTest {
         assertTrue(sessionD.compareTo(sessionC) > 0);
     }
     @Test
-    public void testIterate() {
+    public void testIterate() throws StudentNameFormatException {
         enrollStudents(session);
 
         List<Student> results = new ArrayList<Student>();
@@ -67,9 +67,24 @@ abstract public class SessionTest {
 
         assertEquals(session.getAllStudents(), results);
     }
-    private void enrollStudents(Session session) {
+    private void enrollStudents(Session session) throws StudentNameFormatException {
         session.enroll(new Student("1"));
         session.enroll(new Student("2"));
         session.enroll(new Student("3"));
+    }
+    @Test
+    public void testSessionUrl() throws MalformedURLException {
+        final String url = "http://course.langrsoft.com/cmsc300";
+        session.setUrl(url);
+        assertEquals(url, session.getUrl().toString());
+    }
+    @Test
+    public void testInvalidSessionUrl() {
+        final String url = "https://course.langrsoft.com/cmsc300";
+        try {
+            session.setUrl(url);
+            fail("expected exception due to invalid protocol in URL");
+        } catch (MalformedURLException success){
+        }
     }
 }
