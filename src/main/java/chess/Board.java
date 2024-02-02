@@ -128,13 +128,9 @@ public class Board implements Iterable<Piece>{
         return position.length() == 2 && isValidFile(position.charAt(0)) && isValidRank(position.charAt(1));
     }
 
-    private boolean isValidFile(char file) {
-        return file >= 'a' && file <= 'h';
-    }
+    private boolean isValidFile(char file) { return file >= 'a' && file <= 'h';}
 
-    private boolean isValidRank(char rank) {
-        return rank >= '1' && rank <= '8';
-    }
+    private boolean isValidRank(char rank) { return rank >= '1' && rank <= '8'; }
 
     int positionToIndex(String position) {
         char file = position.charAt(0);

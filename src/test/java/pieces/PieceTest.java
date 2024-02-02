@@ -149,7 +149,6 @@ public class PieceTest{
       public boolean isValidMove(int fromFile, int fromRank, int toFile, int toRank, Piece[][] pieces) {
         return false;
       }
-
     };
 
     whitePiece.setFile(2);

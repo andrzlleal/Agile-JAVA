@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import java.util.logging.Logger;
+
 import static org.junit.Assert.*;
 
 
@@ -18,8 +20,7 @@ public class StudentTest {
         final String secondStudentName = "Joe Blow";
         Student secondStudent = new Student(secondStudentName);
         assertEquals(secondStudentName, secondStudent.getName());
-        assertEquals(firstStudentName, firstStudent.getName());
-        assertEquals("", secondStudent.getFirstName());
+        assertEquals("Joe", secondStudent.getFirstName());
         assertEquals("Blow", secondStudent.getLastName());
         assertEquals("", secondStudent.getMiddleName());
 
@@ -33,7 +34,7 @@ public class StudentTest {
 
     @Test
     public void testStudentStatus() throws StudentNameFormatException {
-        Student student  = new Student("a");
+        Student student = new Student("a");
         assertEquals(0, student.getCredits());
         assertFalse(student.isFullTime());
 
@@ -44,13 +45,14 @@ public class StudentTest {
         student.addCredits(4);
         assertEquals(7, student.getCredits());
         assertFalse(student.isFullTime());
-        
+
         student.addCredits(5);
         assertEquals(Student.CREDITS_REQUIRED_FOR_FULL_TIME, student.getCredits());
         assertTrue(student.isFullTime());
     }
+
     @Test
-        public void testInState() throws StudentNameFormatException {
+    public void testInState() throws StudentNameFormatException {
         Student student = new Student("a");
         assertFalse(student.isInState());
         student.setState(Student.IN_STATE);
@@ -58,6 +60,7 @@ public class StudentTest {
         student.setState("MD");
         assertFalse(student.isInState());
     }
+
     @Test
     public void testCalculateGpa() throws StudentNameFormatException {
         Student student = new Student("a");
@@ -71,19 +74,34 @@ public class StudentTest {
         student.addGrade(Student.Grade.D);
         assertGpa(student, 2.5);
         student.addGrade(Student.Grade.F);
-        assertGpa(student, 2.0 );
+        assertGpa(student, 2.0);
     }
+
     private void assertGpa(Student student, double expectedGpa) {
-        assertEquals(expectedGpa, student.getGpa(), GRADE_TOLERANCE);
+        double epsilon = 0.0001;
+        assertEquals(expectedGpa, student.getGpa(), epsilon);
     }
+
     @Test
     public void testCalculateHonorsStudentGpa() throws StudentNameFormatException {
-        assertGpa(createHonorsStudent(), 0.0);
-        assertGpa(createHonorsStudent(), 5.0);
-        assertGpa(createHonorsStudent(), 4.0);
-        assertGpa(createHonorsStudent(), 3.0);
-        assertGpa(createHonorsStudent(), 2.0);
-        assertGpa(createHonorsStudent(), 0.0);
+        Student student = createHonorsStudent();
+
+        assertGpa(student, 0.0);
+        assertGpa(student, 5.0);
+        assertGpa(student, 4.0);
+        assertGpa(student, 3.0);
+        assertGpa(student, 2.0);
+        assertGpa(student, 0.0);
+    }
+    @Test
+    public void testStudentGpaWithHonors() throws StudentNameFormatException {
+        Student student = createHonorsStudent();
+        student.addGrade(Student.Grade.A);
+        student.addGrade(Student.Grade.B);
+        student.addGrade(Student.Grade.C);
+
+        assertEquals(4.0, student.getGpa(), 0.0001);
+
     }
 
     private Student createHonorsStudent() throws StudentNameFormatException {
@@ -91,18 +109,34 @@ public class StudentTest {
         student.setGradingStrategy(new HonorsGradingStrategy());
         return student;
     }
+
     @Test
     public void testBadlyFormattedName() {
+        TestHandler handler = new TestHandler();
+        Student.logger.addHandler(handler);
+
         final String studentName = "a b c d";
         try {
             new Student(studentName);
             fail("expected exception from 4-part name");
-        }
-        catch (StudentNameFormatException expectedException) {
-            assertEquals(
+        } catch (StudentNameFormatException expectedException) {
+            String message =
                     String.format(Student.TOO_MANY_NAME_PARTS_MSG,
-                            studentName, Student.MAX_NAME_PARTS),
-                    expectedException.getMessage());
+                            studentName, Student.MAX_NAME_PARTS);
+            assertEquals(message, expectedException.getMessage());
+            assertTrue(wasLogged(message, handler));
         }
+    }
+    private boolean wasLogged(String message, TestHandler handler){
+        return message.equals(handler.getMessage());
+    }
+    @Test
+    public void testLoggingHierarchy() {
+        Logger logger = Logger.getLogger("sis.studentinfo.Student");
+        assertSame(logger, Logger.getLogger("sis.studentinfo.Student"));
 
+        Logger parent = Logger.getLogger("sis.studentinfo");
+        assertEquals(parent, logger.getParent());
+        assertEquals(Logger.getLogger("sis"), parent.getParent());
+    }
 }

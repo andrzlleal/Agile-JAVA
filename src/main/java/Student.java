@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class Student implements Comparable<Student>{
 
-//    final static Logger logger =
-//            Logger.getLogger(Student.class.getName());
+    public static final int MAX_NAME_PARTS = 3;
+    final static Logger logger = Logger.getLogger(Student.class.getName());
 
     private final String name;
         private int credits;
@@ -39,12 +40,10 @@ public class Student implements Comparable<Student>{
             return firstName;
     }
 
-    public String getLastName() {
-            return middleName;
-    }
+    public String getLastName() { return lastName; }
 
     public String getMiddleName() {
-            return lastName;
+            return middleName;
     }
 
     public enum Grade {
@@ -74,6 +73,7 @@ public class Student implements Comparable<Student>{
             String message =
                     String.format(Student.TOO_MANY_NAME_PARTS_MSG,
                             fullName, MAX_NAME_PARTS);
+            Student.logger.info(message);
             throw new StudentNameFormatException(message);
         }
         setName(nameParts);
@@ -86,14 +86,22 @@ public class Student implements Comparable<Student>{
     }
 
     private void setName(List<String> nameParts) {
-        this.lastName = removeLast(nameParts);
-        String name = removeLast(nameParts);
-
-        if (nameParts.isEmpty())
-            this.firstName = name;
-        else {
-            this.middleName = name;
-            this.firstName = removeLast(nameParts);
+        if (nameParts.isEmpty()) {
+            this.firstName = "";
+            this.middleName = "";
+            this.lastName = "";
+        } else if (nameParts.size() == 1) {
+            this.firstName = nameParts.getFirst();
+            this.middleName = "";
+            this.lastName = "";
+        } else if (nameParts.size() == 2) {
+            this.firstName = nameParts.get(0);
+            this.middleName = "";
+            this.lastName = nameParts.get(1);
+        } else {
+            this.firstName = nameParts.getFirst();
+            this.middleName = String.join(" ", nameParts.subList(1, nameParts.size() - 1));
+            this.lastName = nameParts.getLast();
         }
     }
         private String removeLast(List<String> list) {
@@ -124,12 +132,15 @@ public class Student implements Comparable<Student>{
         private GradingStrategy gradingStrategy = new BasicGradingStrategy();
 
         double getGpa() {
+            Student.logger.fine("begin getGpa" + System.currentTimeMillis());
             if (grades.isEmpty())
                 return 0.0;
             double total = 0.0;
             for (Grade grade: grades)
                 total += gradingStrategy.getGradePointsFor(grade);
-              return total / grades.size();
+              double result = total / grades.size();
+              Student.logger.fine("end Gpa " + System.currentTimeMillis());
+              return result;
 
         }
 

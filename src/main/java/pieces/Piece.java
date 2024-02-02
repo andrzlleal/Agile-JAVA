@@ -86,7 +86,7 @@ public abstract class Piece implements Comparable<Piece> {
     private static final Map<Class<? extends Piece>, Supplier<Piece>> pieceConstructors = Map.of(
             Pawn.class, Piece::createPawn
 
-            // Adicionar outras classes de peças
+            //Adicionar outras classes de peças
     );
     public static Piece createPiece(Color color, Class<? extends Piece> pieceClass, int file, int rank) {
         return pieceConstructors.getOrDefault(pieceClass, Piece::noPiece).get();

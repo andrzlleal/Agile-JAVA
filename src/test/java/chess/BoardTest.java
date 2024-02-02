@@ -20,7 +20,7 @@ public class BoardTest {
 
         assertEquals(0, board.getNumberOfPieces());
 
-        String expectedBoard =
+        String expectedEmptyBoard =
                 """
                         ........
                         ........
@@ -31,8 +31,7 @@ public class BoardTest {
                         ........
                         ........""";
 
-        String actualBoard = board.getBoardRepresentation().replaceAll(" ", "");
-        assertEquals(expectedBoard, actualBoard);
+        assertEquals(expectedEmptyBoard, board.getBoardRepresentation().replaceAll(" ", ""));
     }
     @Test
     public void testBoardWithPieces() {
@@ -53,8 +52,7 @@ public class BoardTest {
                 pppppppp
                 rnbqkbnr""";
 
-        String actualBoard = board.getBoardRepresentation().replaceAll(" ", "");
-        assertEquals(expectedBoard, actualBoard);
+        assertEquals(expectedBoard, board.getBoardRepresentation().replaceAll(" ", ""));
     }
 
     @Test
@@ -105,7 +103,10 @@ public class BoardTest {
         Piece selectedPiece = board.getPieceAt(3, 0);
 
         assertEquals('Q' + "", selectedPiece.getRepresentation() + "");
-        assertEquals('q' + "", board.getPieceAt(3,7).getRepresentation() + "");
+
+        Piece anotherPiece = board.getPieceAt(3, 7);
+
+        assertEquals('q', anotherPiece.getRepresentation());
     }
     @Test
     public void testCreatePieceForIndex() {
