@@ -46,6 +46,13 @@ public class Student implements Comparable<Student>{
             return middleName;
     }
 
+    public void setId(String id) {
+    }
+
+    public String getId() {
+        return null;
+    }
+
     public enum Grade {
             A(4),
             B(3),

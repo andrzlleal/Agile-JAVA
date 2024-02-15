@@ -32,4 +32,6 @@ public class BoardIterator implements Iterator<Piece> {
         }
         return currentPiece;
     }
+
+
 }

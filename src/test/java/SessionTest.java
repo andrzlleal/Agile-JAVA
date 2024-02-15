@@ -15,14 +15,14 @@ abstract public class SessionTest {
 
     @Before
     public void setUp() {
-        startDate = DateUtil.createDate(2003, 1, 6);
-        session = createSession("ENGL", "101", startDate);
-        session.setNumberOfCredits(CREDITS);
+       startDate = new Date();
+       session = createSession(new Course("ENGL", "101"), startDate);
+       session.setNumberOfCredits(CREDITS);
     }
 
 
     abstract protected Session createSession(
-            String department, String number, Date startDate);
+            Course course, Date startDate);
     @Test
     public void testCreate() {
         assertEquals("ENGL", session.getDepartment());
