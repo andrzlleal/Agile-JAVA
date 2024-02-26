@@ -7,7 +7,7 @@ public class CourseSession extends Session {
         return new CourseSession(course, startDate);
     }
     protected CourseSession(Course course, Date startDate) {
-        super(course.getDepartment(), course.getNumber(), startDate);
+        super(course, startDate);
     }
     static private void incrementCount() {
         ++count;

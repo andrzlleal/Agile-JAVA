@@ -4,13 +4,13 @@ import java.util.*;
 
 abstract public class Session implements Comparable<Session>, Iterable<Student> {
     private static int count;
-    private final String department;
-    private final String number;
-    //private final List<Student> students = new ArrayList<Student>();
+
+    private Course course;
     private final Date startDate;
     private int numberOfCredits;
     private final Vector<Student> students = new Vector<Student>();
     private URL url;
+
 
     public Iterator<Student> iterator() {
         return students.iterator();
@@ -31,10 +31,8 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
         return total / count;
     }
 
-    protected Session(
-            String department, String number, Date startDate) {
-        this.department = department;
-        this.number = number;
+    protected Session(Course course, Date startDate) {
+        this.course = course;
         this.startDate = startDate;
     }
 
@@ -51,11 +49,11 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     }
 
     public String getDepartment() {
-        return department;
+        return course.getDepartment();
     }
 
     public String getNumber() {
-        return number;
+        return course.getNumber();
     }
 
     int getNumberOfStudents() {
@@ -91,7 +89,6 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
     }
-
     public void setUrl(String urlString) throws SessionException {
         try {
             this.url = new URL(urlString);

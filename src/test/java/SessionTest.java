@@ -57,6 +57,11 @@ abstract public class SessionTest {
         assertTrue(sessionC.compareTo(sessionD) < 0);
         assertTrue(sessionD.compareTo(sessionC) > 0);
     }
+
+    private Session createSession(String cmsc, String number, Date date) {
+        return null;
+    }
+
     @Test
     public void testIterate() throws StudentNameFormatException {
         enrollStudents(session);

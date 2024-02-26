@@ -2,7 +2,6 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl.createDate;
 import static org.junit.Assert.assertEquals;
 
 public class CourseSessionTest extends SessionTest {
@@ -13,6 +12,10 @@ public class CourseSessionTest extends SessionTest {
             Date sixteenWeeksOut = createDate(2003, 4, 25);
             assertEquals(sixteenWeeksOut, session.getEndDate());
         }
+
+    private Date createDate(int i, int i1, int i2) {
+        return null;
+    }
 
     @Test
         public void testCount() {
