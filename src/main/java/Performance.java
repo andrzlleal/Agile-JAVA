@@ -10,9 +10,12 @@ public class Performance {
         return tests[testNumber];
     }
     public double average() {
-        double total = 0.0;
-        for (int test : tests) total += test;
-        return total / tests.length;
+        if (tests.length == 0)
+            return 0.0;
+        int total = 0;
+        for (int score: tests)
+            total += score;
+        return (double)total / tests.length;
     }
     public void setScores(int... tests) {
         this.tests = tests;

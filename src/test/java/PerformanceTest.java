@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PerformanceTest{
 
@@ -22,6 +23,11 @@ public class PerformanceTest{
 
         assertEquals(92, performance.get(1));
         assertEquals(85.75, performance.average(), tolerance);
+    }
+    @Test
+    public void testAverageForNoScores() {
+        Performance performance = new Performance();
+        assertTrue(Double.isNaN(performance.average()));
     }
     @Test
     public void testArrayParm() {
