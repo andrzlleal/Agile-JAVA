@@ -139,4 +139,22 @@ public class StudentTest {
         assertEquals(parent, logger.getParent());
         assertEquals(Logger.getLogger("sis"), parent.getParent());
     }
+    @Test
+    public void testFlags() throws StudentNameFormatException {
+        Student student = new Student("a");
+        Student.set(
+                Student.Flag.ON_CAMPUS,
+                Student.Flag.TAX_EXEMPT,
+                Student.Flag.MINOR);
+        assertTrue(student.isOn(Student.Flag.ON_CAMPUS));
+        assertTrue(student.isOn(Student.Flag.TAX_EXEMPT));
+        assertTrue(student.isOn(Student.Flag.MINOR));
+        assertFalse(student.isOff(Student.Flag.ON_CAMPUS));
+        assertTrue(student.isOff(Student.Flag.TROUBLEMAKER));
+        student.unset(Student.Flag.ON_CAMPUS);
+        assertTrue(student.isOff(Student.Flag.ON_CAMPUS));
+        assertTrue(student.isOn(Student.Flag.TAX_EXEMPT));
+        assertTrue(student.isOn(Student.Flag.MINOR));
+    }
+
 }

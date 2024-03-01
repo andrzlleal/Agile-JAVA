@@ -8,6 +8,7 @@ public class Student implements Comparable<Student>{
 
     public static final int MAX_NAME_PARTS = 3;
     final static Logger logger = Logger.getLogger(Student.class.getName());
+    private static int settings = 0x0;
 
     private final String name;
         private int credits;
@@ -151,13 +152,38 @@ public class Student implements Comparable<Student>{
 
         }
 
-//        int gradePointsFor(Grade grade) {
-//            return gradingStrategy.getGradePointsFor(grade);
-//        }
-
         void setGradingStrategy(GradingStrategy gradingStrategy) {
             this.gradingStrategy = gradingStrategy;
         }
+
+        public enum Flag {
+            ON_CAMPUS(1),
+            TAX_EXEMPT(2),
+            MINOR(4),
+            TROUBLEMAKER(8) ;
+
+            private final int mask;
+
+            Flag(int mask) {
+                this.mask = mask;
+            }
+        }
+        public static void set(Flag... flags) {
+            for (Flag flag: flags)
+                settings |= flag.mask;
+        }
+        public void unset(Flag... flags) {
+            for (Flag flag: flags)
+                settings &= ~flag.mask;
+        }
+        public boolean isOn(Flag flag) {
+            return (settings & flag.mask) == flag.mask;
+        }
+        public boolean isOff(Flag flag) {
+            return !isOn(flag);
+        }
+
+
 
 }
 
