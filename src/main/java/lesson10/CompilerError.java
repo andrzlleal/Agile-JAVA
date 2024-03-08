@@ -7,4 +7,5 @@ public class CompilerError {
     float x = 0.01F;
     double y = 0.01;
 
+
 }

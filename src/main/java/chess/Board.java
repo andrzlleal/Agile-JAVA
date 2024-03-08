@@ -20,9 +20,6 @@ public class Board implements Iterable<Piece>{
             }
         }
     }
-
-    //private final List<Piece> pieces = new LinkedList<>();
-
     public Board() {
         initializeRanks();
     }
@@ -177,7 +174,7 @@ public class Board implements Iterable<Piece>{
 
         for (Piece[] rank : pieces) {
             for (Piece otherPiece : rank) {
-                if (isSameColumnPawn(piece, otherPiece, column, position.charAt(0))) {
+                if (isSameColumnPawn(piece, otherPiece, (char) column, position.charAt(0))) {
                     count++;
                 }
             }
