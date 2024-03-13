@@ -104,4 +104,8 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     public URL getUrl() {
         return url;
     }
+
+    public int getNumberOfCredits() {
+        return numberOfCredits;
+    }
 }
