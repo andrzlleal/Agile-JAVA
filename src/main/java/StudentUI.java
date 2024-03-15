@@ -5,7 +5,6 @@ import java.util.List;
 public class StudentUI {
     static final String MENU = "(A)dd or (Q)uit? ";
     static final String ADD_OPTION = "A";
-
     static final String QUIT_OPTION = "Q";
     static final String NAME_PROMPT = "Name: ";
     static final String ADDED_MESSAGE = "Added";
