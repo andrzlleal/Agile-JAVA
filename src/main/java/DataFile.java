@@ -5,10 +5,10 @@ public class DataFile {
     public static final String DATA_EXT = ".db";
     public static final String KEY_EXT = ".idx";
 
-    private String dataFilename;
-    private String keyFileName;
+    private final String dataFilename;
+    private final String keyFilename;
 
-    private RandomAcessFile db;
+    private RandomAccessFile db;
     private KeyFile keys;
 
     public static DataFile create (String filebase) throws IOException {
@@ -19,7 +19,7 @@ public class DataFile {
     }
     private DataFile(String filebase, boolean deleteFiles) throws IOException {
         dataFilename = filebase + DATA_EXT;
-        keyFileName = filebase + KEY_EXT;
+        keyFilename = filebase + KEY_EXT;
 
         if (deleteFiles)
             deleteFiles();
@@ -39,7 +39,7 @@ public class DataFile {
         long position = keys.getPosition(id);
         db.seek(position);
         int length = keys.getLength(id);
-        return read(length);
+        return read(ByteBuffer.allocateDirect(length));
     }
     public int size() {
         return keys.size();
@@ -49,10 +49,11 @@ public class DataFile {
         db.close();
     }
     public void deleteFiles() {
-        IOUtil.delete(dataFilename, keyFileName);
+        IOUtil.delete(dataFilename, keyFilename);
     }
-    private Object read(ByteBuffer length) throws IOException {
-        byte[] bytes = new byte[length];
+    private Object read(ByteBuffer buffer) throws IOException {
+        int byteLength = buffer.remaining();
+        byte[] bytes = new byte[byteLength];
         db.readFully(bytes);
         return readObject(bytes);
     }
@@ -72,7 +73,7 @@ public class DataFile {
     }
     private void openFiles() throws IOException {
         keys = new KeyFile(keyFilename);
-        db = new RandomAcessFile(new File(dataFilename), "rw");
+        db = new RandomAccessFile(new File(dataFilename), "rw");
     }
     private byte[] getBytes(Object object) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
