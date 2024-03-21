@@ -26,6 +26,7 @@ public class MyFileTest {
         List<String> readContentAsListOfLines = myFile.readFileAsListOfLines();
         List<String> expectedLines = Arrays.asList("Hello, world!", "This is a test.");
         assertEquals(expectedLines, readContentAsListOfLines);
+
     }
 }
 
