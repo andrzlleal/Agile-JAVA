@@ -12,6 +12,11 @@ public class MyFile {
         this.file = new File(filename);
     }
     //Método para ler o conteúdo do arquivo como uma String
+
+    //Método para obter o nome do arquivo
+    public String getName() {
+        return file.getName();
+    }
     public String readFileAsString() {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
