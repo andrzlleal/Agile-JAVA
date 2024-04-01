@@ -11,7 +11,7 @@ public class Dir {
     public Dir(String directoryPath) {
         this.directory = new File(directoryPath);
 
-        //Verificar se o caminho representa um diretório existente
+        //Verifica se o caminho representa um diretório existente
         if (!directory.isDirectory()) {
             //Se não for um diretório, lançar uma exceção
             throw new IllegalArgumentException("Directory does not exist: " + directoryPath);
@@ -24,7 +24,7 @@ public class Dir {
     }
     //Método para garantir que o diretório exista
     public void ensureExists() {
-        //Verificar se o diretório já existe
+        //Verifica se o diretório já existe
         if (!directory.exists()) {
             //Se não existir, tentar criar o diretório
             boolean created = directory.mkdirs();
@@ -36,15 +36,15 @@ public class Dir {
     }
     //Método para retornar uma lista de objetos MyFile representando os arquivos no diretório
     public List<MyFile> listFiles() {
-        //Verificar se o diretório foi criado
+        //Verifica se o diretório foi criado
         if (!directory.exists()) {
             //Se não foi criado, lançar uma exceção
             throw new IllegalArgumentException("Directory has not been created yet: " + directory.getPath());
         }
-        //Inicializar uma lista para armazenar os objetos Myfile
+        //Inicializa uma lista para armazenar os objetos Myfile
         List<MyFile> files = new ArrayList<>();
 
-        //Iterar sobre os arquivos no diretório
+        //Itera sobre os arquivos no diretório
         File[] fileList = directory.listFiles();
         if (fileList != null) {
             for (File file : fileList) {
@@ -52,7 +52,7 @@ public class Dir {
                 files.add(new MyFile(file.getPath()));
             }
         }
-        //Retornar a lista de arquivos
+        //Retorna a lista de arquivos
         return files;
     }
 }

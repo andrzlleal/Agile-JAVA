@@ -17,7 +17,7 @@ public class MyFileTest {
 
     @BeforeEach
     void setUp() {
-        //garantir que o arquivo não existe antes de cada teste
+        //garante que o arquivo não existe antes de cada teste
         File file = new File(FILENAME);
         if (file.exists()) {
             file.delete();
@@ -29,23 +29,23 @@ public class MyFileTest {
         //Lista de linhas a serem escritas no arquivo
         List<String> lines = Arrays.asList("Line 1", "Line 2", "Line 3");
 
-        //Escrever conteúdo no arquivo
+        //Escreve conteúdo no arquivo
         myFile.writeFileFromListOfLines(lines);
 
-        //Verificar se o conteúdo foi escrito corretamente
+        //Verifica se o conteúdo foi escrito corretamente
         assertEquals(lines, myFile.readFileAsListOfLines());
     }
     @Test
     public void testOverwriteFileFromListOfLines() {
-        //Escrever conteúdo inicial no arquivo
+        //Escreve conteúdo inicial no arquivo
         List<String> initialLines = Arrays.asList("Initial line 1", "Initial line 2");
         myFile.writeFileFromListOfLines(initialLines);
 
-        //sobrescrever o arquivo com novo contúdo
+        //sobrescreve o arquivo com novo contúdo
         List<String> newLines = Arrays.asList("New line 1", "New line 2");
         myFile.overwriteFileFromListOfLines(newLines);
 
-        //verficar se o conteúdo do arquivo foi sobrescrito corretamente
+        //verfica se o conteúdo do arquivo foi sobrescrito corretamente
         assertEquals(newLines, myFile.readFileAsListOfLines());
     }
 
@@ -57,11 +57,11 @@ public class MyFileTest {
 
     @Test
     public void testWriteAndReadFile() {
-        //Escrever conteúdo no arquivo
+        //Escreve conteúdo no arquivo
         String contentToWrite = "Hello, world!\nThis is a test.";
         myFile.writeFileFromString(contentToWrite);
 
-        //Verificar se o conteúdo foi escrito corretamente
+        //Verifica se o conteúdo foi escrito corretamente
         assertEquals(contentToWrite, myFile.readFileAsString());
         List<String> expectedLines = Arrays.asList("Hello, world!", "This is a test.");
         assertEquals(expectedLines, myFile.readFileAsListOfLines());
@@ -69,24 +69,24 @@ public class MyFileTest {
 
     @Test
     public void testWriteExistingFile() {
-        //Escrever conteúdo inicial no arquivo
+        //Escreve conteúdo inicial no arquivo
         String initialContent = "Initial content.";
         myFile.writeFileFromString(initialContent);
 
-        //Tentar escrever novamente no arquivo
+        //Tenta escrever novamente no arquivo
         assertThrows(RuntimeException.class, () -> myFile.writeFileFromString("New content"));
     }
 
     @Test
     public void testDeleteFile() {
-        //Escrever conteúdo no arquivo
+        //Escreve conteúdo no arquivo
         String contentToWrite = "Hello, world!\nThis is a test.";
         myFile.writeFileFromString(contentToWrite);
 
-        //Deletar o arquivo
+        //Deleta o arquivo
         myFile.deleteFile();
 
-        //Verificar se o arquivo foi deletado
+        //Verifica se o arquivo foi deletado
         assertFalse(new File(FILENAME).exists());
     }
 
