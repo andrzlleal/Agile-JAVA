@@ -119,4 +119,11 @@ public class DirTest {
         }
         return directoryToBeDeleted.delete();
     }
+    @Test
+    void testAttributesInstantiation() {
+        //Tentativa de instanciar a classe Attributes diretamente
+        //Deve falhar, pois Attributes é uma classe interna de instância
+        Dir dir = new Dir("example.directory"); // criar uma instância de Dir com um nome de diretório válido
+        Dir.Attributes attributes = dir.new Attributes(true, false);
+    }
 }

@@ -55,4 +55,33 @@ public class Dir {
         //Retorna a lista de arquivos
         return files;
     }
+    //Classe interna de instância para encapsular atributos de diretório
+    public class Attributes {
+        //Declaração das variáveis isReadOnly e isHidden
+        private final boolean isReadOnly;
+        private final boolean isHidden;
+
+        //Construtor da classe Attributes
+        public Attributes(boolean isReadOnly, boolean isHidden) {
+            this.isReadOnly = isReadOnly;
+            this.isHidden = isHidden;
+        }
+
+        //Métodos para acessar os atributos encapsulados
+        public boolean isReadOnly() {
+            return isReadOnly;
+        }
+
+        public boolean isHidden() {
+            return isHidden;
+        }
+    }
+
+    // Método para obter os atributos de um diretório
+    public Attributes getAttributes() {
+        // Suponha que os atributos sejam obtidos de alguma forma
+        boolean readOnly = true; // Exemplo: atributo somente leitura definido como verdadeiro
+        boolean hidden = false; // Exemplo: atributo oculto definido como falso
+        return new Attributes(readOnly, hidden);
+    }
 }
