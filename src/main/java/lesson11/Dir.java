@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dir {
+    private boolean isReadOnly;
+    private boolean isHidden;
+
     private final File directory;
 
     //Construtor que recebe o caminho do diretório como argumento
@@ -56,32 +59,29 @@ public class Dir {
         return files;
     }
     //Classe interna de instância para encapsular atributos de diretório
-    public class Attributes {
-        //Declaração das variáveis isReadOnly e isHidden
-        private final boolean isReadOnly;
-        private final boolean isHidden;
+    public static class Attributes {
+        //Classe aninhada estática para encapsular atributos de diretório
+            private final boolean isReadOnly;
+            private final boolean isHidden;
 
-        //Construtor da classe Attributes
-        public Attributes(boolean isReadOnly, boolean isHidden) {
-            this.isReadOnly = isReadOnly;
-            this.isHidden = isHidden;
+            //Construtor da classe Attributes
+            public Attributes(boolean isReadOnly, boolean isHidden) {
+                this.isReadOnly = isReadOnly;
+                this.isHidden = isHidden;
+            }
+            //Métodos para acessar os atributos encapsulados
+            public boolean isReadOnly() {
+                return isReadOnly;
+            }
+            public boolean isHidden() {
+                return isHidden;
+            }
         }
-
-        //Métodos para acessar os atributos encapsulados
-        public boolean isReadOnly() {
-            return isReadOnly;
+        //Método para obter os atributos de um diretório
+        public Attributes getAttributes() {
+            boolean readOnly = true; //Exemplo: atributo somente leitura definido como verdadeiro
+            boolean hidden = false; //Exemplo: atributo oculto definido como falso
+            return new Attributes(readOnly, hidden);
         }
-
-        public boolean isHidden() {
-            return isHidden;
-        }
-    }
-
-    // Método para obter os atributos de um diretório
-    public Attributes getAttributes() {
-        // Suponha que os atributos sejam obtidos de alguma forma
-        boolean readOnly = true; // Exemplo: atributo somente leitura definido como verdadeiro
-        boolean hidden = false; // Exemplo: atributo oculto definido como falso
-        return new Attributes(readOnly, hidden);
-    }
 }
+
