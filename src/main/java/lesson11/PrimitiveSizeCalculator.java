@@ -9,7 +9,7 @@ public class PrimitiveSizeCalculator {
         System.out.println("Primitive Type Sizes (in bytes):");
         System.out.println("-----------------------------------");
 
-        // Tamanhos dos tipos primitivos
+        //Tamanhos dos tipos primitivos
         System.out.println("byte: " + getSize(new byte[1]));
         System.out.println("short: " + getSize((short) 0));
         System.out.println("int: " + getSize(0));
@@ -20,14 +20,14 @@ public class PrimitiveSizeCalculator {
         System.out.println("boolean: " + getSize(false));
     }
 
-    // Método para calcular o tamanho de um tipo primitivo
-    private static int getSize(Object obj) {
+    //Método para calcular o tamanho de um tipo primitivo
+    public static int getSize(Object obj) {
         try {
-            // Cria um fluxo de saída de bytes
+            //Cria um fluxo de saída de bytes
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream dos = new DataOutputStream(baos);
 
-            // Escreve o objeto no fluxo de dados
+            //Escreve o objeto no fluxo de dados
             if (obj instanceof Boolean) {
                 dos.writeBoolean((Boolean) obj);
             } else if (obj instanceof Character) {
@@ -46,10 +46,10 @@ public class PrimitiveSizeCalculator {
                 dos.writeDouble((Double) obj);
             }
 
-            // Fecha o fluxo de dados
+            //Fecha o fluxo de dados
             dos.close();
 
-            // Retorna o tamanho do fluxo de bytes
+            //Retorna o tamanho do fluxo de bytes
             return baos.size();
         } catch (IOException e) {
             e.printStackTrace();
