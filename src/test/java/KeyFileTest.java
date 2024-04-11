@@ -1,4 +1,7 @@
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import util.TestUtil;
 
 import java.io.IOException;
 
@@ -11,11 +14,13 @@ public class KeyFileTest {
     private static final long POSITION = 1;
     private static final int LENGTH = 100;
     private KeyFile keyFile;
-    protected void setUp() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         TestUtil.delete(FILENAME);
         keyFile = new KeyFile(FILENAME);
     }
-    protected void tearDown() throws IOException {
+    @After
+    public void tearDown() throws IOException {
         TestUtil.delete(FILENAME);
         keyFile.close();
     }
@@ -25,7 +30,7 @@ public class KeyFileTest {
     }
     @Test
     public void testAddEntry() {
-        keyFile.add(KEY, POSITION, LENGTH) ;
+        keyFile.add(KEY, POSITION, LENGTH);
         assertEquals(1, keyFile.size());
         assertTrue(keyFile.containsKey(KEY));
         assertEquals(POSITION, keyFile.getPosition(KEY));
