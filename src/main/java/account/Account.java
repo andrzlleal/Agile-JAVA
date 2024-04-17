@@ -17,4 +17,12 @@ public class Account {
         return balance.divide(
                 new BigDecimal(transactionCount), BigDecimal.ROUND_HALF_UP);
     }
+    public void withdraw(BigDecimal amount) {
+        synchronized (this) {
+            if (amount.compareTo(balance) > 0)
+                return;
+            balance = balance.subtract(amount);
+        }
+    }
 }
+
