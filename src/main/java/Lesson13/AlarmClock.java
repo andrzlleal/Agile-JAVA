@@ -3,7 +3,7 @@ package Lesson13;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlarmClock {
+public class AlarmClock{
 
     //Mapa para armazenar eventos e horários dos alarmes
     private final Map<String, String> events = new HashMap<>();

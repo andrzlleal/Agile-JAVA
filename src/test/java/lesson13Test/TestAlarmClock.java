@@ -14,9 +14,9 @@ public class TestAlarmClock {
     public void testSetAlarm() {
         AlarmClock alarmClock = new AlarmClock();
 
-        //Definir um alarme para uma reunião às 9:00
+        //Define um alarme para uma reunião às 9:00
         alarmClock.setAlarm("Reunião", "09:00");
-        //Verificar se o evento associado ao horário 9:00 é Reunião
+        //Verifica se o evento associado ao horário 9:00 é Reunião
         assertEquals("Reunião", alarmClock.getEvent("09:00"));
     }
     @Test
