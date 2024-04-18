@@ -3,24 +3,40 @@ package Lesson13;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AlarmClock{
-
-    //Mapa para armazenar eventos e horários dos alarmes
+public class AlarmClock {
     private final Map<String, String> events = new HashMap<>();
+    private final Object lock = new Object();
 
-    //Método para definir um alarme com um evento e horário específico
+    //Define um alarme com um evento e horário específico
     public void setAlarm(String event, String alarmTime) {
         events.put(alarmTime, event);
+        System.out.println("Alarme definido para " + event + " às " + alarmTime);
     }
-    //Método para obter o evento associado a um horário de alarme específico
+    //Obtém o evento associado a um horário de alarme específico
     public String getEvent(String alarmTime) {
         return events.get(alarmTime);
     }
-    //Método para verificar os alarmes com base no horário atual
+    //Verifica os alarmes com base no horário atual
     public void checkAlarms(String currentTime) {
         if (events.containsKey(currentTime)) {
             System.out.println("Alarm for " + events.get(currentTime) + "!");
+        } else {
+            System.out.println("Nenhum alarme para o horário atual: " + currentTime);
         }
     }
-
+    //Aguarda até ser notificado para verificar os alarmes
+    public void waitForAlarm() throws InterruptedException {
+        synchronized (lock) {
+            System.out.println("Thread esperando...");
+            lock.wait();
+            System.out.println("Thread acordou!");
+        }
+    }
+    //Notifica o thread para continuar
+    public void notifyAlarm() {
+        synchronized (lock) {
+            System.out.println("Notificando thread...");
+            lock.notify();
+        }
+    }
 }

@@ -10,29 +10,50 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestAlarmClock {
+
     @Test
     public void testSetAlarm() {
         AlarmClock alarmClock = new AlarmClock();
-
-        //Define um alarme para uma reunião às 9:00
         alarmClock.setAlarm("Reunião", "09:00");
-        //Verifica se o evento associado ao horário 9:00 é Reunião
+
         assertEquals("Reunião", alarmClock.getEvent("09:00"));
     }
+
     @Test
-    public void testCheckAlarms() {
+    public void testCheckAlarms() throws InterruptedException {
         AlarmClock alarmClock = new AlarmClock();
 
-        //Redireciona a saída padrão para capturar a impressão do método checkAlarms
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        alarmClock.setAlarm("Reunião","10:00");
+        //Define um alarme para 10:00
+        alarmClock.setAlarm("Reunião", "10:00");
 
-        //Testa o método checkAlarms para o horário especificado
-        alarmClock.checkAlarms("10:00");
+        //Inicia um novo thread para verificar os alarmes
+        Thread t = new Thread(() -> {
+            try {
+                System.out.println("Thread iniciada.");
+                //Aguarda até ser notificado
+                alarmClock.waitForAlarm();
+                //Verifica os alarmes após ser notificado
+                alarmClock.checkAlarms("10:00");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        t.start();
 
-        //Verifica se a saída contém a mensagem esperada
-        assertTrue(outputStream.toString().contains("Alarm for Reunião!"));
+        //Espera um pouco para garantir que o thread entre no estado de espera
+        Thread.sleep(500);
+
+        //Notifica o thread para continuar
+        synchronized (alarmClock) {
+            alarmClock.notifyAlarm();
+        }
+
+        //Espera um pouco para que o thread tenha tempo de acordar e verificar os alarmes
+        Thread.sleep(2000);
+        //Verifica se a mensagem de alarme foi impressa
+        assertTrue(outputStream.toString().contains("Alarm for Reunião"));
     }
 }
