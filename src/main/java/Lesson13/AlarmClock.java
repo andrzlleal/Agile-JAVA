@@ -12,6 +12,13 @@ public class AlarmClock {
         events.put(alarmTime, event);
         System.out.println("Alarme definido para " + event + " às " + alarmTime);
     }
+    //Cancela um alarme pelo nome do evento
+    public void cancelAlarm(String event) {
+        synchronized (lock) {
+            events.values().removeIf(value -> value.equals(event));
+            System.out.println("Alarme para " + event + " cancelado");
+        }
+    }
     //Obtém o evento associado a um horário de alarme específico
     public String getEvent(String alarmTime) {
         return events.get(alarmTime);

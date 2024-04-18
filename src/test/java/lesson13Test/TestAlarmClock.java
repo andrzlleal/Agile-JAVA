@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestAlarmClock {
 
@@ -55,5 +54,23 @@ public class TestAlarmClock {
         Thread.sleep(2000);
         //Verifica se a mensagem de alarme foi impressa
         assertTrue(outputStream.toString().contains("Alarm for Reunião"));
+    }
+    @Test
+    public void testSetAndAlarm() {
+        AlarmClock alarmClock = new AlarmClock();
+
+        //Define e verifica um alarme
+        alarmClock.setAlarm("Reunião", "09:00");
+        assertEquals("Reunião", alarmClock.getEvent("09:00"));
+    }
+    @Test
+    public void testCancelAlarm() {
+        AlarmClock alarmClock = new AlarmClock();
+
+        alarmClock.setAlarm("Reunião", "09:00");
+
+        //Cancela o alarme e verifica
+        alarmClock.cancelAlarm("Reunião");
+        assertNotEquals("Reunião", alarmClock.getEvent("09:00"));
     }
 }
